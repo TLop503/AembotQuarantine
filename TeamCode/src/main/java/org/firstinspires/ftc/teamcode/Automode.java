@@ -5,18 +5,30 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.CRServo;
 
 @Autonomous(name = "AutoMode")
 
-public class Automode extends LinearOpMode {
+public class Automode extends OpMode {
 
-    public void runOpMode(){
-
+    /**
+     * This method is run on robot init
+     * Use as constructor
+     */
+    @Override
+    public void init() {
 
     }
 
+    /**
+     * This method is looped when the robot is enabled
+     * Normal control / etc. code goes here
+     */
+    @Override
+    public void loop() {
 
+    }
 }

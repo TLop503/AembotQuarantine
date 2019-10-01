@@ -1,6 +1,7 @@
 
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -11,14 +12,23 @@ import com.qualcomm.robotcore.hardware.CRServo;
 
 @TeleOp(name = "Teleop")
 
-public class Teleop extends LinearOpMode {
+public class Teleop extends OpMode {
 
-    public void runOpMode(){
-        while (opModeIsActive()){
-        //Button mapping here
-        }
+    /**
+     * This method is run on robot init
+     * Use as constructor
+     */
+    @Override
+    public void init() {
 
     }
 
+    /**
+     * This method is looped when the robot is enabled
+     * Normal control / etc. code goes here
+     */
+    @Override
+    public void loop() {
 
+    }
 }
