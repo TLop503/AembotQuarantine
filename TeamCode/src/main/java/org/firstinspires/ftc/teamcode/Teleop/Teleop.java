@@ -10,8 +10,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.CRServo;
 
-@TeleOp(name = "Teleop")
-
+@TeleOp(name = "Teleop",  group = "Teleop")
+@Disabled
 public class Teleop extends OpMode {
 
     /**

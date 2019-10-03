@@ -10,8 +10,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.CRServo;
 
-@Autonomous(name = "AutoMode")
-
+@Autonomous(name = "Auto Mode", group = "Autonomous")
+@Disabled
 public class Automode extends OpMode {
 
     /**
