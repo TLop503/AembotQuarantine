@@ -52,17 +52,18 @@ public class VuforiaAngleTest extends OpMode {
         if(objects != null){
 
             telemetry.addData("# Of Objects: ", objects.size());
-
+            int i = 0;
             //For Every Object Output Some Information On it
             for(DetectedObject object : objects) {
 
-                telemetry.addData("Label: ", object.getLabel());
-                telemetry.addData("Top Left: ", object.getTopLeft());
-                telemetry.addData("Bottom Right: ", object.getBottomRight());
-                telemetry.addData("Center: ", object.getCenter());
+                telemetry.addData(i + ": " + "Label: ", object.getLabel());
+                telemetry.addData(i + ": " + "Top Left: ", object.getTopLeft());
+                telemetry.addData(i + ": " + "Bottom Right: ", object.getBottomRight());
+                telemetry.addData(i + ": " + "Center: ", object.getCenter());
+                i++;
             }
 
-            telemetry.update();
+        telemetry.update();
         }
     }
 }
