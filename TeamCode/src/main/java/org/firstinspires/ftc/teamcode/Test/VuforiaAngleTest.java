@@ -1,9 +1,11 @@
 package org.firstinspires.ftc.teamcode.Test;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
+import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.teamcode.Helper.Tensorflow.DetectedObject;
 import org.firstinspires.ftc.teamcode.Helper.Tensorflow.TensorflowWrapper;
 
@@ -11,8 +13,10 @@ import java.util.List;
 
 /**
  * Class used to test angle calculations from the robot to the skystones
+ * @author Will Richards
  */
 @TeleOp (name = "Tensorflow Angle Test", group = "Test")
+@Disabled
 public class VuforiaAngleTest extends OpMode {
 
     private TensorflowWrapper tf;
@@ -38,8 +42,13 @@ public class VuforiaAngleTest extends OpMode {
     public void loop() {
 
         //Gets and prints out all the tensor flow objects
-        getTensorflowObjects();
+        getObjects();
 
+    }
+
+    @Override
+    public void stop(){
+        tf.stop();
     }
 
     /**
@@ -52,8 +61,8 @@ public class VuforiaAngleTest extends OpMode {
         if(objects != null){
 
             telemetry.addData("# Of Objects: ", objects.size());
-            int i = 0;
             //For Every Object Output Some Information On it
+            int i = 0;
             for(DetectedObject object : objects) {
 
                 telemetry.addData(i + ": " + "Label: ", object.getLabel());
@@ -64,6 +73,16 @@ public class VuforiaAngleTest extends OpMode {
             }
 
         telemetry.update();
+        }
+    }
+
+    private void getObjects(){
+        List<Recognition> recognitions = tf.getRecog();
+
+        if(recognitions != null){
+            for(Recognition recognition : recognitions){
+                telemetry.addData("Label: ", recognition.getLabel());
+            }
         }
     }
 }

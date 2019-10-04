@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.Helper.Tensorflow;
 
 /**
  * This is used to hold information about a detected object
+ * @author Will Richards
  */
 public class DetectedObject {
 

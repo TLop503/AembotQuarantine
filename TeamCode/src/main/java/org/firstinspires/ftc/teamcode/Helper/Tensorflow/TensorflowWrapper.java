@@ -12,6 +12,7 @@ import java.util.List;
 
 /**
  * Class created to serve as an ease of access to the TensorFlow / Vuforia API
+ * @author Will Richards
  */
 public class TensorflowWrapper {
 
@@ -52,6 +53,13 @@ public class TensorflowWrapper {
 
         //Init the VuforiaLocalizer with the newly created parameters
         vuforia = ClassFactory.getInstance().createVuforia(parameters);
+    }
+
+    /**
+     * Stops object detection
+     */
+    public void stop(){
+        tfod.shutdown();
     }
 
     /**
@@ -108,6 +116,10 @@ public class TensorflowWrapper {
         }
 
         return objects;
+    }
+
+    public List<Recognition> getRecog(){
+        return tfod.getUpdatedRecognitions();
     }
 
 
