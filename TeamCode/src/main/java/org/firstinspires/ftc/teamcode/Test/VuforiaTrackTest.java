@@ -11,7 +11,6 @@ import org.firstinspires.ftc.teamcode.Helper.Vuforia.VuforiaWrapper;
  * @author Will Richards
  */
 @TeleOp(name = "Vuforia Track Test", group = "Test")
-@Disabled
 public class VuforiaTrackTest extends OpMode {
 
     //Create a reference to the vuforia wrapper
