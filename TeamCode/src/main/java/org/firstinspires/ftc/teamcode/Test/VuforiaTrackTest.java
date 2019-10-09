@@ -11,8 +11,9 @@ import org.firstinspires.ftc.teamcode.Helper.Vuforia.VuforiaWrapper;
  * @author Will Richards
  */
 @TeleOp(name = "Vuforia Track Test", group = "Test")
-@Disabled
 public class VuforiaTrackTest extends OpMode {
+
+    String position = "";
 
     //Create a reference to the vuforia wrapper
     private VuforiaWrapper vuforia;
@@ -33,10 +34,18 @@ public class VuforiaTrackTest extends OpMode {
      */
     @Override
     public void loop() {
-        String transform = vuforia.getDetectedTransform();
+        String X = vuforia.getX();
 
-        if(transform != null){
-            telemetry.addData("Transform: ", transform);
+        if(X != null){
+            if(Double.parseDouble(X)<-200)
+                position = "Left";
+            else if(Double.parseDouble(X)>200)
+                position = "Right";
+            else
+                position = "Center";
+
+            telemetry.addData("X: ", X);
+            telemetry.addData("Position: ", position);
         }
         else{
             telemetry.addData("Transform: ", "No Object Detected");

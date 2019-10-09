@@ -72,6 +72,11 @@ public class VuforiaWrapper {
         return null;
     }
 
+    public String getX(){
+        String[] splitTransform = getDetectedTransform().split(" ");
+        return splitTransform[6];
+    }
+
     /**
      * Start Tracking
      */
