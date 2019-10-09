@@ -59,7 +59,7 @@ public class VuforiaWrapper {
      * Get the detected object's transform if no object return null
      * @return detected objects transform, if non null
      */
-    public String getDetectedTransform(){
+    private String getDetectedTransform(){
 
         try {
             //If the target is present then return the trasnform if not return null
@@ -67,14 +67,49 @@ public class VuforiaWrapper {
                 return ((VuforiaTrackableDefaultListener)skystoneTarget.getListener()).getPosePhone().formatAsTransform();
             }
         }
-        catch (NullPointerException e){ return  null; }
+        catch (NullPointerException e){ return  ""; }
 
-        return null;
+        return "";
     }
 
-    public String getX(){
+    /**
+     * Parses the X axis offset out of the getDetected transform
+     * @return the value of X as an double
+     */
+    private double getX(){
         String[] splitTransform = getDetectedTransform().split(" ");
-        return splitTransform[6];
+
+        //If the transform string is greater than 0 return the normal X, if not return 4242 because that number is impossible to reach in this case and also 42..
+        if(splitTransform.length > 0)
+            return Double.parseDouble(splitTransform[6]);
+        else
+            return 4242;
+    }
+
+    /**
+     * returns the current position of the skystone out of the three possible positions
+     * @return the Skystone position in terms of the SkystonePosition enum
+     */
+    public SkystonePostion getPosition(){
+
+        //Gets the current X offset from the center of the camera
+        double X = getX();
+
+        //If there was a block detected return the position of it out of the 3, if not return none
+        if(X != 4242){
+            if(-100>X){
+                return SkystonePostion.LEFT;
+            }
+            else if(100<X){
+                return SkystonePostion.RIGHT;
+            }
+            else {
+                return SkystonePostion.CENTER;
+            }
+        }
+        else {
+            return SkystonePostion.NONE;
+        }
     }
 
     /**
