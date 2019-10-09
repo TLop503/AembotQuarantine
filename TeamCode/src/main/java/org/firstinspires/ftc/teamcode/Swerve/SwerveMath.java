@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode.Swerve;
 
 import com.qualcomm.robotcore.hardware.Gamepad;
 
+import org.firstinspires.ftc.teamcode.Swerve.Enums.WheelDirection;
+
 /**
  * Created to house any math involved in controlling the diff. swerve
  * @author Will Richards
@@ -27,6 +29,24 @@ public class SwerveMath {
             return  (-90)-trueAngle;
         else {
             return trueAngle;
+        }
+    }
+
+
+    /**
+     * Returns the direction the wheel should be running based on the current Y axis, not really math but whatever
+     * @param gamepad1 ref. to the primary gamepad
+     * @return the direction the wheel should run
+     */
+    public static WheelDirection getWheelDirection(Gamepad gamepad1){
+        if(gamepad1.left_stick_y*-1 == 0){
+            return WheelDirection.STATIC;
+        }
+        else if (gamepad1.left_stick_y*-1 < 0){
+            return WheelDirection.BACKWARD;
+        }
+        else{
+            return WheelDirection.FORWARD;
         }
     }
 }

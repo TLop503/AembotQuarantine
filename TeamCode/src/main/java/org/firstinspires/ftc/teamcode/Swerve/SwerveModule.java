@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.Swerve;
 
+import org.firstinspires.ftc.teamcode.Swerve.Enums.ModulePosition;
+
 /**
  * Class used to control an individual swerve module
  */
