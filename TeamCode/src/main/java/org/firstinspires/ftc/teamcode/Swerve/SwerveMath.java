@@ -49,4 +49,14 @@ public class SwerveMath {
             return WheelDirection.FORWARD;
         }
     }
+
+    /**
+     * Calculates the current module rotation from the current tick count
+     * @param topMotorTicks number of total ticks on top
+     * @param bottomMotorTicks number of total ticks on bottom
+     * @return the position in % of a rotation
+     */
+    public static double getModulePosition(int topMotorTicks, int bottomMotorTicks){
+        return (topMotorTicks+bottomMotorTicks)/4500;
+    }
 }
