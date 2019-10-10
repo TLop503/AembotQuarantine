@@ -16,8 +16,6 @@ public class Teleop extends OpMode {
     private Servo svTop;
     private Servo svBottom;
 
-    private double svTopZero;
-    private double svBottomZero;
 
     /**
      * This method is run on robot init
@@ -31,8 +29,6 @@ public class Teleop extends OpMode {
         svTop = hardwareMap.get(Servo.class, "svTop");
         svBottom = hardwareMap.get(Servo.class, "svBottom");
 
-        svTopZero = svTop.getPosition();
-        svBottomZero = svBottom.getPosition();
     }
 
     /**
@@ -42,12 +38,12 @@ public class Teleop extends OpMode {
     @Override
     public void loop() {
         if (gamepad1.dpad_left){
-            svTop.setPosition(svTopZero - 0.5);
-            svBottom.setPosition(svBottomZero - 0.5);
+            svTop.setPosition(1);
+            svBottom.setPosition(1);
         }
         else if (gamepad1.dpad_right){
-            svTop.setPosition(svTopZero + 0.5);
-            svBottom.setPosition(svTopZero + 0.5);
+            svTop.setPosition(0);
+            svBottom.setPosition(0);
         }
         }
 
