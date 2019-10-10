@@ -1,11 +1,11 @@
-package org.firstinspires.ftc.teamcode.Test;
+package org.firstinspires.ftc.teamcode.Test.Vision;
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.Helper.Vuforia.SkystonePostion;
-import org.firstinspires.ftc.teamcode.Helper.Vuforia.VuforiaWrapper;
+import org.firstinspires.ftc.teamcode.Utilities.Vuforia.SkystonePostion;
+import org.firstinspires.ftc.teamcode.Utilities.Vuforia.VuforiaWrapper;
 
 /**
  * This OpMode is used for testing skystone positions

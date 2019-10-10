@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Test;
+package org.firstinspires.ftc.teamcode.Test.Swerve;
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -9,9 +9,9 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 /**
  * Use this method to test any motors you may need
  */
-@TeleOp(name = "Swerve Test", group = "Test")
+@TeleOp(name = "Swerve Motor Test", group = "Test")
 @Disabled
-public class MotorTest extends OpMode {
+public class SwerveMotorTest extends OpMode {
 
     private DcMotor TopSwerveMotor;
     private DcMotor BottomSwerveMotor;

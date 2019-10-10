@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Helper.Vuforia;
+package org.firstinspires.ftc.teamcode.Utilities.Vuforia;
 
 /**
  * Contains 4 enum states regarding the position of the block

@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Helper.Tensorflow;
+package org.firstinspires.ftc.teamcode.Utilities.Tensorflow;
 
 /**
  * This is used to hold information about a detected object

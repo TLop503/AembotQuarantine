@@ -1,24 +1,25 @@
-package org.firstinspires.ftc.teamcode.Test;
+package org.firstinspires.ftc.teamcode.Test.Vision;
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
-import org.firstinspires.ftc.teamcode.Helper.Tensorflow.DetectedObject;
-import org.firstinspires.ftc.teamcode.Helper.Tensorflow.TensorflowWrapper;
+import org.firstinspires.ftc.teamcode.Utilities.Tensorflow.DetectedObject;
+import org.firstinspires.ftc.teamcode.Utilities.Tensorflow.TensorflowWrapper;
 
 import java.util.List;
 
 /**
- * Class used to test angle calculations from the robot to the skystones
+ * Class used to detect Skystones
+ * !! Not Currently In Use Due To The Fact That It Qualifies Both As Skystones !!
  * @author Will Richards
  */
 @TeleOp (name = "Tensorflow Angle Test", group = "Test")
 @Disabled
-public class VuforiaAngleTest extends OpMode {
+public class TensorflowTrackTest extends OpMode {
 
+    //Creates a new tensorflow wrapper object
     private TensorflowWrapper tf;
 
     @Override
@@ -27,25 +28,23 @@ public class VuforiaAngleTest extends OpMode {
         //Initializes the Tensorflow wrapper class and gives it access to the hardware map
         tf = new TensorflowWrapper(hardwareMap);
 
+        //Starts vuforia
         tf.initVuforia();
 
-        //Temp. Just for inital test, it should be fine
-        if(ClassFactory.getInstance().canCreateTFObjectDetector()){
-            tf.initTensorflow();
-        }
-        else{
-            telemetry.addData("Error:", "Device Does Not Support Tensorflow");
-        }
+        //Starts Tensorflow
+        tf.initTensorflow();
+
     }
 
     @Override
     public void loop() {
-
         //Gets and prints out all the tensor flow objects
         getObjects();
-
     }
 
+    /**
+     * When stop is pressed on the OpMode stop tracking
+     */
     @Override
     public void stop(){
         tf.stop();
@@ -76,6 +75,9 @@ public class VuforiaAngleTest extends OpMode {
         }
     }
 
+    /**
+     * Uses a the DetectedObjects class to easily access data
+     */
     private void getObjects(){
         List<Recognition> recognitions = tf.getRecog();
 

@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Helper.Vuforia;
+package org.firstinspires.ftc.teamcode.Utilities.Vuforia;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -87,6 +87,34 @@ public class VuforiaWrapper {
     }
 
     /**
+     * Parses the Y axis offset out of the getDetected transform
+     * @return the value of Y as an double
+     */
+    private double getY(){
+        String[] splitTransform = getDetectedTransform().split(" ");
+
+        //If the transform string is greater than 0 return the normal X, if not return 4242 because that number is impossible to reach in this case and also 42..
+        if(splitTransform.length > 0)
+            return Double.parseDouble(splitTransform[5]);
+        else
+            return 4242;
+    }
+
+    /**
+     * Parses the Z axis offset out of the getDetected transform
+     * @return the value of Z as an double
+     */
+    private double getZ(){
+        String[] splitTransform = getDetectedTransform().split(" ");
+
+        //If the transform string is greater than 0 return the normal X, if not return 4242 because that number is impossible to reach in this case and also 42..
+        if(splitTransform.length > 0)
+            return Double.parseDouble(splitTransform[4]);
+        else
+            return 4242;
+    }
+
+    /**
      * returns the current position of the skystone out of the three possible positions
      * @return the Skystone position in terms of the SkystonePosition enum
      */
@@ -110,6 +138,14 @@ public class VuforiaWrapper {
         else {
             return SkystonePostion.NONE;
         }
+    }
+
+    /**
+     * This method calculates the angle required to drive to the skystone
+     * @return the angle
+     */
+    public double getAngleToSkystone(){
+        return Math.toDegrees(Math.atan2(getZ(),getX()));
     }
 
     /**

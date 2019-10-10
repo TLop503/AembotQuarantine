@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Test;
+package org.firstinspires.ftc.teamcode.Test.Misc;
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -21,10 +21,13 @@ public class JoystickAngleTest extends OpMode {
 
     }
 
+    /**
+     * Loops every 20ms
+     * This loop is used for testing the joystick angles thus it simply references the static SwerveMath class and calculates, module angle and wheel direction
+     */
     @Override
     public void loop() {
         telemetry.addData("Wanted Module Angle: ", SwerveMath.normalizeJoystickAngle(gamepad1));
         telemetry.addData("Wheel Direction: ", SwerveMath.getWheelDirection(gamepad1).toString());
-        telemetry.addData("X,Y:", gamepad1.left_stick_x + "," + gamepad1.left_stick_y*-1);
     }
 }
