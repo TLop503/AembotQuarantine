@@ -37,14 +37,18 @@ public class Teleop extends OpMode {
      */
     @Override
     public void loop() {
-        if (gamepad1.dpad_left){
-            svTop.setPosition(1);
-            svBottom.setPosition(1);
-        }
-        else if (gamepad1.dpad_right){
-            svTop.setPosition(0);
-            svBottom.setPosition(0);
-        }
+            if (gamepad1.dpad_left){
+             svTop.setPosition(1);
+              svBottom.setPosition(1);
+             }
+            else if (gamepad1.dpad_right){
+               svTop.setPosition(0);
+             svBottom.setPosition(0);
+            }
+            else if (gamepad1.b){
+                svTop.setPosition(0.5);
+                svBottom.setPosition(0.5);
+            }
         }
 
     }
