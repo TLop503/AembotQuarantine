@@ -9,6 +9,7 @@ import org.firstinspires.ftc.teamcode.Swerve.Enums.WheelDirection;
  * @author Will Richards
  */
 public class SwerveMath {
+
     /**
      * Static method used to normalize the joystick
      * Y is inverted because for some strange reason someone decided that up on the joystick should be negative
@@ -56,7 +57,48 @@ public class SwerveMath {
      * @param bottomMotorTicks number of total ticks on bottom
      * @return the position in % of a rotation
      */
-    public static double getModulePosition(int topMotorTicks, int bottomMotorTicks){
+    private static double getModulePosition(int topMotorTicks, int bottomMotorTicks){
         return (topMotorTicks+bottomMotorTicks)/4500;
+    }
+
+    private static int rotation2Ticks(int topMotorTicks, int bottomMotorTicks){
+        return (int) (getModulePosition(topMotorTicks, bottomMotorTicks)*2250);
+    }
+
+    /**
+     *
+     * @param gamepad1
+     * @return
+     */
+    private static double getWantedPosition(Gamepad gamepad1){
+        return normalizeJoystickAngle(gamepad1)/360;
+    }
+
+    /**
+     *
+     * @param gamepad1
+     * @return
+     */
+    private static int getWantedTick(Gamepad gamepad1){
+        return (int) (getWantedPosition(gamepad1)*6.25);
+    }
+
+    /**
+     *
+     * @param wantedTicks
+     * @param currentTicks
+     * @return
+     */
+    private static int tickDifference(int wantedTicks, int currentTicks){
+        return wantedTicks-currentTicks;
+
+    }
+
+    public static int calcTopSetpoint(int topTicks, int bottomTicks, Gamepad gamepad1){
+          return (topTicks + tickDifference(getWantedTick(gamepad1), rotation2Ticks(topTicks,bottomTicks)));
+    }
+
+    public static int calcBottomSetpoint(int topTicks, int bottomTicks, Gamepad gamepad1){
+        return (bottomTicks + tickDifference(getWantedTick(gamepad1), rotation2Ticks(topTicks,bottomTicks)));
     }
 }
