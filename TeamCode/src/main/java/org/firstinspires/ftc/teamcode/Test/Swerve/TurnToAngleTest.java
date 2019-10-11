@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
+import org.firstinspires.ftc.teamcode.Swerve.Enums.WheelDirection;
 import org.firstinspires.ftc.teamcode.Swerve.SwerveMath;
 
 /**
@@ -35,8 +36,28 @@ public class TurnToAngleTest extends OpMode {
 
         double currentRotation = (((double)TopSwerveMotor.getCurrentPosition()+(double)BottomSwerveMotor.getCurrentPosition())/2250);
         double wantedRotation = SwerveMath.normalizeJoystickAngle(gamepad1)/360;
+        WheelDirection wheelDirection = SwerveMath.getWheelDirection(gamepad1);
+
 
         if(currentRotation > wantedRotation-0.02  && currentRotation < wantedRotation+0.02){
+            if(gamepad1.right_trigger > 0.1){
+                if(wheelDirection == WheelDirection.FORWARD) {
+                    TopSwerveMotor.setPower(gamepad1.right_trigger);
+                    BottomSwerveMotor.setPower(-gamepad1.right_trigger);
+                }
+                else if(wheelDirection == WheelDirection.BACKWARD){
+                    TopSwerveMotor.setPower(-gamepad1.right_trigger);
+                    BottomSwerveMotor.setPower(gamepad1.right_trigger);
+                }
+                else{
+                    TopSwerveMotor.setPower(gamepad1.right_trigger);
+                    BottomSwerveMotor.setPower(-gamepad1.right_trigger);
+                }
+            }
+            else {
+                TopSwerveMotor.setPower(0);
+                BottomSwerveMotor.setPower(0);
+            }
             TopSwerveMotor.setPower(0);
             BottomSwerveMotor.setPower(0);
         }
@@ -52,6 +73,7 @@ public class TurnToAngleTest extends OpMode {
         //telemetry.addData("Current Position: ", ((topTicks+bottomTicks)/4500)*2250);
 //        telemetry.addData("Current Top Tick", TopSwerveMotor.getCurrentPosition());
 //        telemetry.addData("New Top Tick: ", newTopTicks);
+        telemetry.addData("Right Trigger: ", gamepad1.right_trigger);
         telemetry.addData("Current Module Rotation: ", (((double)TopSwerveMotor.getCurrentPosition()+(double)BottomSwerveMotor.getCurrentPosition())/4500));
         telemetry.addData("Wanted Module Rotation: ",SwerveMath.normalizeJoystickAngle(gamepad1)/360 );
         //telemetry.addData("X , Y", gamepad1.left_stick_x + "," + gamepad1.left_stick_y*-1);
