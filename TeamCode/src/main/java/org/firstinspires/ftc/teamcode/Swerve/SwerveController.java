@@ -47,7 +47,8 @@ public class SwerveController {
      */
     public void controlModules(){
         for(SwerveModule module : moduleList){
-            module.controlModule();
+            //module.controlModule();
+            module.pidControl();
         }
     }
 

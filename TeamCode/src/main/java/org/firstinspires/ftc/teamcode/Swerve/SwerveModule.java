@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Swerve;
 
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsAnalogOpticalDistanceSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -28,6 +29,20 @@ public class SwerveModule {
     private double currentRotation = 0;
     private double wantedRotation = 0;
     private WheelDirection wheelDirection = WheelDirection.STATIC;
+
+    //P = 3 or 5, or 8
+    private final double P = 10, I = 0, D = 0;
+
+    private double lastError = 0;
+    private double setPoint = 0;
+
+    double p = 0;
+    double i = 0;
+    double d = 0;
+
+    double output = 0;
+
+
 
     /**
      * Constructs each variable as well as determining the module side so it can properly assign motors
@@ -104,16 +119,58 @@ public class SwerveModule {
          * However, if the current angle is less than wanted drive both wheels in a negative direction to get to the right angle
          */
         else if(currentRotation > wantedRotation){
-            TopSwerveMotor.setPower(-0.2);
-            BottomSwerveMotor.setPower(-0.2);
+            TopSwerveMotor.setPower(-0.7);
+            BottomSwerveMotor.setPower(-0.7);
         }
 
         /*
          * Similarly, do the opposite here to get the angle
          */
         else{
-            BottomSwerveMotor.setPower(0.2);
-            TopSwerveMotor.setPower(0.2);
+            BottomSwerveMotor.setPower(0.7);
+            TopSwerveMotor.setPower(0.7);
+        }
+
+    }
+
+    public void pidControl(){
+
+        currentRotation = SwerveMath.getModulePosition(TopSwerveMotor.getCurrentPosition(), BottomSwerveMotor.getCurrentPosition());
+        wantedRotation = SwerveMath.normalizeJoystickAngle(gamepad1);
+        wheelDirection = SwerveMath.getWheelDirection(gamepad1);
+
+        setPoint = wantedRotation;
+
+        p = setPoint - currentRotation;
+        i += p;
+        d = p - lastError;
+        lastError = p;
+
+        output = (P * p + I * i + D *d);
+
+        if(currentRotation > wantedRotation-0.02 && currentRotation < wantedRotation+0.02) {
+            if(gamepad1.right_trigger > 0.1){
+                if(wheelDirection == WheelDirection.FORWARD) {
+                    TopSwerveMotor.setPower(0.7);
+                    BottomSwerveMotor.setPower(-0.7);
+                }
+                else if(wheelDirection == WheelDirection.BACKWARD){
+                    TopSwerveMotor.setPower(-0.7);
+                    BottomSwerveMotor.setPower(0.7);
+                }
+                else{
+                    TopSwerveMotor.setPower(0.7);
+                    BottomSwerveMotor.setPower(-0.7);
+                }
+            }
+            else {
+                TopSwerveMotor.setPower(0);
+                BottomSwerveMotor.setPower(0);
+            }
+        }
+        else{
+            TopSwerveMotor.setPower(output);
+            BottomSwerveMotor.setPower(output);
         }
 
     }
