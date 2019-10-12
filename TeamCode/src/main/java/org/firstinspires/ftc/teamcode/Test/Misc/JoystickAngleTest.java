@@ -14,6 +14,7 @@ import org.firstinspires.ftc.teamcode.Swerve.SwerveMath;
  */
 
 @TeleOp(name = "Joystick Test", group = "Test")
+@Disabled
 public class JoystickAngleTest extends OpMode {
 
     @Override
