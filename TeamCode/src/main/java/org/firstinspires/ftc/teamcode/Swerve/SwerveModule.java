@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.Swerve.Enums.ModulePosition;
 import org.firstinspires.ftc.teamcode.Swerve.Enums.WheelDirection;
+import org.firstinspires.ftc.teamcode.Utilities.Control.PID;
 
 /**
  * Class used to control an individual swerve module
@@ -33,6 +34,8 @@ public class SwerveModule {
     //P = 3 or 5, or 8
     private final double P = 10, I = 0, D = 0;
 
+    private PID PIDController;
+
     private double lastError = 0;
     private double setPoint = 0;
 
@@ -41,6 +44,8 @@ public class SwerveModule {
     double d = 0;
 
     double output = 0;
+
+    double power = 0;
 
 
 
@@ -64,6 +69,10 @@ public class SwerveModule {
             TopSwerveMotor = hardwareMap.get(DcMotor.class, "LeftTopSwerveMotor");
             BottomSwerveMotor = hardwareMap.get(DcMotor.class, "LeftBottomSwerveMotor");
         }
+
+        PIDController = new PID(P,I,D);
+        PIDController.setAcceptableRange(0.02);
+        PIDController.setSetpoint(0);
     }
 
     /**
@@ -133,6 +142,9 @@ public class SwerveModule {
 
     }
 
+    /**
+     * PID Controller inside method
+     */
     public void pidControl(){
 
         currentRotation = SwerveMath.getModulePosition(TopSwerveMotor.getCurrentPosition(), BottomSwerveMotor.getCurrentPosition());
@@ -172,6 +184,44 @@ public class SwerveModule {
             TopSwerveMotor.setPower(output);
             BottomSwerveMotor.setPower(output);
         }
+
+    }
+
+    /**
+     * Method Uses The PID Controller / PID class
+     */
+    public void PIDControllerControl(){
+        currentRotation = SwerveMath.getModulePosition(TopSwerveMotor.getCurrentPosition(), BottomSwerveMotor.getCurrentPosition());
+        wantedRotation = SwerveMath.normalizeJoystickAngle(gamepad1);
+
+        PIDController.setSetpoint(wantedRotation);
+        power = PIDController.calcOutput(currentRotation);
+
+        if(PIDController.isInRange()){
+            if(gamepad1.right_trigger > 0.1){
+                if(wheelDirection == WheelDirection.FORWARD) {
+                    TopSwerveMotor.setPower(0.7);
+                    BottomSwerveMotor.setPower(-0.7);
+                }
+                else if(wheelDirection == WheelDirection.BACKWARD){
+                    TopSwerveMotor.setPower(-0.7);
+                    BottomSwerveMotor.setPower(0.7);
+                }
+                else{
+                    TopSwerveMotor.setPower(0.7);
+                    BottomSwerveMotor.setPower(-0.7);
+                }
+            }
+            else {
+                TopSwerveMotor.setPower(0);
+                BottomSwerveMotor.setPower(0);
+            }
+        }
+        else{
+            TopSwerveMotor.setPower(power);
+            BottomSwerveMotor.setPower(power);
+        }
+
 
     }
 }
