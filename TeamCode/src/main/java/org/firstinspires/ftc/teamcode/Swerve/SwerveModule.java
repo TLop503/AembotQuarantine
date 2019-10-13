@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.Swerve;
 
-import com.qualcomm.hardware.modernrobotics.ModernRoboticsAnalogOpticalDistanceSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -34,20 +33,11 @@ public class SwerveModule {
     //P = 3 or 5, or 8
     private final double P = 10, I = 0, D = 0;
 
+    //Reference to the PID class that allows us to use PID
     private PID PIDController;
 
-    private double lastError = 0;
-    private double setPoint = 0;
-
-    double p = 0;
-    double i = 0;
-    double d = 0;
-
-    double output = 0;
-
-    double power = 0;
-
-
+    //Power given to motors
+    private double power;
 
     /**
      * Constructs each variable as well as determining the module side so it can properly assign motors
@@ -56,11 +46,17 @@ public class SwerveModule {
      * @param gamepad1 the controller input
      */
     public SwerveModule(ModulePosition modPos, HardwareMap hardwareMap, Gamepad gamepad1){
+
+        /*
+         * Assign parameters to class variables
+         */
         this.modPos = modPos;
         this.hardwareMap = hardwareMap;
         this.gamepad1 = gamepad1;
 
-        //Determine which motors should be associated with the current module
+        /*
+         * This block of code will determine which side the module is on based on the enum that was set in the SwerveController class
+         */
         if(modPos == ModulePosition.RIGHT){
             TopSwerveMotor = hardwareMap.get(DcMotor.class, "RightTopSwerveMotor");
             BottomSwerveMotor = hardwareMap.get(DcMotor.class, "RightBottomSwerveMotor");
@@ -70,133 +66,45 @@ public class SwerveModule {
             BottomSwerveMotor = hardwareMap.get(DcMotor.class, "LeftBottomSwerveMotor");
         }
 
+        /*
+         * Creates a new PIDController and passes P, I and D into it.
+         * After that it then sets the acceptable range which is the range +/- that it qualifies as at the right spot
+         * And finally it sets the point the module is trying to reach, at this point we just set it to 0
+         */
         PIDController = new PID(P,I,D);
         PIDController.setAcceptableRange(0.02);
         PIDController.setSetpoint(0);
     }
 
+
     /**
-     * General method that allows for full control of the module
+     * Method Uses The PID Controller / PID class to move the module to the right position and then once there will allow it to spin
      */
-    public void controlModule(){
+    public void PIDControl(){
 
         /*
-         * Assigns active values to the previously created variables
-         * currentRotation - The current "angle" of the entire module
-         * wantedRotation - The "angle" we want to reach
-         * wheelDirection - The direction we want the wheel to spin based off where the joystick is
+         * Collect information to be used in module control / PID
+         * currentRotation - The number of rotations he module has currently completed
+         * wantedRotation - The normalized top hemisphere value of the joystick converted into rotations
+         * wheelDirection - The direction the wheel should spin based off the Y axis of the joystick
          */
         currentRotation = SwerveMath.getModulePosition(TopSwerveMotor.getCurrentPosition(), BottomSwerveMotor.getCurrentPosition());
         wantedRotation = SwerveMath.normalizeJoystickAngle(gamepad1);
         wheelDirection = SwerveMath.getWheelDirection(gamepad1);
 
-
         /*
-        * Basic PID using an if feed back loop seems to work reasonably well
-        * The first if here checks if the module angle is within 0.02 rotations of the the wanted angle
-        * If this is the case it is consider in range of being at the right angle
-        */
-        if(currentRotation > wantedRotation-0.02  && currentRotation < wantedRotation+0.02){
-
-            /*
-             * Next, now that we are aligned and in range if the driver wants to move forward or in the modules facing angle
-             * However, if they don't the simply stop the motors
-             */
-            if(gamepad1.right_trigger > 0.1){
-                if(wheelDirection == WheelDirection.FORWARD) {
-                    TopSwerveMotor.setPower(0.7);
-                    BottomSwerveMotor.setPower(-0.7);
-                }
-                else if(wheelDirection == WheelDirection.BACKWARD){
-                    TopSwerveMotor.setPower(-0.7);
-                    BottomSwerveMotor.setPower(0.7);
-                }
-                else{
-                    TopSwerveMotor.setPower(0.7);
-                    BottomSwerveMotor.setPower(-0.7);
-                }
-            }
-            else {
-                TopSwerveMotor.setPower(0);
-                BottomSwerveMotor.setPower(0);
-            }
-            TopSwerveMotor.setPower(0);
-            BottomSwerveMotor.setPower(0);
-        }
-
-        /*
-         * However, if the current angle is less than wanted drive both wheels in a negative direction to get to the right angle
+         * This small section simply updates the point that it wants to reach based off the new wantedRotation
+         * And then the method calcOutput is called which you pass your current value into and it preforms the PID opperation and returns the output with your scalars
          */
-        else if(currentRotation > wantedRotation){
-            TopSwerveMotor.setPower(-0.7);
-            BottomSwerveMotor.setPower(-0.7);
-        }
-
-        /*
-         * Similarly, do the opposite here to get the angle
-         */
-        else{
-            BottomSwerveMotor.setPower(0.7);
-            TopSwerveMotor.setPower(0.7);
-        }
-
-    }
-
-    /**
-     * PID Controller inside method
-     */
-    public void pidControl(){
-
-        currentRotation = SwerveMath.getModulePosition(TopSwerveMotor.getCurrentPosition(), BottomSwerveMotor.getCurrentPosition());
-        wantedRotation = SwerveMath.normalizeJoystickAngle(gamepad1);
-        wheelDirection = SwerveMath.getWheelDirection(gamepad1);
-
-        setPoint = wantedRotation;
-
-        p = setPoint - currentRotation;
-        i += p;
-        d = p - lastError;
-        lastError = p;
-
-        output = (P * p + I * i + D *d);
-
-        if(currentRotation > wantedRotation-0.02 && currentRotation < wantedRotation+0.02) {
-            if(gamepad1.right_trigger > 0.1){
-                if(wheelDirection == WheelDirection.FORWARD) {
-                    TopSwerveMotor.setPower(0.7);
-                    BottomSwerveMotor.setPower(-0.7);
-                }
-                else if(wheelDirection == WheelDirection.BACKWARD){
-                    TopSwerveMotor.setPower(-0.7);
-                    BottomSwerveMotor.setPower(0.7);
-                }
-                else{
-                    TopSwerveMotor.setPower(0.7);
-                    BottomSwerveMotor.setPower(-0.7);
-                }
-            }
-            else {
-                TopSwerveMotor.setPower(0);
-                BottomSwerveMotor.setPower(0);
-            }
-        }
-        else{
-            TopSwerveMotor.setPower(output);
-            BottomSwerveMotor.setPower(output);
-        }
-
-    }
-
-    /**
-     * Method Uses The PID Controller / PID class
-     */
-    public void PIDControllerControl(){
-        currentRotation = SwerveMath.getModulePosition(TopSwerveMotor.getCurrentPosition(), BottomSwerveMotor.getCurrentPosition());
-        wantedRotation = SwerveMath.normalizeJoystickAngle(gamepad1);
-
         PIDController.setSetpoint(wantedRotation);
         power = PIDController.calcOutput(currentRotation);
 
+        /*
+         * This is a chunk of code specific to swerve, however, the PID class is universally accessible
+         * It first asks the PID controller if it is in the acceptable range, If so it will stop the motors so they are not trying to get to a value that is impossible with the current scalars
+         * Next if the driver wants to accelerate this can only be done once it has aligned  to the right angle
+         * However if it is not in rage simply add the calculated motor power to the motors
+         */
         if(PIDController.isInRange()){
             if(gamepad1.right_trigger > 0.1){
                 if(wheelDirection == WheelDirection.FORWARD) {
@@ -216,6 +124,44 @@ public class SwerveModule {
                 TopSwerveMotor.setPower(0);
                 BottomSwerveMotor.setPower(0);
             }
+        }
+        else{
+            TopSwerveMotor.setPower(power);
+            BottomSwerveMotor.setPower(power);
+        }
+
+
+    }
+
+    /**
+     * Overloaded PIDControl used for autonomous control
+     */
+    public void PIDControl(double angle){
+
+        /*
+         * Collect information to be used in module control / PID
+         * currentRotation - The number of rotations he module has currently completed
+         * wantedRotation - The normalized values of the angle
+         * wheelDirection - The direction the wheel should spin based off the Y axis of the joystick
+         */
+        currentRotation = SwerveMath.getModulePosition(TopSwerveMotor.getCurrentPosition(), BottomSwerveMotor.getCurrentPosition());
+        wantedRotation = SwerveMath.normalizeAngle(angle);
+        wheelDirection = SwerveMath.getWheelDirection(angle);
+
+        /*
+         * This small section simply updates the point that it wants to reach based off the new wantedRotation
+         * And then the method calcOutput is called which you pass your current value into and it preforms the PID opperation and returns the output with your scalars
+         */
+        PIDController.setSetpoint(wantedRotation);
+        power = PIDController.calcOutput(currentRotation);
+
+        /*
+         * This is what the module will do once it has reached the wanted position
+         */
+        if(PIDController.isInRange()){
+
+            TopSwerveMotor.setPower(0);
+            BottomSwerveMotor.setPower(0);
         }
         else{
             TopSwerveMotor.setPower(power);

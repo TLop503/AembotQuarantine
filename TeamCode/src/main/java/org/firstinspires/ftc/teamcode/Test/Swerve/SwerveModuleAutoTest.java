@@ -3,51 +3,31 @@ package org.firstinspires.ftc.teamcode.Test.Swerve;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
 
+import org.firstinspires.ftc.teamcode.Swerve.SwerveController;
+
+/**
+ * This class is used for testing autonomous control of the swerve module
+ * @author Will Richards
+ */
 @Autonomous(name = "Swerve Auto Test", group = "Test")
 @Disabled
 public class SwerveModuleAutoTest extends OpMode {
 
-    private DcMotor TopSwerveMotor;
-    private DcMotor BottomSwerveMotor;
+    //Creates a swerve controller
+    private SwerveController controller;
 
     @Override
     public void init() {
-        TopSwerveMotor = hardwareMap.get(DcMotor.class, "TopSwerveMotor");
-        BottomSwerveMotor = hardwareMap.get(DcMotor.class, "BottomSwerveMotor");
+
+        //Instantiates the swerve controller variable
+        controller = new SwerveController(gamepad1, hardwareMap);
     }
 
     @Override
     public void loop() {
-        double modulePosition = ((double)TopSwerveMotor.getCurrentPosition()+(double)BottomSwerveMotor.getCurrentPosition())/2250;
 
-        turnModule(modulePosition,1);
-
-        telemetry.addData("Position: ", modulePosition);
-    }
-
-    /**
-     * Method to turn the module to a desired rotation
-     * @param modulePosition
-     * @param newRotation
-     */
-    private void turnModule(double modulePosition, double newRotation){
-
-        // 1 rotation = 0.94 and 0.95
-        if(modulePosition > newRotation-0.07 && modulePosition < newRotation-0.05){
-            TopSwerveMotor.setPower(0);
-            BottomSwerveMotor.setPower(0);
-        }
-        else if(modulePosition < newRotation-0.06){
-            TopSwerveMotor.setPower(0.2);
-            BottomSwerveMotor.setPower(0.2);
-        }
-        else if(modulePosition > newRotation-0.045){
-            TopSwerveMotor.setPower(-0.2);
-            BottomSwerveMotor.setPower(-0.2);
-        }
-
+        //Uses the overloaded controlModules method to allow an angle to be passed instead of nothing
+        controller.controlModules(45);
     }
 }

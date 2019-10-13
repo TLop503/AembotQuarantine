@@ -37,6 +37,25 @@ public class SwerveMath {
         return alteredAngle/360;
     }
 
+    /**
+     * Static method used to normalize a given angle
+     * @return the angle in terms of module rotations
+     */
+    public static double normalizeAngle(double angle){
+
+        double alteredAngle = 0;
+        double trueAngle = angle;
+        if(angle==0)
+            alteredAngle = 0;
+        else if(trueAngle>=0 && trueAngle<=180)
+            alteredAngle = 90-trueAngle;
+        else {
+            alteredAngle = trueAngle;
+        }
+
+        return alteredAngle/360;
+    }
+
 
     /**
      * Returns the direction the wheel should be running based on the current Y axis, not really math but whatever
@@ -48,6 +67,19 @@ public class SwerveMath {
             return WheelDirection.STATIC;
         }
         else if (gamepad1.left_stick_y*-1 < 0){
+            return WheelDirection.BACKWARD;
+        }
+        else{
+            return WheelDirection.FORWARD;
+        }
+    }
+
+    /**
+     * Returns the direction the wheel should be running based on the current angle
+     * @return the direction the wheel should run
+     */
+    public static WheelDirection getWheelDirection(double angle){
+        if (angle < 0){
             return WheelDirection.BACKWARD;
         }
         else{

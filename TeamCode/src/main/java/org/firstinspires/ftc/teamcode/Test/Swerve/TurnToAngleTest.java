@@ -12,23 +12,27 @@ import org.firstinspires.ftc.teamcode.Swerve.SwerveController;
 import org.firstinspires.ftc.teamcode.Swerve.SwerveMath;
 
 /**
- * Class created to test driving the swerve module to a wanted angle
+ * Class created to test driving the swerve module to a wanted angle, using a jopystick
  * @author Will Richards
  */
 @TeleOp(name = "Swerve Turn Test", group = "Test")
 public class TurnToAngleTest extends OpMode {
 
+    //Creates a new swerve controller
     private SwerveController swerveController;
 
     @Override
     public void init() {
 
+        //Initialize the swerve controller
         swerveController = new SwerveController(gamepad1, hardwareMap);
 
     }
 
     @Override
     public void loop() {
+
+        //Control the modules
         swerveController.controlModules();
 
     }

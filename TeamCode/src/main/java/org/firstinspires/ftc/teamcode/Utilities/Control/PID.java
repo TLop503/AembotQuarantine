@@ -22,13 +22,18 @@ public class PID {
     //The value returned on calcOutput
     private double output;
 
+    //Weather or not the current value is in the acceptable range and then what that acceptable range is
     private boolean inRange;
     private double acceptableRange;
 
+    //The point the module is trying to reach
     private double setpoint;
 
+    //The max output PID can create, default 1
+    private double maxOutput = 1;
+
     /**
-     * Initlize the variables as well as assign PID constants
+     * Initialize the variables as well as assign PID constants
      * @param P the P scalar
      * @param I the I scalar
      * @param D the D scalar
@@ -75,6 +80,14 @@ public class PID {
     }
 
     /**
+     * Method used for setting the max output of the swerve module
+     * @param maxOutput
+     */
+    public void setMaxOutput(double maxOutput){
+        this.maxOutput = maxOutput;
+    }
+
+    /**
      * This method runs all the PID code to output a value to send to the motors
      * @return motor power
      */
@@ -99,6 +112,10 @@ public class PID {
             inRange = false;
             output = (P * p + I * i + D *d);
         }
+
+        //Scales the value to the max output
+        if(output > maxOutput)
+            output = maxOutput;
 
         return output;
     }

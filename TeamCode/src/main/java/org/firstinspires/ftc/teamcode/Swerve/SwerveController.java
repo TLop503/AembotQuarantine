@@ -14,14 +14,15 @@ import java.util.List;
  */
 public class SwerveController {
 
-    //Local variations of variables from the OpMode
+    //Local variables from the OpMode
     private Gamepad gamepad1;
     private HardwareMap hardwareMap;
 
-    //2 Swerve modules
+    //Create two new swerve module variables
     private SwerveModule leftModule;
     private SwerveModule rightModule;
 
+    //Create a list to store the swerve modules this allows for easy control of multiple modules
     private List<SwerveModule> moduleList = new ArrayList<>();
 
     /**
@@ -33,7 +34,7 @@ public class SwerveController {
         this.gamepad1 = gamepad1;
         this.hardwareMap = hardwareMap;
 
-        //Creates 2 swerve modules
+        //Instantiate 2 swerve modules
         //leftModule = new SwerveModule(ModulePosition.LEFT);
         rightModule = new SwerveModule(ModulePosition.RIGHT, hardwareMap, gamepad1);
 
@@ -46,10 +47,25 @@ public class SwerveController {
      * General Method that allows control of all the modules inside the controller
      */
     public void controlModules(){
+
+        /*
+         * Iterates through the list of modules and calls the control method on all of them
+         */
         for(SwerveModule module : moduleList){
-            //module.controlModule();
-            //module.pidControl();
-            module.PIDControllerControl();
+            module.PIDControl();
+        }
+    }
+
+    /**
+     * General Method that allows control of all the modules inside the controller
+     */
+    public void controlModules(double angle){
+
+        /*
+         * Iterates through the list of modules and calls the control method on all of them
+         */
+        for(SwerveModule module : moduleList){
+            module.PIDControl(angle);
         }
     }
 
