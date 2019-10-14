@@ -57,13 +57,16 @@ public class SwerveModule {
         /*
          * This block of code will determine which side the module is on based on the enum that was set in the SwerveController class
          */
-        if(modPos == ModulePosition.RIGHT){
-            TopSwerveMotor = hardwareMap.get(DcMotor.class, "RightTopSwerveMotor");
-            BottomSwerveMotor = hardwareMap.get(DcMotor.class, "RightBottomSwerveMotor");
-        }
-        else{
-            TopSwerveMotor = hardwareMap.get(DcMotor.class, "LeftTopSwerveMotor");
-            BottomSwerveMotor = hardwareMap.get(DcMotor.class, "LeftBottomSwerveMotor");
+
+        switch(modPos) {
+            case RIGHT:
+                TopSwerveMotor = hardwareMap.get(DcMotor.class, "RightTopSwerveMotor");
+                BottomSwerveMotor = hardwareMap.get(DcMotor.class, "RightBottomSwerveMotor");
+                break;
+            case LEFT:
+                TopSwerveMotor = hardwareMap.get(DcMotor.class, "LeftTopSwerveMotor");
+                BottomSwerveMotor = hardwareMap.get(DcMotor.class, "LeftBottomSwerveMotor");
+                break;
         }
 
         /*
