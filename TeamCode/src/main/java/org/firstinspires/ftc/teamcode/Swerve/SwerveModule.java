@@ -31,7 +31,7 @@ public class SwerveModule {
     private WheelDirection wheelDirection = WheelDirection.STATIC;
 
     //P = 3 or 5, or 8
-    private final double P = 10, I = 0, D = 0;
+    private final double P = 5, I = 0, D = 0;
 
     //Reference to the PID class that allows us to use PID
     private PID PIDController;
