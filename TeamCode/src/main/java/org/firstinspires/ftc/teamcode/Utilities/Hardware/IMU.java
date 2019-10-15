@@ -11,15 +11,18 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 /**
- * Class used as a general wrapper for the REV Robotics IMU
+ * Class used as a general wrapper for the REV Robotics Control Hub IMU
  * @author Will Richards
  */
 public class IMU {
 
+    //Reference to the hardwareMap
     private HardwareMap hardwareMap;
 
+    //Reference to the IMU
     private BNO055IMU imu;
 
+    //Orientation to hold angle assigned that will be the offset
     private Orientation angleOffset;
 
     /**
