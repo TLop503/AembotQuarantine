@@ -78,17 +78,24 @@ public class VuforiaWrapper {
     }
 
     /**
-     * Get the orientation of a skystone relative to the robot.
-     * @return The orientation of the skystone
+     * Get the orientation of a Skystone relative to the robot.
+     * @return The Orientation of the Skystone
      */
-    private Orientation getStoneOrientation() {
-        OpenGLMatrix skystonePose = ((VuforiaTrackableDefaultListener)skystoneTarget.getListener()).getPose();
+    public Orientation getStoneOrientation() {
+        OpenGLMatrix skystonePose;
 
-        if(skystonePose != null) {
-            return Orientation.getOrientation(skystonePose, AxesReference.EXTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES);
-        } else {
-            return null;
+        try {
+            skystonePose = ((VuforiaTrackableDefaultListener) skystoneTarget.getListener()).getPose();
+
+            if(skystonePose != null) {
+                return Orientation.getOrientation(skystonePose, AxesReference.EXTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES);
+            }
         }
+        catch (NullPointerException e) {
+            System.out.println("Null Pointer exception");
+        }
+
+        return null;
     }
 
     /**
