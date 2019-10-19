@@ -15,7 +15,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
 /**
  * Class used to allow easy access to Vuforia methods
- * @author Will Richards
+ * @author Will Richards, Zane Othman
  */
 public class VuforiaWrapper {
 
@@ -77,6 +77,7 @@ public class VuforiaWrapper {
         return "";
     }
 
+
     /**
      * Get the orientation of a Skystone relative to the robot.
      * @return The Orientation of the Skystone
@@ -91,9 +92,7 @@ public class VuforiaWrapper {
                 return Orientation.getOrientation(skystonePose, AxesReference.EXTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES);
             }
         }
-        catch (NullPointerException e) {
-            System.out.println("Null Pointer exception");
-        }
+        catch (NullPointerException e) { }
 
         return null;
     }
