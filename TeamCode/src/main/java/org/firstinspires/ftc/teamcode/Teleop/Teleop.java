@@ -14,39 +14,43 @@ import com.qualcomm.robotcore.hardware.CRServo;
 @Disabled
 public class Teleop extends OpMode {
 
+    //Fill this space with variables
     private Servo svTop;
     private Servo svBottom;
-
-
-    /**
-     * This method is run on robot init
-     * Use as constructor
-     */
-
+    private DcMotor dcDriveL;
+    private DcMotor dcDriveR;
 
 
     @Override
     public void init() {
+        //Hardware Mapping + init phase
+
         svTop = hardwareMap.get(Servo.class, "svTop");
         svBottom = hardwareMap.get(Servo.class, "svBottom");
+        dcDriveL = hardwareMap.get(DcMotor.class, "dcDriveL");
+        dcDriveR = hardwareMap.get(DcMotor.class, "dcDriveR");
+
 
     }
 
-    /**
-     * This method is looped when the robot is enabled
-     * Normal control / etc. code goes here
-     */
     @Override
     public void loop() {
-            if (gamepad1.dpad_left){
+        //Teleop Button Mapping
+
+            dcDriveL.setPower(-1 *gamepad1.left_stick_y);
+            dcDriveR.setPower(gamepad1.right_stick_y);
+
+
+            if (gamepad2.dpad_left){
              svTop.setPosition(1);
               svBottom.setPosition(1);
              }
-            else if (gamepad1.dpad_right){
+            else if (gamepad2.dpad_right){
                svTop.setPosition(0);
              svBottom.setPosition(0);
             }
-            else if (gamepad1.b){
+
+            else if (gamepad2.b){
                 svTop.setPosition(0.5);
                 svBottom.setPosition(0.5);
             }
