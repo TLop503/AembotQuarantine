@@ -13,17 +13,18 @@ import com.qualcomm.robotcore.hardware.CRServo;
 public class Teleop extends OpMode {
 
     //Fill this space with variables
-    private Servo svTop;
-    private Servo svBottom;
+    //private Servo svTop;
+    //private Servo svBottom;
     private DcMotor dcDriveL;
     private DcMotor dcDriveR;
+    //privaate DcMotor elevator;
 
     @Override
     public void init() {
         //Hardware Mapping + init phase
 
-        svTop = hardwareMap.get(Servo.class, "svTop");
-        svBottom = hardwareMap.get(Servo.class, "svBottom");
+        //svTop = hardwareMap.get(Servo.class, "svTop");
+        //svBottom = hardwareMap.get(Servo.class, "svBottom");
         dcDriveL = hardwareMap.get(DcMotor.class, "dcDriveL");
         dcDriveR = hardwareMap.get(DcMotor.class, "dcDriveR");
 
@@ -51,6 +52,6 @@ public class Teleop extends OpMode {
 
              */
             }
-        }
 
     }
+

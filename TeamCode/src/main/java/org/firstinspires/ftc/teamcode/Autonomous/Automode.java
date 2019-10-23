@@ -7,28 +7,53 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.CRServo;
 
+
 @Autonomous(name = "Auto Mode", group = "Autonomous")
-@Disabled
+
 public class Automode extends OpMode {
 
-    /**
-     * This method is run on robot init
-     * Use as constructor
-     */
-    @Override
-    public void init() {
+
+    private DcMotor dcDriveL;
+    private DcMotor dcDriveR;
+
+
+    private void driveInches(double distance, double motorspeed){
+
+        double ticks = 288 * (distance / 12.566);
+
+        dcDriveR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        dcDriveL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        dcDriveL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        dcDriveR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        dcDriveL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        dcDriveR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+
+        dcDriveR.setTargetPosition((int)ticks);
+        dcDriveL.setTargetPosition((int)ticks);
+
+        dcDriveR.setPower(-motorspeed);
+        dcDriveL.setPower(motorspeed);
+
 
     }
 
-    /**
-     * This method is looped when the robot is enabled
-     * Normal control / etc. code goes here
-     */
+
+    @Override
+    public void init() {
+        dcDriveL = hardwareMap.get(DcMotor.class, "dcDriveL");
+        dcDriveR = hardwareMap.get(DcMotor.class, "dcDriveR");
+
+
+    }
+
     @Override
     public void loop() {
+        driveInches(27, .8);
 
     }
 }
