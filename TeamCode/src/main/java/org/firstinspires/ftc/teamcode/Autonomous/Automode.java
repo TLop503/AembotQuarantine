@@ -2,9 +2,6 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -20,6 +17,19 @@ public class Automode extends OpMode {
     private DcMotor dcDriveL;
     private DcMotor dcDriveR;
 
+    @Override
+    public void init() {
+        dcDriveL = hardwareMap.get(DcMotor.class, "dcDriveL");
+        dcDriveR = hardwareMap.get(DcMotor.class, "dcDriveR");
+
+
+    }
+
+    @Override
+    public void loop() {
+        driveInches(27, .8);
+
+    }
 
     private void driveInches(double distance, double motorspeed){
 
@@ -39,21 +49,6 @@ public class Automode extends OpMode {
         dcDriveR.setPower(-motorspeed);
         dcDriveL.setPower(motorspeed);
 
-
-    }
-
-
-    @Override
-    public void init() {
-        dcDriveL = hardwareMap.get(DcMotor.class, "dcDriveL");
-        dcDriveR = hardwareMap.get(DcMotor.class, "dcDriveR");
-
-
-    }
-
-    @Override
-    public void loop() {
-        driveInches(27, .8);
 
     }
 }
