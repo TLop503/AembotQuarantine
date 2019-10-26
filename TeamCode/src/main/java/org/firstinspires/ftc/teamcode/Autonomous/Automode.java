@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.CRServo;
 
 
-@Autonomous(name = "Auto Mode", group = "Autonomous")
+@Autonomous(name = "weekOneAutoMode", group = "Autonomous")
 
 public class Automode extends OpMode {
 
@@ -31,6 +31,7 @@ public class Automode extends OpMode {
 
     }
 
+    //This Command will need to be removed after we switch to swerve
     private void driveInches(double distance, double motorspeed){
 
         double ticks = 288 * (distance / 12.566);
@@ -51,4 +52,5 @@ public class Automode extends OpMode {
 
 
     }
+
 }

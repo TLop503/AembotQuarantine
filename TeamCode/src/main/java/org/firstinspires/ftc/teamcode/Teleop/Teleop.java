@@ -13,8 +13,12 @@ import com.qualcomm.robotcore.hardware.CRServo;
 public class Teleop extends OpMode {
 
     //Fill this space with variables
-    //private Servo svTop;
-    //private Servo svBottom;
+
+    //Unused Rack and Pinion servos
+    /*
+    private Servo svTop;
+    private Servo svBottom;
+    */
     private DcMotor dcDriveL;
     private DcMotor dcDriveR;
     //privaate DcMotor elevator;
@@ -34,24 +38,18 @@ public class Teleop extends OpMode {
     public void loop() {
         //Teleop Button Mapping
 
-            dcDriveL.setPower(gamepad1.left_stick_y);
-            dcDriveR.setPower(-1 * gamepad1.right_stick_y);
-            /*
-            if (gamepad2.dpad_left){
-             svTop.setPosition(1);
-              svBottom.setPosition(1);
-             }
-            else if (gamepad2.dpad_right){
-               svTop.setPosition(0);
-             svBottom.setPosition(0);
-            }
-
-            else if (gamepad2.b){
-                svTop.setPosition(0.5);
-                svBottom.setPosition(0.5);
-
-             */
-            }
+        dcDriveL.setPower(gamepad1.left_stick_y);
+        dcDriveR.setPower(-1 * gamepad1.right_stick_y);
+        /*
+        //Unused Rack And Pinion controls
+        if (gamepad2.dpad_up) {
+            svTop.setPosition(1);
+            svBottom.setPosition(1);
+        } else if (gamepad2.dpad_down) {
+            svTop.setPosition(0);
+            svBottom.setPosition(0);
+        }
+        */
 
     }
-
+}
