@@ -39,7 +39,7 @@ public class Teleop extends OpMode {
         //Teleop Button Mapping
 
         dcDriveL.setPower(gamepad1.left_stick_y);
-        dcDriveR.setPower(-1 * gamepad1.right_stick_y);
+        dcDriveR.setPower(-gamepad1.right_stick_y);
         /*
         //Unused Rack And Pinion controls
         if (gamepad2.dpad_up) {
