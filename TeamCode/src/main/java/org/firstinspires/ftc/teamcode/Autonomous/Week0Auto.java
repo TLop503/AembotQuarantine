@@ -2,13 +2,14 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
+//import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
-@Autonomous(name = "Automode", group = "Autonomous")
-
-public class Automode extends OpMode {
+@Autonomous(name = "Week0Auto", group = "Autonomous")
+@Disabled
+public class Week0Auto extends OpMode {
 
     private boolean hasRun = false;
     private DcMotor dcDriveL;
