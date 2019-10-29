@@ -35,11 +35,11 @@ public class SwerveController {
         this.hardwareMap = hardwareMap;
 
         //Instantiate 2 swerve modules
-        //leftModule = new SwerveModule(ModulePosition.LEFT);
+        leftModule = new SwerveModule(ModulePosition.LEFT, hardwareMap, gamepad1);
         rightModule = new SwerveModule(ModulePosition.RIGHT, hardwareMap, gamepad1);
 
         //Adds the modules to a list for easy iteration
-        //moduleList.add(leftModule);
+        moduleList.add(leftModule);
         moduleList.add(rightModule);
     }
 

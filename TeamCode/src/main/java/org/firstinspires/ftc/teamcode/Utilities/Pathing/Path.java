@@ -1,12 +1,5 @@
 package org.firstinspires.ftc.teamcode.Utilities.Pathing;
 
-import android.content.Context;
-import android.content.res.AssetManager;
-
-import com.qualcomm.ftccommon.FtcRobotControllerSettingsActivity;
-
-import org.firstinspires.ftc.robotcontroller.internal.FtcRobotControllerActivity;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -29,7 +22,6 @@ public class Path {
      * TODO: Use assets if possible
      */
     public void load(String fileName){
-
         File file = new File(fileName);
         System.out.println(file.getPath());
         Scanner sc = null;

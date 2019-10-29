@@ -110,18 +110,31 @@ public class SwerveModule {
          */
         if(PIDController.isInRange()){
             if(gamepad1.right_trigger > 0.1){
-                if(wheelDirection == WheelDirection.FORWARD) {
-                    TopSwerveMotor.setPower(0.7);
-                    BottomSwerveMotor.setPower(-0.7);
-                }
-                else if(wheelDirection == WheelDirection.BACKWARD){
-                    TopSwerveMotor.setPower(-0.7);
-                    BottomSwerveMotor.setPower(0.7);
+                if(modPos == ModulePosition.RIGHT) {
+                    if (wheelDirection == WheelDirection.FORWARD) {
+                        TopSwerveMotor.setPower(1);
+                        BottomSwerveMotor.setPower(-1);
+                    } else if (wheelDirection == WheelDirection.BACKWARD) {
+                        TopSwerveMotor.setPower(-1);
+                        BottomSwerveMotor.setPower(1);
+                    } else {
+                        TopSwerveMotor.setPower(1);
+                        BottomSwerveMotor.setPower(-1);
+                    }
                 }
                 else{
-                    TopSwerveMotor.setPower(0.7);
-                    BottomSwerveMotor.setPower(-0.7);
+                    if (wheelDirection == WheelDirection.FORWARD) {
+                        TopSwerveMotor.setPower(-1);
+                        BottomSwerveMotor.setPower(1);
+                    } else if (wheelDirection == WheelDirection.BACKWARD) {
+                        TopSwerveMotor.setPower(1);
+                        BottomSwerveMotor.setPower(-1);
+                    } else {
+                        TopSwerveMotor.setPower(-1);
+                        BottomSwerveMotor.setPower(1);
+                    }
                 }
+
             }
             else {
                 TopSwerveMotor.setPower(0);

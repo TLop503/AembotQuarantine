@@ -23,7 +23,7 @@ public class IMU {
     private BNO055IMU imu;
 
     //Orientation to hold angle assigned that will be the offset
-    private Orientation angleOffset;
+    public Orientation angleOffset;
 
     /**
      * Initializes the IMU
@@ -46,6 +46,8 @@ public class IMU {
 
         //Init the IMU with the created parameter set
         imu.initialize(parameters);
+
+        angleOffset = (imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES));
     }
 
 
@@ -57,11 +59,16 @@ public class IMU {
         return (imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES)).firstAngle - angleOffset.firstAngle;
     }
 
+    public boolean getIsGyroCalibrated(){
+        return  imu.isGyroCalibrated();
+    }
+
     /**
      * Set the angle offset to the current angle
      */
     public void reset(){
         angleOffset = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
+
     }
 
 
