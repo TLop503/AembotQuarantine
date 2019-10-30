@@ -26,7 +26,7 @@ public class SwerveController {
     private List<SwerveModule> moduleList = new ArrayList<>();
 
     /**
-     * Constructs the swerve modules and passes information only acssesible in the OpMode to this class to be used
+     * Constructs the swerve modules and passes information only accsesible in the OpMode to this class to be used
      * @param gamepad1 a reference to the gamepad1
      * @param hardwareMap a reference to the robot's hardware map
      */
@@ -37,6 +37,23 @@ public class SwerveController {
         //Instantiate 2 swerve modules
         leftModule = new SwerveModule(ModulePosition.LEFT, hardwareMap, gamepad1);
         rightModule = new SwerveModule(ModulePosition.RIGHT, hardwareMap, gamepad1);
+
+        //Adds the modules to a list for easy iteration
+        moduleList.add(leftModule);
+        moduleList.add(rightModule);
+    }
+
+    /**
+     * Constructs swerve modules for autonomous op modes, where there are no gamepads
+     * @param hardwareMap a reference to the robot's hardware map
+     */
+    public SwerveController(HardwareMap hardwareMap){
+        this.gamepad1 = null;
+        this.hardwareMap = hardwareMap;
+
+        //Instantiate 2 swerve modules
+        leftModule = new SwerveModule(ModulePosition.LEFT, hardwareMap, null);
+        rightModule = new SwerveModule(ModulePosition.RIGHT, hardwareMap, null);
 
         //Adds the modules to a list for easy iteration
         moduleList.add(leftModule);

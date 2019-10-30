@@ -98,10 +98,41 @@ public class VuforiaWrapper {
     }
 
     /**
-     * Parses the X axis offset out of the getDetected transform
-     * @return the value of X as an double
+     * Get angle to SkyStone with a specific Z offset
+     * @param zOffset the z offset to calculate the angle with
+     * @return the angle to a point offset from the SkyStone by zOffset
      */
-    private double getX(){
+    public double getAngleZOffset(double zOffset) {
+        // Get X and Z coordinates relative to stone
+        double stoneX = getX();
+        double stoneZ = getZ();
+
+        double newZcoordinate = stoneZ - zOffset;
+
+        return Math.atan2(newZcoordinate, stoneX);
+    }
+
+    /**
+     * Find the distance to drive to a stone with a specific z offset
+     * @param zOffset the z-offset from the SkyStone
+     * @return the distance to drive
+     */
+    public double getDistanceZOffset(double zOffset) {
+        // Get X and Z coordinates relative to stone
+        double stoneX = getX();
+        double stoneZ = getZ();
+
+        double newZcoordinate = stoneZ - zOffset;
+
+        // Use the Pythagorean theorem to calculate the distance to drive
+        return Math.sqrt(Math.pow(stoneX, 2) + Math.pow(newZcoordinate, 2));
+    }
+
+    /**
+     * Parses the X axis offset out of the getDetected transform
+     * @return the value of X as a double
+     */
+    public double getX(){
         String[] splitTransform = getDetectedTransform().split(" ");
 
         //If the transform string is greater than 0 return the normal X, if not return 4242 because that number is impossible to reach in this case and also 42..
@@ -115,7 +146,7 @@ public class VuforiaWrapper {
      * Parses the Y axis offset out of the getDetected transform
      * @return the value of Y as an double
      */
-    private double getY(){
+    public double getY(){
         String[] splitTransform = getDetectedTransform().split(" ");
 
         //If the transform string is greater than 0 return the normal X, if not return 4242 because that number is impossible to reach in this case and also 42..
@@ -129,7 +160,7 @@ public class VuforiaWrapper {
      * Parses the Z axis offset out of the getDetected transform
      * @return the value of Z as an double
      */
-    private double getZ(){
+    public double getZ(){
         String[] splitTransform = getDetectedTransform().split(" ");
 
         //If the transform string is greater than 0 return the normal X, if not return 4242 because that number is impossible to reach in this case and also 42..

@@ -2,4 +2,4 @@
 
 Welcome!
 
-This module contains all code responsible for usage of the robot
+This module contains all code responsible for usage of the robot.

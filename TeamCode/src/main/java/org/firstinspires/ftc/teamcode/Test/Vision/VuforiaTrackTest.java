@@ -47,6 +47,6 @@ public class VuforiaTrackTest extends OpMode {
      * Activates the tracking
      */
     @Override
-    public  void init_loop(){ vuforia.initVuforia(); }
+    public void init_loop(){ vuforia.initVuforia(); }
 
 }
