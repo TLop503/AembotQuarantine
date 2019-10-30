@@ -15,9 +15,11 @@ public class Week1Auto extends OpMode {
 
     private boolean hasRun = false;
 
+   // private SwerveController swerveController;
+
     @Override
     public void init() {
-
+       // swerveController = new SwerveController(hardwareMap);
     }
 
     @Override
