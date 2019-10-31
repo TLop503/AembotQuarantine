@@ -19,11 +19,15 @@ public class SwerveTeleop extends OpMode {
     //Creates a new swerve controller
     private SwerveController swerveController;
 
+    private dcMotor dcElevator;
+
     @Override
     public void init() {
 
         //Initialize the swerve controller
         swerveController = new SwerveController(gamepad1, hardwareMap);
+
+        dcElevator = hardwareMap.get(dcMotor.class, "dcElevator")
 
     }
 
@@ -32,6 +36,9 @@ public class SwerveTeleop extends OpMode {
 
         //Control the modules
         swerveController.controlModules();
+
+        //Might need to be reversed later. Controls Elevator.
+        dcElevator.setPower(gamepad2.left_stick_y);
 
     }
 }
