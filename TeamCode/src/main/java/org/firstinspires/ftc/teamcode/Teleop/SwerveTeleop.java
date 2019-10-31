@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Test.Swerve;
+package org.firstinspires.ftc.teamcode.Teleop;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -14,7 +14,7 @@ import org.firstinspires.ftc.teamcode.Swerve.SwerveMath;
  */
 
 @TeleOp(name = "SwerveTeleop", group = "Teleop")
-public class TurnToAngleTest extends OpMode {
+public class SwerveTeleop extends OpMode {
 
     //Creates a new swerve controller
     private SwerveController swerveController;
@@ -28,7 +28,7 @@ public class TurnToAngleTest extends OpMode {
     }
 
     @Override
-    public void loop()
+    public void loop(){
 
         //Control the modules
         swerveController.controlModules();
