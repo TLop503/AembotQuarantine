@@ -151,8 +151,11 @@ public class SwerveModule {
 
     /**
      * Overloaded PIDControl used for autonomous control
+     * This method works in such a way that since it may take multiple loops of the program to align each time through this method will return true or false
+     * If the module is oriented right it will return true and vice versa, this means that you will have to check this every iteration through the program and ignore it if the action has completed
+     * @return the status of the completeness of the control
      */
-    public void PIDControl(double angle){
+    public boolean PIDControl(double angle){
 
         /*
          * Collect information to be used in module control / PID
@@ -175,15 +178,46 @@ public class SwerveModule {
          * This is what the module will do once it has reached the wanted position
          */
         if(PIDController.isInRange()){
-
-            TopSwerveMotor.setPower(0);
-            BottomSwerveMotor.setPower(0);
+            //Returns true to exit the method
+            return true;
         }
         else{
             TopSwerveMotor.setPower(power);
             BottomSwerveMotor.setPower(power);
         }
+        return false;
+    }
 
-
+    /**
+     * This method works similarly to the last except it will just run the motors in a direction that is wanted at a certain speed
+     * @param wheelDirection the direction that the wheel is meant to move
+     * @param motorSpeed the speed you want the motors to run, run directon is determined from that
+     * @return action completeness
+     */
+    public void runMotorsDumb(WheelDirection wheelDirection, double motorSpeed){
+        if(modPos == ModulePosition.RIGHT) {
+            if (wheelDirection == WheelDirection.FORWARD) {
+                TopSwerveMotor.setPower(motorSpeed);
+                BottomSwerveMotor.setPower(-motorSpeed);
+            } else if (wheelDirection == WheelDirection.BACKWARD) {
+                TopSwerveMotor.setPower(-motorSpeed);
+                BottomSwerveMotor.setPower(motorSpeed);
+            } else {
+                TopSwerveMotor.setPower(motorSpeed);
+                BottomSwerveMotor.setPower(-motorSpeed);
+            }
+        }
+        else{
+            if (wheelDirection == WheelDirection.FORWARD) {
+                TopSwerveMotor.setPower(-motorSpeed);
+                BottomSwerveMotor.setPower(motorSpeed);
+            } else if (wheelDirection == WheelDirection.BACKWARD) {
+                TopSwerveMotor.setPower(motorSpeed);
+                BottomSwerveMotor.setPower(-motorSpeed);
+            } else {
+                TopSwerveMotor.setPower(-motorSpeed);
+                BottomSwerveMotor.setPower(motorSpeed);
+            }
+        }
     }
 }
