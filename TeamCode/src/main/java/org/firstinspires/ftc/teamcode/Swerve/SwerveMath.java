@@ -82,7 +82,7 @@ public class SwerveMath {
         if (angle < 0){
             return WheelDirection.BACKWARD;
         }
-        else{
+        else {
             return WheelDirection.FORWARD;
         }
     }

@@ -10,7 +10,7 @@ import java.util.List;
 
 /**
  * Class created to drive the 2 swerve modules
- * @author Will Richards
+ * @author Will Richards, Zane Othman-Gomez
  */
 public class SwerveController {
 
@@ -76,13 +76,37 @@ public class SwerveController {
     /**
      * General Method that allows control of all the modules inside the controller
      */
-    public void controlModules(double angle){
+    public boolean controlModules(double angle){
+        List<Boolean> statuses = new ArrayList<>();
 
         /*
          * Iterates through the list of modules and calls the control method on all of them
          */
         for(SwerveModule module : moduleList){
-            module.PIDControl(angle);
+            statuses.add(module.PIDControl(angle));
+        }
+
+        return statuses.get(0) && statuses.get(1);
+    }
+
+    /**
+     * A method to scale the running power of swerve modules based on outside factors.
+     * @param angle The angle to run the swerve modules at.
+     * @param scaleFactor The amount to scale the power up/down based on external conditions.
+     */
+    public void controlModulesScaled(double angle, double scaleFactor) {
+        // Iterate through list of swerve modules & controls them
+        for(SwerveModule module : moduleList) {
+            module.PIDControlScaled(angle, scaleFactor);
+        }
+    }
+
+    /**
+     * A method to stop the motors in every swerve module
+     */
+    public void stopModules() {
+        for(SwerveModule module : moduleList) {
+            module.stopMotors();
         }
     }
 

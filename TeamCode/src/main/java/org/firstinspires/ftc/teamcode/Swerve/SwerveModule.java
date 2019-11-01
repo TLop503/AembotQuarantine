@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.Utilities.Control.PID;
 
 /**
  * Class used to control an individual swerve module
- * @author Will Richards
+ * @author Will Richards, Zane Othman-Gomez
  */
 public class SwerveModule {
 
@@ -161,7 +161,7 @@ public class SwerveModule {
          * Collect information to be used in module control / PID
          * currentRotation - The number of rotations he module has currently completed
          * wantedRotation - The normalized values of the angle
-         * wheelDirection - The direction the wheel should spin based off the Y axis of the joystick
+         * wheelDirection - The direction the wheel should spin based off the angle passed as a parameter
          */
         currentRotation = SwerveMath.getModulePosition(TopSwerveMotor.getCurrentPosition(), BottomSwerveMotor.getCurrentPosition());
         wantedRotation = SwerveMath.normalizeAngle(angle);
@@ -189,10 +189,71 @@ public class SwerveModule {
     }
 
     /**
+     * Method for running module motors, albeit with scaled power.
+     * This allows the power of the motors to be tuned according to external factors,
+     * like other PID loops or sensor inputs.
+     * @param angle The angle to run the module at.
+     * @param scaleFactor How much to scale the power based on external factors.
+     */
+    public void PIDControlScaled(double angle, double scaleFactor){
+
+        /*
+         * Collect information to be used in module control / PID
+         * currentRotation - The number of rotations he module has currently completed
+         * wantedRotation - The normalized values of the angle
+         * wheelDirection - The direction the wheel should spin based off the angle passed as a parameter
+         */
+        currentRotation = SwerveMath.getModulePosition(TopSwerveMotor.getCurrentPosition(), BottomSwerveMotor.getCurrentPosition());
+        wantedRotation = SwerveMath.normalizeAngle(angle);
+        wheelDirection = SwerveMath.getWheelDirection(angle);
+
+        /*
+         * This small section simply updates the point that it wants to reach based off the new wantedRotation
+         * And then the method calcOutput is called which you pass your current value into and it preforms the PID opperation and returns the output with your scalars
+         */
+        PIDController.setSetpoint(wantedRotation);
+        power = PIDController.calcOutput(currentRotation);
+
+        /*
+         * This is what the module will do once it has reached the wanted position
+         */
+
+        if(PIDController.isInRange()){
+            if(modPos == ModulePosition.RIGHT) {
+                if (wheelDirection == WheelDirection.FORWARD) {
+                    TopSwerveMotor.setPower(1 * scaleFactor);
+                    BottomSwerveMotor.setPower(-1 * scaleFactor);
+                } else if (wheelDirection == WheelDirection.BACKWARD) {
+                    TopSwerveMotor.setPower(-1 * scaleFactor);
+                    BottomSwerveMotor.setPower(1 * scaleFactor);
+                } else {
+                    TopSwerveMotor.setPower(1 * scaleFactor);
+                    BottomSwerveMotor.setPower(-1 * scaleFactor);
+                }
+            }
+            else{
+                if (wheelDirection == WheelDirection.FORWARD) {
+                    TopSwerveMotor.setPower(-1 * scaleFactor);
+                    BottomSwerveMotor.setPower(1 * scaleFactor);
+                } else if (wheelDirection == WheelDirection.BACKWARD) {
+                    TopSwerveMotor.setPower(1 * scaleFactor);
+                    BottomSwerveMotor.setPower(-1 * scaleFactor);
+                } else {
+                    TopSwerveMotor.setPower(-1 * scaleFactor);
+                    BottomSwerveMotor.setPower(1 * scaleFactor);
+                }
+            }
+        }
+        else{
+            TopSwerveMotor.setPower(power);
+            BottomSwerveMotor.setPower(power);
+        }
+    }
+
+    /**
      * This method works similarly to the last except it will just run the motors in a direction that is wanted at a certain speed
      * @param wheelDirection the direction that the wheel is meant to move
      * @param motorSpeed the speed you want the motors to run, run directon is determined from that
-     * @return action completeness
      */
     public void runMotorsDumb(WheelDirection wheelDirection, double motorSpeed){
         if(modPos == ModulePosition.RIGHT) {
@@ -220,4 +281,48 @@ public class SwerveModule {
             }
         }
     }
+
+    /**
+     * This method works similarly to the last except it will just run the motors in a direction that is wanted at a certain speed
+     * @param angle The angle at which you want the wheels to run
+     * @param motorSpeed the speed you want the motors to run, run directon is determined from that
+     */
+    public void runMotorsDumbWithAngle(double angle, double motorSpeed){
+        // Determine the wheel direction based on the angle parameter
+        wheelDirection = SwerveMath.getWheelDirection(angle);
+
+        if(modPos == ModulePosition.RIGHT) {
+            if (wheelDirection == WheelDirection.FORWARD) {
+                TopSwerveMotor.setPower(motorSpeed);
+                BottomSwerveMotor.setPower(-motorSpeed);
+            } else if (wheelDirection == WheelDirection.BACKWARD) {
+                TopSwerveMotor.setPower(-motorSpeed);
+                BottomSwerveMotor.setPower(motorSpeed);
+            } else {
+                TopSwerveMotor.setPower(motorSpeed);
+                BottomSwerveMotor.setPower(-motorSpeed);
+            }
+        }
+        else{
+            if (wheelDirection == WheelDirection.FORWARD) {
+                TopSwerveMotor.setPower(-motorSpeed);
+                BottomSwerveMotor.setPower(motorSpeed);
+            } else if (wheelDirection == WheelDirection.BACKWARD) {
+                TopSwerveMotor.setPower(motorSpeed);
+                BottomSwerveMotor.setPower(-motorSpeed);
+            } else {
+                TopSwerveMotor.setPower(-motorSpeed);
+                BottomSwerveMotor.setPower(motorSpeed);
+            }
+        }
+    }
+
+    /**
+     * Stops both motors in a given swerve module.
+     */
+    public void stopMotors() {
+        TopSwerveMotor.setPower(0);
+        BottomSwerveMotor.setPower(0);
+    }
+
 }
