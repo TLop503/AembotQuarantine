@@ -42,12 +42,12 @@ public class Teleop extends OpMode {
         dcElevator.setPower(gamepad2.left_stick_y);
 
         //Rack and pinion control
-        //Out
+        //Out?
         if (gamepad2.dpad_up) {
             svTop.setPower(1);
             svBottom.setPower(1);
         }
-        //In
+        //In?
         else if (gamepad2.dpad_down) {
             svTop.setPower(-1);
             svBottom.setPower(-1);
