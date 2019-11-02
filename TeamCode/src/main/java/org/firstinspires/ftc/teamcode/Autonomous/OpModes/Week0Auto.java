@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 //import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 @Autonomous(name = "Week0Auto", group = "Autonomous")
-@Disabled
+
 public class Week0Auto extends OpMode {
 
     private boolean hasRun = false;
