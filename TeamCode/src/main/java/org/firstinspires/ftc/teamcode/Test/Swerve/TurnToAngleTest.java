@@ -24,7 +24,7 @@ public class TurnToAngleTest extends OpMode {
     public void init() {
 
         //Initialize the swerve controller
-        swerveController = new SwerveController(gamepad1, hardwareMap, telemetry);
+        swerveController = new SwerveController(gamepad1, hardwareMap);
 
     }
 

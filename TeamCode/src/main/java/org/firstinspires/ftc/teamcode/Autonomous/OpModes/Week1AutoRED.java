@@ -1,5 +1,5 @@
 
-package org.firstinspires.ftc.teamcode.Autonomous;
+package org.firstinspires.ftc.teamcode.Autonomous.OpModes;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
@@ -15,7 +15,7 @@ public class Week1AutoRED extends OpMode {
 
     private boolean hasRun = false;
     private boolean isBlu = false;
-    public enum direction{ LEFT, RIGHT }
+    public enum Direction { LEFT, RIGHT }
        // private SwerveController swerveController;
 
     @Override
@@ -28,9 +28,9 @@ public class Week1AutoRED extends OpMode {
         if(hasRun == false) {
 
             driveInches(24, .8);
-            turnDegrees(45, .5 , direction.RIGHT);
+            turnDegrees(45, .5 , Direction.RIGHT);
             driveInches(8.485, .8);
-            turnDegrees(45, .5, direction.LEFT);
+            turnDegrees(45, .5, Direction.LEFT);
             driveInches(45, .8);
 
             //Aproaches build station
@@ -38,27 +38,27 @@ public class Week1AutoRED extends OpMode {
             driveInches(45, .8);
             //Repositions
             driveInches(-12, .8);
-            turnDegrees(20, .5, direction.LEFT);
+            turnDegrees(20, .5, Direction.LEFT);
             driveInches(10, .8);
-            turnDegrees(90, .5, direction.RIGHT);
+            turnDegrees(90, .5, Direction.RIGHT);
             //pushes build station?
             driveInches(36, .8);
             //Parks?
             driveInches(-6, .8);
-            turnDegrees(60, direction.RIGHT);
+            turnDegrees(60, Direction.RIGHT);
             driveInches(75, 1);
             //Ends Program
             hasRun = true;
         }
     }
 
-    private void turnDegrees(double degrees, double motorspeed, direction directon){
+    private void turnDegrees(double degrees, double motorspeed, Direction directon){
         double turnTicks = (6.4) * degrees
 
         dcDriveR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         dcDriveL.setMode(DCMotor.RunMode.STOP_AND_RESET_ENCODER);
-        if isBlu = true {
-            switch (turnDirection) {
+        if (isBlu = true) {
+            switch (directon) {
                 default:
                 case RIGHT:
                     dcDriveR.setTargetPositon((int) turnTicks);
