@@ -18,6 +18,8 @@ public class SwerveController {
     private Gamepad gamepad1;
     private HardwareMap hardwareMap;
 
+    private Telemetry telemetry;
+
     //Create two new swerve module variables
     private SwerveModule leftModule;
     private SwerveModule rightModule;
@@ -30,9 +32,10 @@ public class SwerveController {
      * @param gamepad1 a reference to the gamepad1
      * @param hardwareMap a reference to the robot's hardware map
      */
-    public SwerveController(Gamepad gamepad1, HardwareMap hardwareMap){
+    public SwerveController(Gamepad gamepad1, HardwareMap hardwareMap, Telemetry telemetry){
         this.gamepad1 = gamepad1;
         this.hardwareMap = hardwareMap;
+        this.telemetry = telemetry;
 
         //Instantiate 2 swerve modules
         leftModule = new SwerveModule(ModulePosition.LEFT, hardwareMap, gamepad1);
@@ -70,6 +73,7 @@ public class SwerveController {
          */
         for(SwerveModule module : moduleList){
             module.PIDControl();
+
         }
     }
 

@@ -25,6 +25,8 @@ public class SwerveModule {
     private DcMotor TopSwerveMotor;
     private DcMotor BottomSwerveMotor;
 
+    private Telemetry telemetry;
+
     //Module control variables are created up here to not destroy the garbage collector
     private double currentRotation = 0;
     private double wantedRotation = 0;
@@ -45,7 +47,7 @@ public class SwerveModule {
      * @param hardwareMap the mapping of names to ports
      * @param gamepad1 the controller input
      */
-    public SwerveModule(ModulePosition modPos, HardwareMap hardwareMap, Gamepad gamepad1){
+    public SwerveModule(ModulePosition modPos, HardwareMap hardwareMap, Gamepad gamepad1, Telemetry telemetry){
 
         /*
          * Assign parameters to class variables
@@ -53,6 +55,8 @@ public class SwerveModule {
         this.modPos = modPos;
         this.hardwareMap = hardwareMap;
         this.gamepad1 = gamepad1;
+
+        this.telemetry = telemetry;
 
         /*
          * This block of code will determine which side the module is on based on the enum that was set in the SwerveController class
@@ -94,6 +98,9 @@ public class SwerveModule {
         currentRotation = SwerveMath.getModulePosition(TopSwerveMotor.getCurrentPosition(), BottomSwerveMotor.getCurrentPosition());
         wantedRotation = SwerveMath.normalizeJoystickAngle(gamepad1);
         wheelDirection = SwerveMath.getWheelDirection(gamepad1);
+
+        telemetry.addData("Top Swerve Motor: ", TopSwerveMotor.getCurrentPosition());
+        telemetry.addData("Bottom Swerve Motor: ", BottomSwerveMotor.getCurrentPosition());
 
         /*
          * This small section simply updates the point that it wants to reach based off the new wantedRotation
