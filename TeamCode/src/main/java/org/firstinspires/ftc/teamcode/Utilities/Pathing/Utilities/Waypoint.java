@@ -19,6 +19,9 @@ public class Waypoint {
     //The action the robot should preform at the current waypoint
     private String Action;
 
+    private boolean hasTurnedToAngle;
+    private boolean hasDriven;
+
     /**
      * Initlize all waypoint variables
      * @param X the X value of the current waypoint
@@ -27,12 +30,15 @@ public class Waypoint {
      * @param Distance the distance to the next waypoint
      * @param Action the action to preform at the current waypoint
      */
-    public Waypoint(String X, String Y, String Angle, String Distance, String Action){
+    public Waypoint(String X, String Y, String Angle, String Distance, String Action, boolean hasTurnedToAngle, boolean hasDriven){
         this.X = Double.parseDouble(X);
         this.Y = Double.parseDouble(Y);
         this.Angle = Double.parseDouble(Angle);
         this.Distance = Double.parseDouble(Distance);
         this.Action = Action;
+
+        this.hasTurnedToAngle = hasTurnedToAngle;
+        this.hasDriven = hasDriven;
     }
 
     /**
@@ -74,4 +80,28 @@ public class Waypoint {
     public String getAction(){
         return Action;
     }
+
+    /**
+     * Returns whether or not the robot has already turned to face the angle
+     * @return hasTurnedToAngle
+     */
+    public boolean getHasTurned(){return hasTurnedToAngle; }
+
+    /**
+     * Returns whether or not the robot has already driven to the next point
+     * @return hasDriven
+     */
+    public boolean getHasDriven(){ return hasDriven; }
+
+    /**
+     * Set the value of the variable
+     * @param hasTurned the new turn value
+     */
+    public void setHasTurned(boolean hasTurned){hasTurnedToAngle=hasTurned;}
+
+    /**
+     * Set the value of hasDrivne
+     * @param hasDriven the new value to set
+     */
+    public void setHasDriven(boolean hasDriven){this.hasDriven = hasDriven;}
 }

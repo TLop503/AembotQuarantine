@@ -1,34 +1,80 @@
 package org.firstinspires.ftc.teamcode.Utilities.Pathing;
 
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.HardwareMap;
+
+import org.firstinspires.ftc.teamcode.Utilities.Hardware.IMU;
+import org.firstinspires.ftc.teamcode.Utilities.Pathing.DriveStyles.TankDriveFollow;
+import org.firstinspires.ftc.teamcode.Utilities.Pathing.Utilities.DriveStyles;
 import org.firstinspires.ftc.teamcode.Utilities.Pathing.Utilities.Waypoint;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Class that is used to load and parse paths
+ * Class that is used to do anything with the path
  * @author Will Richards
  */
 public class Path {
 
+    DriveStyles driveStyles;
+
+    //Arrays that can hold a list of motors for each side
+    DcMotor[] leftMotors;
+    DcMotor[] rightMotors;
+
+    double encoderResoulution;
+
+    double wheelCircumfrance;
+
+    /**
+     * USE WITH SWERVE
+     * Sets up the parameters used for the
+     * @param driveStyles tells the pather what kind of drive it will be running
+     */
+    public Path(DriveStyles driveStyles){
+        this.driveStyles = driveStyles;
+    }
+
+    /**
+     * Overloaded Path for normal motor drive styles
+     * @param driveStyles the wanted drive style
+     * @param leftMotors the motors on the left
+     * @param rightMotors the motors on the right
+     */
+    public Path(DriveStyles driveStyles, DcMotor[] leftMotors, DcMotor[] rightMotors, double wheelDiameter, double encoderResolution){
+        this.driveStyles = driveStyles;
+        this.leftMotors = leftMotors;
+        this.rightMotors = rightMotors;
+
+        //Number of ticks per one revolution (of the output shaft)
+        this.encoderResoulution = encoderResolution;
+
+        this.wheelCircumfrance = wheelDiameter * Math.PI;
+    }
+
     /**
      * This method is used to load the file into a list of waypoints
      */
-    public static List<Waypoint> load(String className){
+    public List<Waypoint> load(String className){
+
+        //List to hold all waypoints in the path
         List<Waypoint> waypointsList = new ArrayList<>();
 
+        //Creates a new class refernce and a new object reference
         Class<?> cls = null;
         Object classReference = null;
 
-        //Will attempt to load the class
+        //Will attempt to load the class by name (I didnt even know this was possible till now)
         try { cls = Class.forName("org.firstinspires.ftc.teamcode.Utilities.Pathing.Paths." + className); } catch (ClassNotFoundException e) { }
 
+        //Create a new instance of the class and set it equal to the object
         try { classReference = cls.newInstance(); } catch (Exception e) { }
 
-        //Will get and store the overloaded to string method
+        //Will store the output of the overloaded toString method
         String initalOutput = classReference.toString();
 
-        //Splits at the question marks to allow for split up sections
+        //Splits at the question marks to split up sections
         String[] splitString = initalOutput.split("\\?");
 
         //Creates strings to store the waypoint position lists
@@ -41,7 +87,7 @@ public class Path {
         int i = 0;
 
         /*
-         * Loops through the slightly parsed list
+         * Loops through the slightly parsed list and trims each section to be just numbers and commas
          */
         for (String list : splitString){
             String tempStr = list.substring(list.indexOf("["), list.indexOf("]"));
@@ -69,7 +115,7 @@ public class Path {
             i++;
         }
 
-        //Make 5 different arrays to hold all the information that is output by the program
+        //Make 5 different arrays to hold all the information that is output by the program, split each at the commas to get individual values
         String[] xArray = X.split(",");
         String[] yArray = Y.split(",");
         String[] AngleArray = Angles.split(",");
@@ -78,10 +124,21 @@ public class Path {
 
         //Take all that information and create a new waypoint in a list and add that to the list
         for(int c=0;c<xArray.length;c++){
-            waypointsList.add(new Waypoint(xArray[c],yArray[c],AngleArray[c], DistanceArray[c], ActionArray[c]));
+            waypointsList.add(new Waypoint(xArray[c],yArray[c],AngleArray[c], DistanceArray[c], ActionArray[c], false, false));
         }
 
         return waypointsList;
+    }
+
+    /**
+     * Simple high level method that can be called to tell the robot to start following the path
+     */
+    public void followPath(List<Waypoint> waypointList, HardwareMap hardwareMap, double motorSpeed){
+        switch (driveStyles){
+            case TANK:
+                IMU imu = new IMU(hardwareMap);
+                TankDriveFollow.follow(leftMotors,rightMotors,waypointList,encoderResoulution,wheelCircumfrance, imu, motorSpeed);
+        }
     }
 
 }
