@@ -15,9 +15,13 @@ import java.util.List;
 public class TankDriveFollow {
 
     private static int currentWaypoint = 0;
+    private static boolean hasDriven = false;
 
     //TODO: Tune PID
     static PID anglePID = new PID(0,0,0);
+
+    //TODO: Tune PID
+    static PID drivePID = new PID(0,0,0);
 
     /**
      * Tells the tank drive follow to go and start following the path
@@ -28,16 +32,18 @@ public class TankDriveFollow {
      * @param wheelCircumfrance the circumfrance of the wheel
      * @param imu reference to the gyro scope to allow for changing angle
      */
-    public static void follow(DcMotor[] leftMotors, DcMotor[] rightMotors, List<Waypoint> waypointList, double encoderResoulution, double wheelCircumfrance, IMU imu, double moveSpeed){
+    public static void follow(DcMotor[] leftMotors, DcMotor[] rightMotors, List<Waypoint> waypointList, double encoderResoulution, double wheelCircumfrance, IMU imu){
 
         //The range of the angle that is considered in range
         anglePID.setAcceptableRange(0.4);
+        drivePID.setAcceptableRange(5);
 
         //The waypoint we are currently on
         Waypoint waypoint = waypointList.get(currentWaypoint);
 
         //Will keep trying to turn if it hasn't reached the angle yet
         if (!waypoint.getHasTurned()) {
+            hasDriven = false;
             anglePID.setSetpoint(waypoint.getAngle());
             double power = anglePID.calcOutput(imu.getHeading());
 
@@ -57,27 +63,34 @@ public class TankDriveFollow {
 
         //If it has turned start driving the distance
         else{
-            //Calculates the number of ticks needed to drive a given distance
-            double ticksToDrive = encoderResoulution * (waypoint.getDistance() / wheelCircumfrance);
-            double totalTicks = ticksToDrive + leftMotors[0].getCurrentPosition();
 
+            //If this loop hasn't run once already set the target
+            if(!hasDriven) {
+
+                //Calculates the number of ticks needed to drive a given distance
+                double ticksToDrive = encoderResoulution * (waypoint.getDistance() / wheelCircumfrance);
+                double totalTicks = ticksToDrive + leftMotors[0].getCurrentPosition();
+                drivePID.setSetpoint(totalTicks);
+                hasDriven = true;
+            }
+
+            //Get the power that needs to be applied to the motors the reach the destination
+            double power = drivePID.calcOutput(leftMotors[0].getCurrentPosition());
+
+            //Set the power for the left motors
             for (DcMotor motor : leftMotors) {
-                motor.setTargetPosition((int)totalTicks);
-                motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                motor.setPower(moveSpeed);
+                motor.setPower(power);
             }
 
+            //Set the power for the right motors
             for (DcMotor motor : rightMotors) {
-                motor.setTargetPosition((int)-totalTicks);
-                motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                motor.setPower(moveSpeed);
+                motor.setPower(power);
             }
 
-            //Wait until wanted position is reached
-            while (leftMotors[0].isBusy() && rightMotors[0].isBusy()){
-
+            //If the PID loop is in range of the final position then move on
+            if(drivePID.isInRange()) {
+                currentWaypoint++;
             }
-            currentWaypoint++;
         }
 
 

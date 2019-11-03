@@ -46,6 +46,6 @@ public class PathingTest extends OpMode {
 
     @Override
     public void loop() {
-        path.followPath(waypointList,hardwareMap, 0.6);
+        path.followPath(waypointList,hardwareMap);
     }
 }

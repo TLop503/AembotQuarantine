@@ -133,11 +133,11 @@ public class Path {
     /**
      * Simple high level method that can be called to tell the robot to start following the path
      */
-    public void followPath(List<Waypoint> waypointList, HardwareMap hardwareMap, double motorSpeed){
+    public void followPath(List<Waypoint> waypointList, HardwareMap hardwareMap){
         switch (driveStyles){
             case TANK:
                 IMU imu = new IMU(hardwareMap);
-                TankDriveFollow.follow(leftMotors,rightMotors,waypointList,encoderResoulution,wheelCircumfrance, imu, motorSpeed);
+                TankDriveFollow.follow(leftMotors,rightMotors,waypointList,encoderResoulution,wheelCircumfrance, imu);
         }
     }
 
