@@ -31,6 +31,7 @@ public class Teleop extends OpMode {
         dcDriveR = hardwareMap.get(DcMotor.class, "dcDriveR");
         dcElevator = hardwareMap.get(DcMotor.class, "dcElevator");
 
+        svTop.setPosition(.857) && svBottom.setPosition(.857);
     }
 
     @Override
@@ -55,17 +56,13 @@ public class Teleop extends OpMode {
         //Rack and pinion control
         //Out?
         if (gamepad2.dpad_up) {
-            svTop.setPosition(1);
-            svBottom.setPosition(1);
+            svTop.setPosition(.857);
+            svBottom.setPosition(.857);
         }
         //In?
         else if (gamepad2.dpad_down) {
-            svTop.setPosition(0);
-            svBottom.setPosition(0);
-        }
-        else if (gamepad2.b){
-            svTop.setPosition(0.5);
-            svBottom.setPosition(0.5);
+            svTop.setPosition(0.286);
+            svBottom.setPosition(0.286);
         }
 
     }
