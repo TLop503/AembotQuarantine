@@ -14,7 +14,6 @@ import org.firstinspires.ftc.teamcode.Swerve.SwerveMath;
  * @author Will Richards
  */
 @TeleOp(name = "Swerve Turn Test", group = "Test")
-@Disabled
 public class TurnToAngleTest extends OpMode {
 
     //Creates a new swerve controller
@@ -24,7 +23,7 @@ public class TurnToAngleTest extends OpMode {
     public void init() {
 
         //Initialize the swerve controller
-        swerveController = new SwerveController(gamepad1, hardwareMap);
+        swerveController = new SwerveController(gamepad1, hardwareMap, telemetry);
 
     }
 

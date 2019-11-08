@@ -22,6 +22,8 @@ public class SwerveModule {
     private HardwareMap hardwareMap;
     private Gamepad gamepad1;
 
+    private Telemetry telemetry;
+
     //Gets references to the top and bottom motors
     private DcMotor TopSwerveMotor;
     private DcMotor BottomSwerveMotor;
@@ -46,7 +48,9 @@ public class SwerveModule {
      * @param hardwareMap the mapping of names to ports
      * @param gamepad1 the controller input
      */
-    public SwerveModule(ModulePosition modPos, HardwareMap hardwareMap, Gamepad gamepad1){
+    public SwerveModule(ModulePosition modPos, HardwareMap hardwareMap, Gamepad gamepad1, Telemetry telemetry){
+
+        this.telemetry = telemetry;
 
         /*
          * Assign parameters to class variables
@@ -85,6 +89,9 @@ public class SwerveModule {
      * Method Uses The PID Controller / PID class to move the module to the right position and then once there will allow it to spin
      */
     public void PIDControl(){
+
+        telemetry.addData(modPos + " Top Encoder: ", TopSwerveMotor.getCurrentPosition());
+        telemetry.addData(modPos + " Bottom Encoder: ", BottomSwerveMotor.getCurrentPosition());
 
         /*
          * Collect information to be used in module control / PID

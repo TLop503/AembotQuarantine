@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.Swerve;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Swerve.Enums.ModulePosition;
 
 import java.util.ArrayList;
@@ -18,6 +19,8 @@ public class SwerveController {
     private Gamepad gamepad1;
     private HardwareMap hardwareMap;
 
+    private Telemetry telemetry;
+
     //Create two new swerve module variables
     private SwerveModule leftModule;
     private SwerveModule rightModule;
@@ -30,12 +33,13 @@ public class SwerveController {
      * @param gamepad1 a reference to the gamepad1
      * @param hardwareMap a reference to the robot's hardware map
      */
-    public SwerveController(Gamepad gamepad1, HardwareMap hardwareMap){
+    public SwerveController(Gamepad gamepad1, HardwareMap hardwareMap, Telemetry telemetry){
         this.gamepad1 = gamepad1;
+        this.telemetry = telemetry;
 
         //Instantiate 2 swerve modules
-        leftModule = new SwerveModule(ModulePosition.LEFT, hardwareMap, gamepad1);
-        rightModule = new SwerveModule(ModulePosition.RIGHT, hardwareMap, gamepad1);
+        leftModule = new SwerveModule(ModulePosition.LEFT, hardwareMap, gamepad1, telemetry);
+        rightModule = new SwerveModule(ModulePosition.RIGHT, hardwareMap, gamepad1, telemetry);
 
         //Adds the modules to a list for easy iteration
         moduleList.add(leftModule);
@@ -51,8 +55,8 @@ public class SwerveController {
         this.hardwareMap = hardwareMap;
 
         //Instantiate 2 swerve modules
-        leftModule = new SwerveModule(ModulePosition.LEFT, hardwareMap, null);
-        rightModule = new SwerveModule(ModulePosition.RIGHT, hardwareMap, null);
+        leftModule = new SwerveModule(ModulePosition.LEFT, hardwareMap, null, telemetry);
+        rightModule = new SwerveModule(ModulePosition.RIGHT, hardwareMap, null, telemetry);
 
         //Adds the modules to a list for easy iteration
         moduleList.add(leftModule);

@@ -21,7 +21,7 @@ public class SwerveModuleAutoTest extends OpMode {
     public void init() {
 
         //Instantiates the swerve controller variable
-        controller = new SwerveController(gamepad1, hardwareMap);
+        controller = new SwerveController(gamepad1, hardwareMap, telemetry);
     }
 
     @Override
