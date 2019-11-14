@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Swerve.Enums.ModulePosition;
+import org.firstinspires.ftc.teamcode.Utilities.Hardware.IMU;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +19,8 @@ public class SwerveController {
     //Local variables from the OpMode
     private Gamepad gamepad1;
     private HardwareMap hardwareMap;
+
+    private IMU imu;
 
     private Telemetry telemetry;
 
@@ -36,6 +39,8 @@ public class SwerveController {
     public SwerveController(Gamepad gamepad1, HardwareMap hardwareMap, Telemetry telemetry){
         this.gamepad1 = gamepad1;
         this.telemetry = telemetry;
+
+        this.imu = new IMU(hardwareMap);
 
         //Instantiate 2 swerve modules
         leftModule = new SwerveModule(ModulePosition.LEFT, hardwareMap, gamepad1, telemetry);
@@ -72,7 +77,7 @@ public class SwerveController {
          * Iterates through the list of modules and calls the control method on all of them
          */
         for(SwerveModule module : moduleList){
-            module.PIDControl();
+            module.PIDControl(imu);
 
         }
     }
