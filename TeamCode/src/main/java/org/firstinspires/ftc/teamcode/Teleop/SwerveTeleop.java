@@ -25,7 +25,7 @@ public class SwerveTeleop extends OpMode {
     public void init() {
 
         //Initialize the swerve controller
-        swerveController = new SwerveController(gamepad1, hardwareMap);
+        swerveController = new SwerveController(gamepad1, hardwareMap, telemetry);
 
         dcElevator = hardwareMap.get(DcMotor.class, "dcElevator");
 

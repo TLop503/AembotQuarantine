@@ -1,5 +1,5 @@
 
-package org.firstinspires.ftc.teamcode.Autonomous;
+package org.firstinspires.ftc.teamcode.Autonomous.OpModes;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
@@ -26,6 +26,13 @@ public class Week1AutoRED extends OpMode {
     @Override
     public void init() {
        // swerveController = new SwerveController(hardwareMap);
+
+        svTop = hardwareMap.get(CRServo.class, "svTop");
+        svBottom = hardwareMap.get(CRServo.class, "svBottom");
+
+        dcDriveL = hardwareMap.get(DcMotor.class, "dcDriveL");
+        dcDriveR = hardwareMap.get(DcMotor.class, "dcDriveR");
+        dcElevator = hardwareMap.get(DcMotor.class, "dcElevator");
     }
 
     @Override
