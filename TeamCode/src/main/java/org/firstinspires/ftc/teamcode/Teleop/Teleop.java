@@ -31,7 +31,7 @@ public class Teleop extends OpMode {
         dcDriveR = hardwareMap.get(DcMotor.class, "dcDriveR");
         dcElevator = hardwareMap.get(DcMotor.class, "dcElevator");
 
-        svTop.setPosition(.857) && svBottom.setPosition(.857);
+        //svTop.setPosition(.857) && svBottom.setPosition(.857);
     }
 
     @Override

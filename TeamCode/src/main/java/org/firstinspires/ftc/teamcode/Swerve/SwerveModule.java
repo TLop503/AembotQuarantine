@@ -90,6 +90,9 @@ public class SwerveModule {
      */
     public void PIDControl(){
 
+
+        double motorSpeed = 0.7;
+
         telemetry.addData(modPos + " Top Encoder: ", TopSwerveMotor.getCurrentPosition());
         telemetry.addData(modPos + " Bottom Encoder: ", BottomSwerveMotor.getCurrentPosition());
 
@@ -120,26 +123,26 @@ public class SwerveModule {
             if(gamepad1.right_trigger > 0.1){
                 if(modPos == ModulePosition.RIGHT) {
                     if (wheelDirection == WheelDirection.FORWARD) {
-                        TopSwerveMotor.setPower(1);
-                        BottomSwerveMotor.setPower(-1);
+                        TopSwerveMotor.setPower(motorSpeed);
+                        BottomSwerveMotor.setPower(-motorSpeed);
                     } else if (wheelDirection == WheelDirection.BACKWARD) {
-                        TopSwerveMotor.setPower(-1);
-                        BottomSwerveMotor.setPower(1);
+                        TopSwerveMotor.setPower(-motorSpeed);
+                        BottomSwerveMotor.setPower(motorSpeed);
                     } else {
-                        TopSwerveMotor.setPower(1);
-                        BottomSwerveMotor.setPower(-1);
+                        TopSwerveMotor.setPower(motorSpeed);
+                        BottomSwerveMotor.setPower(-motorSpeed);
                     }
                 }
                 else{
                     if (wheelDirection == WheelDirection.FORWARD) {
-                        TopSwerveMotor.setPower(-1);
-                        BottomSwerveMotor.setPower(1);
+                        TopSwerveMotor.setPower(-motorSpeed);
+                        BottomSwerveMotor.setPower(motorSpeed);
                     } else if (wheelDirection == WheelDirection.BACKWARD) {
-                        TopSwerveMotor.setPower(1);
-                        BottomSwerveMotor.setPower(-1);
+                        TopSwerveMotor.setPower(motorSpeed);
+                        BottomSwerveMotor.setPower(-motorSpeed);
                     } else {
-                        TopSwerveMotor.setPower(-1);
-                        BottomSwerveMotor.setPower(1);
+                        TopSwerveMotor.setPower(-motorSpeed);
+                        BottomSwerveMotor.setPower(motorSpeed);
                     }
                 }
 
