@@ -57,10 +57,14 @@ public class IMU {
 
     /**
      * Get the current robot heading
+     * Take into account the orientation of the rev hub
      * @return the robot angle relative to 0
      */
     public double getHeading(){
-        return (imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES)).firstAngle - angleOffset.firstAngle;
+        if(orientation.equals(IMUOrientation.HORIZONTAL))
+            return (imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES)).firstAngle - angleOffset.firstAngle;
+        else
+            return (imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES)).thirdAngle - angleOffset.thirdAngle;
     }
 
     public boolean getIsGyroCalibrated(){

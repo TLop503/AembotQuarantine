@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Swerve.Enums.ModulePosition;
+import org.firstinspires.ftc.teamcode.Utilities.Hardware.Enums.IMUOrientation;
 import org.firstinspires.ftc.teamcode.Utilities.Hardware.IMU;
 
 import java.util.ArrayList;
@@ -19,6 +20,8 @@ public class SwerveController {
     //Local variables from the OpMode
     private Gamepad gamepad1;
     private HardwareMap hardwareMap;
+
+    private boolean isFieldCentric;
 
     private IMU imu;
 
@@ -36,11 +39,13 @@ public class SwerveController {
      * @param gamepad1 a reference to the gamepad1
      * @param hardwareMap a reference to the robot's hardware map
      */
-    public SwerveController(Gamepad gamepad1, HardwareMap hardwareMap, Telemetry telemetry){
+    public SwerveController(Gamepad gamepad1, HardwareMap hardwareMap, Telemetry telemetry, IMUOrientation orientation, boolean isFieldCentric){
         this.gamepad1 = gamepad1;
         this.telemetry = telemetry;
 
-        this.imu = new IMU(hardwareMap);
+        this.isFieldCentric = isFieldCentric;
+
+        this.imu = new IMU(hardwareMap, orientation);
 
         //Instantiate 2 swerve modules
         leftModule = new SwerveModule(ModulePosition.LEFT, hardwareMap, gamepad1, telemetry);
@@ -77,7 +82,10 @@ public class SwerveController {
          * Iterates through the list of modules and calls the control method on all of them
          */
         for(SwerveModule module : moduleList){
-            module.PIDControl(imu);
+            if(isFieldCentric)
+                module.PIDControl(imu);
+            else
+                module.PIDControl();
 
         }
     }

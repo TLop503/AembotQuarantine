@@ -8,13 +8,14 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import org.firstinspires.ftc.teamcode.Swerve.Enums.WheelDirection;
 import org.firstinspires.ftc.teamcode.Swerve.SwerveController;
 import org.firstinspires.ftc.teamcode.Swerve.SwerveMath;
+import org.firstinspires.ftc.teamcode.Utilities.Hardware.Enums.IMUOrientation;
 
 /**
  * Class created to test driving the swerve module to a wanted angle, using a jopystick
  * @author Will Richards
  */
-@TeleOp(name = "Swerve Turn Test", group = "Test")
-public class TurnToAngleTest extends OpMode {
+@TeleOp(name = "Field Centric Test", group = "Test")
+public class FieldCentricTest extends OpMode {
 
     //Creates a new swerve controller
     private SwerveController swerveController;
@@ -23,7 +24,7 @@ public class TurnToAngleTest extends OpMode {
     public void init() {
 
         //Initialize the swerve controller
-        swerveController = new SwerveController(gamepad1, hardwareMap, telemetry);
+        swerveController = new SwerveController(gamepad1, hardwareMap, telemetry, IMUOrientation.HORIZONTAL);
 
     }
 
