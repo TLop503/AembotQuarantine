@@ -11,6 +11,10 @@ import org.firstinspires.ftc.teamcode.Utilities.Hardware.IMU;
  */
 public class SwerveMath {
 
+    public static final double WHEEL_DIAMETER = 2.5; //inches
+    public static final double WHEEL_CIRCUMFRANCE = WHEEL_DIAMETER*Math.PI;
+
+
     /**
      * TODO: Convert angles to field centric variants
      * Static method used to normalize the joystick
@@ -152,6 +156,25 @@ public class SwerveMath {
      */
     public static double getModulePosition(int topMotorTicks, int bottomMotorTicks){
         return (((double)topMotorTicks+(double)bottomMotorTicks)/2250);
+    }
+
+    /**
+     * Calculates the current rotation count of the wheel
+     * @param topMotorTicks the number of encoder ticks on the top motors
+     * @param bottomMotorTicks the number of encoder ticks on the bottom motor
+     * @return the current positional value of the wheel
+     */
+    public static double getWheelPosition(int topMotorTicks, int bottomMotorTicks){
+        return ((-topMotorTicks+bottomMotorTicks)/548.75);
+    }
+
+    /**
+     * Calculate the required wheel rotations
+     * @param distance the distance needed to move in inches
+     * @return the distance in terms of rotations
+     */
+    public static double calculateWheelPosition(double distance, double currentPosition){
+       return currentPosition + (distance/WHEEL_CIRCUMFRANCE);
     }
 
 }

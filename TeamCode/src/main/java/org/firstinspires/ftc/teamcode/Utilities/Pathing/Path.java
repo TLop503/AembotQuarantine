@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.Utilities.Pathing;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.teamcode.Utilities.Hardware.Enums.IMUOrientation;
 import org.firstinspires.ftc.teamcode.Utilities.Hardware.IMU;
 import org.firstinspires.ftc.teamcode.Utilities.Pathing.DriveStyles.TankDriveFollow;
 import org.firstinspires.ftc.teamcode.Utilities.Pathing.Utilities.DriveStyles;
@@ -133,10 +134,10 @@ public class Path {
     /**
      * Simple high level method that can be called to tell the robot to start following the path
      */
-    public void followPath(List<Waypoint> waypointList, HardwareMap hardwareMap){
+    public void followPath(List<Waypoint> waypointList, HardwareMap hardwareMap, IMUOrientation orientation){
         switch (driveStyles){
             case TANK:
-                IMU imu = new IMU(hardwareMap);
+                IMU imu = new IMU(hardwareMap, orientation);
                 TankDriveFollow.follow(leftMotors,rightMotors,waypointList,encoderResoulution,wheelCircumfrance, imu);
         }
     }

@@ -34,14 +34,25 @@ public class SwerveModule {
     private double wantedRotation = 0;
     private WheelDirection wheelDirection = WheelDirection.STATIC;
 
+    private double currentDistanceRot = 0;
+    private double wantedDistanceRot = 0;
+
     //P = 3 or 5, or 8
     private final double P = 5, I = 0, D = 0;
 
     //Reference to the PID class that allows us to use PID
-    private PID PIDController;
+    private PID TeleOpPID;
 
-    //Power given to motors
+    //Both deal with fine control of the swerve modules in autonomous
+    private PID turnPID;
+    private PID drivePID;
+
+    //Power given to motors, in TeleOP
     private double power;
+
+    //Power that will be set from the turnPID and drivePID commands respectively
+    private double turnPower;
+    private double drivePower;
 
     /**
      * Constructs each variable as well as determining the module side so it can properly assign motors
@@ -76,15 +87,31 @@ public class SwerveModule {
         }
 
         /*
-         * Creates a new PIDController and passes P, I and D into it.
+         * Creates a new TeleOpPID and passes P, I and D into it.
          * After that it then sets the acceptable range which is the range +/- that it qualifies as at the right spot
          * And finally it sets the point the module is trying to reach, at this point we just set it to 0
          */
-        PIDController = new PID(P,I,D);
-        PIDController.setAcceptableRange(0.02);
-        PIDController.setSetpoint(0);
+        TeleOpPID = new PID(P,I,D);
+        TeleOpPID.setAcceptableRange(0.02);
+        TeleOpPID.setSetpoint(0);
+
+        /*
+         * Create a new turnPID to specifically be used for autonomous turning of the robot
+         */
+        turnPID = new PID(P,I,D);
+        turnPID.setAcceptableRange(0.02);
+        turnPID.setSetpoint(0);
+
+        /*
+         * Create a new drivePID to be used for autonomous driving of the modules
+         * TODO: Tune values
+         */
+        drivePID = new PID(0,0,0);
+        drivePID.setAcceptableRange(0.02);
+        drivePID.setSetpoint(0);
     }
 
+    //region Teleop Module Control
     /**
      * Method Uses The PID Controller / PID class to move the module to the right position and then once there will allow it to spin, robot centric
      */
@@ -110,8 +137,8 @@ public class SwerveModule {
          * This small section simply updates the point that it wants to reach based off the new wantedRotation
          * And then the method calcOutput is called which you pass your current value into and it preforms the PID opperation and returns the output with your scalars
          */
-        PIDController.setSetpoint(wantedRotation);
-        power = PIDController.calcOutput(currentRotation);
+        TeleOpPID.setSetpoint(wantedRotation);
+        power = TeleOpPID.calcOutput(currentRotation);
 
         /*
          * This is a chunk of code specific to swerve, however, the PID class is universally accessible
@@ -119,7 +146,7 @@ public class SwerveModule {
          * Next if the driver wants to accelerate this can only be done once it has aligned  to the right angle
          * However if it is not in rage simply add the calculated motor power to the motors
          */
-        if(PIDController.isInRange()){
+        if(TeleOpPID.isInRange()){
             if(gamepad1.right_trigger > 0.1){
                 if(modPos == ModulePosition.RIGHT) {
                     if (wheelDirection == WheelDirection.FORWARD) {
@@ -185,8 +212,8 @@ public class SwerveModule {
          * This small section simply updates the point that it wants to reach based off the new wantedRotation
          * And then the method calcOutput is called which you pass your current value into and it preforms the PID opperation and returns the output with your scalars
          */
-        PIDController.setSetpoint(wantedRotation);
-        power = PIDController.calcOutput(currentRotation);
+        TeleOpPID.setSetpoint(wantedRotation);
+        power = TeleOpPID.calcOutput(currentRotation);
 
         /*
          * This is a chunk of code specific to swerve, however, the PID class is universally accessible
@@ -194,7 +221,7 @@ public class SwerveModule {
          * Next if the driver wants to accelerate this can only be done once it has aligned  to the right angle
          * However if it is not in rage simply add the calculated motor power to the motors
          */
-        if(PIDController.isInRange()){
+        if(TeleOpPID.isInRange()){
             if(gamepad1.right_trigger > 0.1){
                 if(modPos == ModulePosition.RIGHT) {
                     if (wheelDirection == WheelDirection.FORWARD) {
@@ -235,13 +262,16 @@ public class SwerveModule {
 
     }
 
+    //endregion
+
+    //region Autonomous Module Control
     /**
-     * Overloaded PIDControl used for autonomous control
+     * Overloaded AutoPIDControl used for autonomous control
      * This method works in such a way that since it may take multiple loops of the program to align each time through this method will return true or false
      * If the module is oriented right it will return true and vice versa, this means that you will have to check this every iteration through the program and ignore it if the action has completed
      * @return the status of the completeness of the control
      */
-    public boolean PIDControl(double angle){
+    public boolean AutoPIDControl(double angle, double distance, double maxMotorSpeed){
 
         /*
          * Collect information to be used in module control / PID
@@ -254,23 +284,73 @@ public class SwerveModule {
         wheelDirection = SwerveMath.getWheelDirection(angle);
 
         /*
+         * Calculate the distances needed to rotate offset from the current
+         * currentDistanceRot - The current # of rotations already completed
+         * wantedDistanceRot - The new distance value we want to reach
+         */
+        currentDistanceRot = SwerveMath.getWheelPosition(TopSwerveMotor.getCurrentPosition(), BottomSwerveMotor.getCurrentPosition());
+        wantedDistanceRot = SwerveMath.calculateWheelPosition(distance, currentDistanceRot);
+
+        /*
          * This small section simply updates the point that it wants to reach based off the new wantedRotation
          * And then the method calcOutput is called which you pass your current value into and it preforms the PID opperation and returns the output with your scalars
          */
-        PIDController.setSetpoint(wantedRotation);
-        power = PIDController.calcOutput(currentRotation);
+        turnPID.setSetpoint(wantedRotation);
+        turnPower = turnPID.calcOutput(currentRotation);
 
         /*
-         * This is what the module will do once it has reached the wanted position
+         * This section sets the position we want to reach with the wheels and the maxMotorSpeed
          */
-        if(PIDController.isInRange()){
-            //Returns true to exit the method
-            return true;
+        drivePID.setSetpoint(wantedDistanceRot);
+        drivePID.setMaxOutput(maxMotorSpeed);
+        drivePower = drivePID.calcOutput(currentDistanceRot);
+
+
+        /*
+         * Runs the motors to a given position and then stops
+         */
+        if(turnPID.isInRange()){
+
+            //Checks to see if the drive loop is not at the right spot and if not then keep trying if it is then return the command as true to stop this loop
+            if(!drivePID.isInRange()) {
+                if (modPos == ModulePosition.RIGHT) {
+                    if (wheelDirection == WheelDirection.FORWARD) {
+                        TopSwerveMotor.setPower(drivePower);
+                        BottomSwerveMotor.setPower(-drivePower);
+                    } else if (wheelDirection == WheelDirection.BACKWARD) {
+                        TopSwerveMotor.setPower(-drivePower);
+                        BottomSwerveMotor.setPower(drivePower);
+                    } else {
+                        TopSwerveMotor.setPower(drivePower);
+                        BottomSwerveMotor.setPower(-drivePower);
+                    }
+                } else {
+                    if (wheelDirection == WheelDirection.FORWARD) {
+                        TopSwerveMotor.setPower(-drivePower);
+                        BottomSwerveMotor.setPower(drivePower);
+                    } else if (wheelDirection == WheelDirection.BACKWARD) {
+                        TopSwerveMotor.setPower(drivePower);
+                        BottomSwerveMotor.setPower(-drivePower);
+                    } else {
+                        TopSwerveMotor.setPower(-drivePower);
+                        BottomSwerveMotor.setPower(drivePower);
+                    }
+                }
+            }
+
+            //If it is in range return true
+            else {
+                return true;
+            }
         }
+
+        //If it hasn't reached the turn set point yet keep turning
         else{
-            TopSwerveMotor.setPower(power);
-            BottomSwerveMotor.setPower(power);
+            TopSwerveMotor.setPower(turnPower);
+            BottomSwerveMotor.setPower(turnPower);
         }
+
+        //Hasn't reached the right point yet
         return false;
     }
 
@@ -297,14 +377,14 @@ public class SwerveModule {
          * This small section simply updates the point that it wants to reach based off the new wantedRotation
          * And then the method calcOutput is called which you pass your current value into and it preforms the PID opperation and returns the output with your scalars
          */
-        PIDController.setSetpoint(wantedRotation);
-        power = PIDController.calcOutput(currentRotation);
+        TeleOpPID.setSetpoint(wantedRotation);
+        power = TeleOpPID.calcOutput(currentRotation);
 
         /*
          * This is what the module will do once it has reached the wanted position
          */
 
-        if(PIDController.isInRange()){
+        if(TeleOpPID.isInRange()){
             if(modPos == ModulePosition.RIGHT) {
                 if (wheelDirection == WheelDirection.FORWARD) {
                     TopSwerveMotor.setPower(1 * scaleFactor);
@@ -410,5 +490,7 @@ public class SwerveModule {
         TopSwerveMotor.setPower(0);
         BottomSwerveMotor.setPower(0);
     }
+
+    //endregion
 
 }

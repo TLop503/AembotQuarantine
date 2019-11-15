@@ -94,16 +94,17 @@ public class SwerveController {
      * General Method that allows control of all the modules inside the controller
      */
     public boolean controlModules(double angle){
-        List<Boolean> statuses = new ArrayList<>();
+       // List<Boolean> statuses = new ArrayList<>();
 
         /*
          * Iterates through the list of modules and calls the control method on all of them
          */
-        for(SwerveModule module : moduleList){
-            statuses.add(module.PIDControl(angle));
-        }
+        //for(SwerveModule module : moduleList){
+          //  statuses.add(module.AutoPIDControl(angle));
+        //}
 
-        return statuses.get(0) && statuses.get(1);
+       // return statuses.get(0) && statuses.get(1);
+        return false;
     }
 
     /**
