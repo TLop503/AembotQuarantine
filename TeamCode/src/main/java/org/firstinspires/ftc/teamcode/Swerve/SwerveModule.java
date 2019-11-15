@@ -85,9 +85,83 @@ public class SwerveModule {
         PIDController.setSetpoint(0);
     }
 
+    /**
+     * Method Uses The PID Controller / PID class to move the module to the right position and then once there will allow it to spin, robot centric
+     */
+    public void PIDControl(){
+
+
+        double motorSpeed = 0.7;
+
+        telemetry.addData(modPos + " Top Encoder: ", TopSwerveMotor.getCurrentPosition());
+        telemetry.addData(modPos + " Bottom Encoder: ", BottomSwerveMotor.getCurrentPosition());
+
+        /*
+         * Collect information to be used in module control / PID
+         * currentRotation - The number of rotations he module has currently completed
+         * wantedRotation - The normalized top hemisphere value of the joystick converted into rotations
+         * wheelDirection - The direction the wheel should spin based off the Y axis of the joystick
+         */
+        currentRotation = SwerveMath.getModulePosition(TopSwerveMotor.getCurrentPosition(), BottomSwerveMotor.getCurrentPosition());
+        wantedRotation = SwerveMath.normalizeJoystickAngle(gamepad1);
+        wheelDirection = SwerveMath.getWheelDirection(gamepad1);
+
+        /*
+         * This small section simply updates the point that it wants to reach based off the new wantedRotation
+         * And then the method calcOutput is called which you pass your current value into and it preforms the PID opperation and returns the output with your scalars
+         */
+        PIDController.setSetpoint(wantedRotation);
+        power = PIDController.calcOutput(currentRotation);
+
+        /*
+         * This is a chunk of code specific to swerve, however, the PID class is universally accessible
+         * It first asks the PID controller if it is in the acceptable range, If so it will stop the motors so they are not trying to get to a value that is impossible with the current scalars
+         * Next if the driver wants to accelerate this can only be done once it has aligned  to the right angle
+         * However if it is not in rage simply add the calculated motor power to the motors
+         */
+        if(PIDController.isInRange()){
+            if(gamepad1.right_trigger > 0.1){
+                if(modPos == ModulePosition.RIGHT) {
+                    if (wheelDirection == WheelDirection.FORWARD) {
+                        TopSwerveMotor.setPower(motorSpeed);
+                        BottomSwerveMotor.setPower(-motorSpeed);
+                    } else if (wheelDirection == WheelDirection.BACKWARD) {
+                        TopSwerveMotor.setPower(-motorSpeed);
+                        BottomSwerveMotor.setPower(motorSpeed);
+                    } else {
+                        TopSwerveMotor.setPower(motorSpeed);
+                        BottomSwerveMotor.setPower(-motorSpeed);
+                    }
+                }
+                else{
+                    if (wheelDirection == WheelDirection.FORWARD) {
+                        TopSwerveMotor.setPower(-motorSpeed);
+                        BottomSwerveMotor.setPower(motorSpeed);
+                    } else if (wheelDirection == WheelDirection.BACKWARD) {
+                        TopSwerveMotor.setPower(motorSpeed);
+                        BottomSwerveMotor.setPower(-motorSpeed);
+                    } else {
+                        TopSwerveMotor.setPower(-motorSpeed);
+                        BottomSwerveMotor.setPower(motorSpeed);
+                    }
+                }
+
+            }
+            else {
+                TopSwerveMotor.setPower(0);
+                BottomSwerveMotor.setPower(0);
+            }
+        }
+        else{
+            TopSwerveMotor.setPower(power);
+            BottomSwerveMotor.setPower(power);
+        }
+
+
+    }
 
     /**
-     * Method Uses The PID Controller / PID class to move the module to the right position and then once there will allow it to spin
+     * Method Uses The PID Controller / PID class to move the module to the right position and then once there will allow it to spin, field centric
      */
     public void PIDControl(IMU imu){
 
