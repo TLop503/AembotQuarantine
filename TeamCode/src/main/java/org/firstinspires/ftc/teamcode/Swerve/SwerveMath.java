@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.Swerve;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.firstinspires.ftc.teamcode.Swerve.Enums.WheelDirection;
+import org.firstinspires.ftc.teamcode.Utilities.Hardware.IMU;
 
 /**
  * Created to house any math involved in controlling the diff. swerve
@@ -11,6 +12,7 @@ import org.firstinspires.ftc.teamcode.Swerve.Enums.WheelDirection;
 public class SwerveMath {
 
     /**
+     * TODO: Convert angles to field centric variants
      * Static method used to normalize the joystick
      * Y is inverted because for some strange reason someone decided that up on the joystick should be negative
      * @param gamepad1 the primary driving controller
@@ -20,20 +22,75 @@ public class SwerveMath {
 
         double alteredAngle = 0;
         double trueAngle = Math.toDegrees(Math.atan2(gamepad1.left_stick_y*-1, gamepad1.left_stick_x));
+
+        //Centered
         if(gamepad1.left_stick_x==0 && gamepad1.left_stick_y*-1==0)
             alteredAngle = 0;
+
+        //Anywhere in the top hemisphere (including 90 on the right)
         else if(trueAngle>=0 && trueAngle<=180)
             alteredAngle = 90-trueAngle;
+
+        //90 on the left
         else if(gamepad1.left_stick_x<=0&&gamepad1.left_stick_y*-1==0)
             alteredAngle = -90;
+
+        //Bottom Left Quad.
         else if(gamepad1.left_stick_y*-1<=0&&gamepad1.left_stick_x<=0)
             alteredAngle = 90-(trueAngle+180);
+
+        //Bottom Right Quad.
         else if(gamepad1.left_stick_y*-1<=0&&gamepad1.left_stick_x>=0)
             alteredAngle =  (-90)-trueAngle;
+
+        //If none of those applied its okay to return the current angle
         else {
             alteredAngle = trueAngle;
         }
 
+        //Convert to rotations
+        return alteredAngle/360;
+    }
+
+    /**
+     * Static overload used to angle the module based on realtionship to the field
+     * Y is inverted because for some strange reason someone decided that up on the joystick should be negative
+     * @param gamepad1 the primary driving controller
+     * @return the angle in terms of module rotations
+     */
+    public static double normalizeJoystickAngle(Gamepad gamepad1, IMU imu){
+
+        double alteredAngle = 0;
+        double trueAngle = Math.toDegrees(Math.atan2(gamepad1.left_stick_y*-1, gamepad1.left_stick_x));
+
+        trueAngle = trueAngle + imu.getHeading();
+
+        //Centered
+        if(gamepad1.left_stick_x==0 && gamepad1.left_stick_y*-1==0)
+            alteredAngle = 0;
+
+            //Anywhere in the top hemisphere (including 90 on the right)
+        else if(trueAngle>=0 && trueAngle<=180)
+            alteredAngle = 90-trueAngle;
+
+            //90 on the left
+        else if(gamepad1.left_stick_x<=0&&gamepad1.left_stick_y*-1==0)
+            alteredAngle = -90;
+
+            //Bottom Left Quad.
+        else if(gamepad1.left_stick_y*-1<=0&&gamepad1.left_stick_x<=0)
+            alteredAngle = 90-(trueAngle+180);
+
+            //Bottom Right Quad.
+        else if(gamepad1.left_stick_y*-1<=0&&gamepad1.left_stick_x>=0)
+            alteredAngle =  (-90)-trueAngle;
+
+            //If none of those applied its okay to return the current angle
+        else {
+            alteredAngle = trueAngle;
+        }
+
+        //Convert to rotations
         return alteredAngle/360;
     }
 

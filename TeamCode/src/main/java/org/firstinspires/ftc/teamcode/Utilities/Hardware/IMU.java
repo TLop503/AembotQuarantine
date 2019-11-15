@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.Utilities.Hardware;
 
-import android.graphics.drawable.GradientDrawable;
-
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -9,6 +7,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.firstinspires.ftc.teamcode.Utilities.Hardware.Enums.IMUOrientation;
 
 /**
  * Class used as a general wrapper for the REV Robotics Control Hub IMU
@@ -25,12 +24,17 @@ public class IMU {
     //Orientation to hold angle assigned that will be the offset
     public Orientation angleOffset;
 
+    IMUOrientation orientation;
+
     /**
      * Initializes the IMU
      * @param hardwareMap a reference to the hardware map
+     * @param orientation used to set the orientation of the hub so that proper heading values can be gotton
      */
-    public IMU(HardwareMap hardwareMap){
+    public IMU(HardwareMap hardwareMap, IMUOrientation orientation){
         this.hardwareMap = hardwareMap;
+
+        this.orientation = orientation;
 
         //Setup the IMU
         imu = hardwareMap.get(BNO055IMU.class, "imu");

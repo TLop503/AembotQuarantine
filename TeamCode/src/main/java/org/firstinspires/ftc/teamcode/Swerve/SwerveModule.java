@@ -8,6 +8,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Swerve.Enums.ModulePosition;
 import org.firstinspires.ftc.teamcode.Swerve.Enums.WheelDirection;
 import org.firstinspires.ftc.teamcode.Utilities.Control.PID;
+import org.firstinspires.ftc.teamcode.Utilities.Hardware.IMU;
 
 /**
  * Class used to control an individual swerve module
@@ -88,7 +89,7 @@ public class SwerveModule {
     /**
      * Method Uses The PID Controller / PID class to move the module to the right position and then once there will allow it to spin
      */
-    public void PIDControl(){
+    public void PIDControl(IMU imu){
 
 
         double motorSpeed = 0.7;
@@ -103,7 +104,7 @@ public class SwerveModule {
          * wheelDirection - The direction the wheel should spin based off the Y axis of the joystick
          */
         currentRotation = SwerveMath.getModulePosition(TopSwerveMotor.getCurrentPosition(), BottomSwerveMotor.getCurrentPosition());
-        wantedRotation = SwerveMath.normalizeJoystickAngle(gamepad1);
+        wantedRotation = SwerveMath.normalizeJoystickAngle(gamepad1, imu);
         wheelDirection = SwerveMath.getWheelDirection(gamepad1);
 
         /*
