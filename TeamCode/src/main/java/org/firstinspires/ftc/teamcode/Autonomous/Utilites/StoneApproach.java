@@ -42,14 +42,14 @@ public class StoneApproach {
      * @param zOffset How far to aim away from the stone in Vuforia coordinate units
      * @param moduleAngle The angle to rotate the modules to
      */
-    private void rotateModules(double zOffset, double moduleAngle) {
-        // While loop to continue adjusting the angle until it is aligned properly
-        boolean angleReached = false;
-
-        while(angleReached) {
-            angleReached = swerve.controlModules(moduleAngle);
-        }
-    }
+//    private void rotateModules(double zOffset, double moduleAngle) {
+//        // While loop to continue adjusting the angle until it is aligned properly
+//        boolean angleReached = false;
+//
+//        while(angleReached) {
+//            angleReached = swerve.controlModulesScaled(moduleAngle, 1);
+//        }
+//    }
 
     // TODO: Add correction for angle offset
     /**

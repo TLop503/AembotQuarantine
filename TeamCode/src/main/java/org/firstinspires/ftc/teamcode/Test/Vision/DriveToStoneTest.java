@@ -57,7 +57,7 @@ public class DriveToStoneTest extends OpMode {
     public void loop() {
         if(!hasRun) {
             // Set angle of swerve modules
-            swerveController.controlModules(driveAngle);
+            swerveController.controlModulesScaled(driveAngle, 1);
 
             boolean reachedTarget = false;
 
@@ -81,9 +81,9 @@ public class DriveToStoneTest extends OpMode {
 
             // Stop the op mode
             hasRun = true;
-
-            // TODO: Look into if requestOpModeStop works to stop an OpMode
-            requestOpModeStop();
+        }
+        else{
+            swerveController.stopModules();
         }
     }
 }

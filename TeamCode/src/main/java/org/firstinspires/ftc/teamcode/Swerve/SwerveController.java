@@ -36,7 +36,7 @@ public class SwerveController {
     //Create a list to store the swerve modules this allows for easy control of multiple modules
     private List<SwerveModule> moduleList = new ArrayList<>();
 
-    boolean[] completeStatus;
+    boolean[] autoCompleteStatus;
     int i = 0;
 
     /**
@@ -60,7 +60,7 @@ public class SwerveController {
         moduleList.add(leftModule);
         moduleList.add(rightModule);
 
-        completeStatus = new boolean[moduleList.size()];
+        autoCompleteStatus = new boolean[moduleList.size()];
     }
 
     /**
@@ -106,12 +106,12 @@ public class SwerveController {
          * Iterates through the list of modules and calls the control method on all of them
          */
         for(SwerveModule module : moduleList){
-            completeStatus[i] = module.AutoPIDControl(angle,distance,maxPower);
+            autoCompleteStatus[i] = module.AutoPIDControl(angle,distance,maxPower);
             i++;
         }
 
         //If both modules are complete
-        if(completeStatus[0] && completeStatus[1]){
+        if(autoCompleteStatus[0] && autoCompleteStatus[1]){
 
             //If it was return true
             return true;
@@ -121,22 +121,6 @@ public class SwerveController {
         return false;
     }
 
-    /**
-     * General Method that allows control of all the modules inside the controller
-     */
-    public boolean controlModules(double angle){
-       // List<Boolean> statuses = new ArrayList<>();
-
-        /*
-         * Iterates through the list of modules and calls the control method on all of them
-         */
-        //for(SwerveModule module : moduleList){
-          //  statuses.add(module.AutoPIDControl(angle));
-        //}
-
-       // return statuses.get(0) && statuses.get(1);
-        return false;
-    }
 
     /**
      * A method to scale the running power of swerve modules based on outside factors.
@@ -144,6 +128,7 @@ public class SwerveController {
      * @param scaleFactor The amount to scale the power up/down based on external conditions.
      */
     public void controlModulesScaled(double angle, double scaleFactor) {
+
         // Iterate through list of swerve modules & controls them
         for(SwerveModule module : moduleList) {
             module.PIDControlScaled(angle, scaleFactor);
