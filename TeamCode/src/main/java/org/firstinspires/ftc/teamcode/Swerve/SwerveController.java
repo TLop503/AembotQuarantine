@@ -21,6 +21,8 @@ public class SwerveController {
     private Gamepad gamepad1;
     private HardwareMap hardwareMap;
 
+
+
     private boolean isFieldCentric;
 
     private IMU imu;
@@ -33,6 +35,9 @@ public class SwerveController {
 
     //Create a list to store the swerve modules this allows for easy control of multiple modules
     private List<SwerveModule> moduleList = new ArrayList<>();
+
+    boolean[] completeStatus;
+    int i = 0;
 
     /**
      * Constructs the swerve modules and passes information only accsesible in the OpMode to this class to be used
@@ -54,6 +59,8 @@ public class SwerveController {
         //Adds the modules to a list for easy iteration
         moduleList.add(leftModule);
         moduleList.add(rightModule);
+
+        completeStatus = new boolean[moduleList.size()];
     }
 
     /**
@@ -88,6 +95,30 @@ public class SwerveController {
                 module.PIDControl();
 
         }
+    }
+
+    /**
+     * Method that allows for autonomous control of modules
+     */
+    public boolean autoControlModules(double angle, double distance, double maxPower){
+
+        /*
+         * Iterates through the list of modules and calls the control method on all of them
+         */
+        for(SwerveModule module : moduleList){
+            completeStatus[i] = module.AutoPIDControl(angle,distance,maxPower);
+            i++;
+        }
+
+        //If both modules are complete
+        if(completeStatus[0] && completeStatus[1]){
+
+            //If it was return true
+            return true;
+        }
+
+        //If the task wasn't completed return false
+        return false;
     }
 
     /**

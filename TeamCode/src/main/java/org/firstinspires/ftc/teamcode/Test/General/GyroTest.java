@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
+import org.firstinspires.ftc.teamcode.Utilities.Hardware.Enums.IMUOrientation;
 import org.firstinspires.ftc.teamcode.Utilities.Hardware.IMU;
 
 @Autonomous(name = "TestGyro", group = "Test")
@@ -14,7 +15,7 @@ public class GyroTest extends OpMode {
 
     @Override
     public void init() {
-        imu = new IMU(hardwareMap);
+        imu = new IMU(hardwareMap, IMUOrientation.HORIZONTAL);
     }
 
     @Override

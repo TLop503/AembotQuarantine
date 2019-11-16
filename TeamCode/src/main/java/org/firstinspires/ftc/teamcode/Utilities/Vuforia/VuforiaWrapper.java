@@ -15,7 +15,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
 /**
  * Class used to allow easy access to Vuforia methods
- * @author Will Richards, Zane Othman
+ * @author FTC Team 6443
  */
 public class VuforiaWrapper {
 
@@ -130,6 +130,7 @@ public class VuforiaWrapper {
 
     /**
      * Parses the X axis offset out of the getDetected transform
+     * 4242 is a set impossible number that is unlikely to occur, ignore if it is
      * @return the value of X as a double
      */
     public double getX(){
@@ -144,6 +145,7 @@ public class VuforiaWrapper {
 
     /**
      * Parses the Y axis offset out of the getDetected transform
+     * 4242 is a set impossible number that is unlikely to occur, ignore if it is
      * @return the value of Y as an double
      */
     public double getY(){
@@ -158,6 +160,7 @@ public class VuforiaWrapper {
 
     /**
      * Parses the Z axis offset out of the getDetected transform
+     * 4242 is a set impossible number that is unlikely to occur, ignore if it is
      * @return the value of Z as an double
      */
     public double getZ(){

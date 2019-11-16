@@ -3,8 +3,10 @@ package org.firstinspires.ftc.teamcode.Utilities.Pathing;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.teamcode.Swerve.SwerveController;
 import org.firstinspires.ftc.teamcode.Utilities.Hardware.Enums.IMUOrientation;
 import org.firstinspires.ftc.teamcode.Utilities.Hardware.IMU;
+import org.firstinspires.ftc.teamcode.Utilities.Pathing.DriveStyles.SwerveDriveFollow;
 import org.firstinspires.ftc.teamcode.Utilities.Pathing.DriveStyles.TankDriveFollow;
 import org.firstinspires.ftc.teamcode.Utilities.Pathing.Utilities.DriveStyles;
 import org.firstinspires.ftc.teamcode.Utilities.Pathing.Utilities.Waypoint;
@@ -26,15 +28,22 @@ public class Path {
 
     double encoderResoulution;
 
+    SwerveController controller;
+
     double wheelCircumfrance;
+
+    IMU imu;
 
     /**
      * USE WITH SWERVE
      * Sets up the parameters used for the
      * @param driveStyles tells the pather what kind of drive it will be running
      */
-    public Path(DriveStyles driveStyles){
+    public Path(DriveStyles driveStyles, SwerveController controller, HardwareMap hardwareMap, IMUOrientation orientation){
         this.driveStyles = driveStyles;
+        this.controller = controller;
+
+        imu = new IMU(hardwareMap, orientation);
     }
 
     /**
@@ -43,7 +52,7 @@ public class Path {
      * @param leftMotors the motors on the left
      * @param rightMotors the motors on the right
      */
-    public Path(DriveStyles driveStyles, DcMotor[] leftMotors, DcMotor[] rightMotors, double wheelDiameter, double encoderResolution){
+    public Path(DriveStyles driveStyles, DcMotor[] leftMotors, DcMotor[] rightMotors, double wheelDiameter, double encoderResolution, HardwareMap hardwareMap, IMUOrientation orientation){
         this.driveStyles = driveStyles;
         this.leftMotors = leftMotors;
         this.rightMotors = rightMotors;
@@ -52,6 +61,9 @@ public class Path {
         this.encoderResoulution = encoderResolution;
 
         this.wheelCircumfrance = wheelDiameter * Math.PI;
+
+        imu = new IMU(hardwareMap, orientation);
+
     }
 
     /**
@@ -133,13 +145,13 @@ public class Path {
 
     /**
      * Simple high level method that can be called to tell the robot to start following the path
+     * Using if statements because the breaks in switch statements break the control loop
      */
-    public void followPath(List<Waypoint> waypointList, HardwareMap hardwareMap, IMUOrientation orientation){
-        switch (driveStyles){
-            case TANK:
-                IMU imu = new IMU(hardwareMap, orientation);
-                TankDriveFollow.follow(leftMotors,rightMotors,waypointList,encoderResoulution,wheelCircumfrance, imu);
-        }
+    public void followPath(List<Waypoint> waypointList){
+        if(driveStyles == DriveStyles.TANK)
+            TankDriveFollow.follow(leftMotors,rightMotors,waypointList,encoderResoulution,wheelCircumfrance, imu);
+        else if(driveStyles == DriveStyles.SWERVE)
+            SwerveDriveFollow.follow(controller, waypointList);
     }
 
 }
