@@ -37,20 +37,6 @@ public class StoneApproach {
         drivePid.setAcceptableRange(10);
     }
 
-    /**
-     * A method to rotate the modules in preparation for driving to the stone
-     * @param zOffset How far to aim away from the stone in Vuforia coordinate units
-     * @param moduleAngle The angle to rotate the modules to
-     */
-//    private void rotateModules(double zOffset, double moduleAngle) {
-//        // While loop to continue adjusting the angle until it is aligned properly
-//        boolean angleReached = false;
-//
-//        while(angleReached) {
-//            angleReached = swerve.controlModulesScaled(moduleAngle, 1);
-//        }
-//    }
-
     // TODO: Add correction for angle offset
     /**
      * The method responsible for actually driving up to the SkyStone.
@@ -68,7 +54,7 @@ public class StoneApproach {
             double distanceToStone = vuforia.getDistanceZOffset(zOffset);
             double scaleFactor = drivePid.calcOutput(distanceToStone);
 
-            swerve.controlModulesScaled(moduleAngle, scaleFactor);
+            swerve.activeControl(moduleAngle, scaleFactor);
 
             xStoneDistance = vuforia.getX();
         }

@@ -484,6 +484,66 @@ public class SwerveModule {
     }
 
     /**
+     * Method used to feed changes in angle and power to the modules
+     * @param angle the angle the modules need to be facing
+     * @param motorSpeed the speed the motors are set to drive at
+     */
+    public void activeDrive(double angle, double motorSpeed){
+
+        /*
+         * Collect information to be used in module control / PID
+         * currentRotation - The number of rotations he module has currently completed
+         * wantedRotation - The normalized values of the angle
+         * wheelDirection - The direction the wheel should spin based off the angle passed as a parameter
+         */
+        currentRotation = SwerveMath.getModulePosition(TopSwerveMotor.getCurrentPosition(), BottomSwerveMotor.getCurrentPosition());
+        wantedRotation = SwerveMath.normalizeAngle(angle);
+        wheelDirection = SwerveMath.getWheelDirection(angle);
+
+        turnPID.setSetpoint(wantedRotation);
+        turnPower = turnPID.calcOutput(currentRotation);
+
+        /*
+         * Runs the motors to a given position and then stops
+         */
+        if(turnPID.isInRange()){
+
+            //Checks to see if the drive loop is not at the right spot and if not then keep trying if it is then return the command as true to stop this loop
+            if(!drivePID.isInRange()) {
+                if (modPos == ModulePosition.RIGHT) {
+                    if (wheelDirection == WheelDirection.FORWARD) {
+                        TopSwerveMotor.setPower(motorSpeed);
+                        BottomSwerveMotor.setPower(-motorSpeed);
+                    } else if (wheelDirection == WheelDirection.BACKWARD) {
+                        TopSwerveMotor.setPower(-motorSpeed);
+                        BottomSwerveMotor.setPower(motorSpeed);
+                    } else {
+                        TopSwerveMotor.setPower(motorSpeed);
+                        BottomSwerveMotor.setPower(-motorSpeed);
+                    }
+                } else {
+                    if (wheelDirection == WheelDirection.FORWARD) {
+                        TopSwerveMotor.setPower(-motorSpeed);
+                        BottomSwerveMotor.setPower(motorSpeed);
+                    } else if (wheelDirection == WheelDirection.BACKWARD) {
+                        TopSwerveMotor.setPower(motorSpeed);
+                        BottomSwerveMotor.setPower(-motorSpeed);
+                    } else {
+                        TopSwerveMotor.setPower(-motorSpeed);
+                        BottomSwerveMotor.setPower(motorSpeed);
+                    }
+                }
+            }
+        }
+
+        //If it hasn't reached the turn set point yet keep turning
+        else{
+            TopSwerveMotor.setPower(turnPower);
+            BottomSwerveMotor.setPower(turnPower);
+        }
+    }
+
+    /**
      * Stops both motors in a given swerve module.
      */
     public void stopMotors() {

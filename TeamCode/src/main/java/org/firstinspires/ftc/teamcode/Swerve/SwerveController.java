@@ -121,6 +121,15 @@ public class SwerveController {
         return false;
     }
 
+    /**
+     * Method that allows for constant input to the modules
+     */
+    public void activeControl(double angle, double speed){
+        for (SwerveModule module : moduleList){
+            module.activeDrive(angle, speed);
+        }
+    }
+
 
     /**
      * A method to scale the running power of swerve modules based on outside factors.
