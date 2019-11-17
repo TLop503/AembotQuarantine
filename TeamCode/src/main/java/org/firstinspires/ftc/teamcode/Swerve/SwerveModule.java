@@ -38,7 +38,7 @@ public class SwerveModule {
     private double wantedDistanceRot = 0;
 
     //P = 3 or 5, or 8
-    private final double P = 5, I = 0, D = 0;
+    private final double P = 5.2, I = 0, D = 0;
 
     //Reference to the PID class that allows us to use PID
     private PID TeleOpPID;
