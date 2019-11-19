@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.Servo;
  * Class created to control the servos on the block arms
  * @author Vishy Krishnamurthy
  */
-public class ServoArm {
+public class ServoArmController {
 
     //Left block arm
     private Servo leftBlockArm;
@@ -18,7 +18,11 @@ public class ServoArm {
     private Servo rightBlockArm;
     private Servo rightBlockGrip;
 
-    public ServoArm(HardwareMap hardwareMap){
+    /**
+     * The constructor for a servo arm controller.
+     * @param hardwareMap The HardwareMap configuration on the phones to get the ports for all 4 arm servos.
+     */
+    public ServoArmController(HardwareMap hardwareMap){
         leftBlockArm = hardwareMap.get(Servo.class,"leftBlockArm");
         leftBlockGrip = hardwareMap.get(Servo.class, "leftBlockGrip");
 

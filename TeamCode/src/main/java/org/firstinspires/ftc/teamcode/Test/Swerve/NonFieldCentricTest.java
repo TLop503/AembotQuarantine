@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.Test.Swerve;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.Subsystems.ServoArm;
+import org.firstinspires.ftc.teamcode.Subsystems.ServoArmController;
 import org.firstinspires.ftc.teamcode.Swerve.SwerveController;
 import org.firstinspires.ftc.teamcode.Utilities.Hardware.Enums.IMUOrientation;
 
@@ -16,13 +16,13 @@ public class NonFieldCentricTest extends OpMode {
 
     //Creates a new swerve controller
     private SwerveController swerveController;
-    private ServoArm servoArm;
+    private ServoArmController servoArm;
     @Override
     public void init() {
 
         //Initialize the swerve controller
         swerveController = new SwerveController(gamepad1, hardwareMap, telemetry, IMUOrientation.VERTICAL, false);
-        servoArm = new ServoArm(hardwareMap);
+        servoArm = new ServoArmController(hardwareMap);
 
         //Set the position of the servos to zero on start
         servoArm.zeroArms();

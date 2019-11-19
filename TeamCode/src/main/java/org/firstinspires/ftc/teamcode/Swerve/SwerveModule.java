@@ -345,7 +345,7 @@ public class SwerveModule {
         }
 
         //If it hasn't reached the turn set point yet keep turning
-        else{
+        else {
             TopSwerveMotor.setPower(turnPower);
             BottomSwerveMotor.setPower(turnPower);
         }
@@ -375,7 +375,7 @@ public class SwerveModule {
 
         /*
          * This small section simply updates the point that it wants to reach based off the new wantedRotation
-         * And then the method calcOutput is called which you pass your current value into and it preforms the PID opperation and returns the output with your scalars
+         * And then the method calcOutput is called which you pass your current value into and it preforms the PID operation and returns the output with your scalars
          */
         TeleOpPID.setSetpoint(wantedRotation);
         power = TeleOpPID.calcOutput(currentRotation);
@@ -506,38 +506,35 @@ public class SwerveModule {
         /*
          * Runs the motors to a given position and then stops
          */
-        if(turnPID.isInRange()){
-
+        if(turnPID.isInRange()) {
             //Checks to see if the drive loop is not at the right spot and if not then keep trying if it is then return the command as true to stop this loop
-            if(!drivePID.isInRange()) {
-                if (modPos == ModulePosition.RIGHT) {
-                    if (wheelDirection == WheelDirection.FORWARD) {
-                        TopSwerveMotor.setPower(motorSpeed);
-                        BottomSwerveMotor.setPower(-motorSpeed);
-                    } else if (wheelDirection == WheelDirection.BACKWARD) {
-                        TopSwerveMotor.setPower(-motorSpeed);
-                        BottomSwerveMotor.setPower(motorSpeed);
-                    } else {
-                        TopSwerveMotor.setPower(motorSpeed);
-                        BottomSwerveMotor.setPower(-motorSpeed);
-                    }
+            if (modPos == ModulePosition.RIGHT) {
+                if (wheelDirection == WheelDirection.FORWARD) {
+                    TopSwerveMotor.setPower(motorSpeed);
+                    BottomSwerveMotor.setPower(-motorSpeed);
+                } else if (wheelDirection == WheelDirection.BACKWARD) {
+                    TopSwerveMotor.setPower(-motorSpeed);
+                    BottomSwerveMotor.setPower(motorSpeed);
                 } else {
-                    if (wheelDirection == WheelDirection.FORWARD) {
-                        TopSwerveMotor.setPower(-motorSpeed);
-                        BottomSwerveMotor.setPower(motorSpeed);
-                    } else if (wheelDirection == WheelDirection.BACKWARD) {
-                        TopSwerveMotor.setPower(motorSpeed);
-                        BottomSwerveMotor.setPower(-motorSpeed);
-                    } else {
-                        TopSwerveMotor.setPower(-motorSpeed);
-                        BottomSwerveMotor.setPower(motorSpeed);
-                    }
+                    TopSwerveMotor.setPower(motorSpeed);
+                    BottomSwerveMotor.setPower(-motorSpeed);
+                }
+            } else {
+                if (wheelDirection == WheelDirection.FORWARD) {
+                    TopSwerveMotor.setPower(-motorSpeed);
+                    BottomSwerveMotor.setPower(motorSpeed);
+                } else if (wheelDirection == WheelDirection.BACKWARD) {
+                    TopSwerveMotor.setPower(motorSpeed);
+                    BottomSwerveMotor.setPower(-motorSpeed);
+                } else {
+                    TopSwerveMotor.setPower(-motorSpeed);
+                    BottomSwerveMotor.setPower(motorSpeed);
                 }
             }
         }
 
         //If it hasn't reached the turn set point yet keep turning
-        else{
+        else {
             TopSwerveMotor.setPower(turnPower);
             BottomSwerveMotor.setPower(turnPower);
         }
