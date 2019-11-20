@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 /**
  * Class created to control the servos on the block arms
- * @author Vishy Krishnamurthy
+ * @author Vishy Krishnamurthy, Troy Lopez
  */
 public class ServoArmController {
 
@@ -69,4 +69,45 @@ public class ServoArmController {
         leftBlockGrip.setPosition(0);
         rightBlockGrip.setPosition(0);
     }
+
+    /**
+     * Code only controlling Left arm
+     */
+
+    public void moveLeftDown(){
+        leftBlockArm.setPosition(0.4);
+    }
+
+    public void moveLeftUp() {
+        leftBlockArm.setPosition(0);
+    }
+
+    public void gripLeft() {
+        leftBlockGrip.setPosition(1);
+    }
+
+    public void unGripLeft() {
+        leftBlockGrip.setPosition(0);
+    }
+
+    /**
+     * Code only controlling Right arm
+     */
+
+    public void moveRightDown(){
+        rightBlockArm.setPosition(0.4);
+    }
+
+    public void moveRightUp() {
+        rightBlockArm.setPosition(0);
+    }
+
+    public void gripRight() {
+        rightBlockGrip.setPosition(1);
+    }
+
+    public void unGripRight() {
+        rightBlockGrip.setPosition(0);
+    }
+
 }
