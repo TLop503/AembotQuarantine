@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.Utilities.Vuforia;
 /**
  * Contains 4 enum states regarding the position of the block
  * Left - The left most position
- * Center - The cente positon
+ * Center - The center positon
  * Right - The farthest right position
  * None - No Skystone detected
  */
