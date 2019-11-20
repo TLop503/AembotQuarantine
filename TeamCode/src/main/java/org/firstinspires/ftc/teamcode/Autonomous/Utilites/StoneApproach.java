@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.teamcode.Swerve.SwerveController;
 import org.firstinspires.ftc.teamcode.Utilities.Control.PID;
 import org.firstinspires.ftc.teamcode.Utilities.Vuforia.VuforiaWrapper;
-import org.firstinspires.ftc.teamcode.Autonomous.Utilites.StonePosition;
+import org.firstinspires.ftc.teamcode.Utilities.Vuforia.SkystonePostion;
 
 /**
  * A class to facilitate the approach of a SkyStone during the autonomous period
@@ -16,6 +16,11 @@ public class StoneApproach {
     private SwerveController swerve;
     private HardwareMap hardwareMap;
     private PID drivePid;
+
+    private final double leftArmOffset = -10;
+    private final double rightArmOffset = 10;
+    // TODO: Decide whether to use left or right arm if block is straight ahead
+    private final double centerArmOffset = 0;
 
     /**
      * A method to construct a StoneApproach instance
@@ -48,16 +53,18 @@ public class StoneApproach {
         double xStoneDistance = vuforia.getX();
 
         // Variable to store original stone position
-        StonePosition stonePos;
+        SkystonePostion stonePos;
 
-        // Define where the stone is relative to the robot and store that placement with the StonePosition enum
+        // Define where the stone is relative to the robot and store that placement with the SkytonePosition enum
         // TODO: Measure and tune these values to be more accurate
         if(xStoneDistance < -50) {
-            stonePos = StonePosition.LEFT;
+            stonePos = SkystonePostion.LEFT;
         } else if(-50 < xStoneDistance && xStoneDistance < 50) {
-            stonePos = StonePosition.STRAIGHT;
+            stonePos =  SkystonePostion.CENTER;
+        } else if(xStoneDistance > 50) {
+            stonePos =  SkystonePostion.RIGHT;
         } else {
-            stonePos = StonePosition.RIGHT;
+            stonePos = SkystonePostion.NONE;
         }
 
         double moduleAngle = vuforia.getAngleZOffset(zOffset);
@@ -80,9 +87,16 @@ public class StoneApproach {
         switch(stonePos) {
             case LEFT:
                 break;
+
             case RIGHT:
                 break;
-            case STRAIGHT:
+
+            // TODO:
+            case CENTER:
+                break;
+
+            default:
+            case NONE:
                 break;
         }
 
