@@ -129,11 +129,20 @@ public class SwerveModule {
      */
     public void PIDControl() {
 
+        //When the sensor is crossed reset the encoders
+        //TODO: If that doesnt work, then use the more complex one
+        if(ZeroSwitch.getState()){
+            resetTopEncoder();
+            resetBottomEncoder();
+        }
+
 
         double motorSpeed = 0.7;
 
         telemetry.addData(modPos + " Top Encoder: ", getTopMotorTicks());
         telemetry.addData(modPos + " Bottom Encoder: ", getBottomMotorTicks());
+
+
 
         /*
          * Collect information to be used in module control / PID
@@ -199,11 +208,36 @@ public class SwerveModule {
                 BottomSwerveMotor.setPower(-motorSpeed);
             }
             else {
+
                 TopSwerveMotor.setPower(0);
                 BottomSwerveMotor.setPower(0);
             }
         }
         else{
+              /* TODO: Uncomment and use if first doesn't work
+                if(wantedRotation == 0){
+                    if(!ZeroSwitch.getState()) {
+                        if (power < 0) {
+                            TopSwerveMotor.setPower(-0.2);
+                            BottomSwerveMotor.setPower(-0.2);
+                        }
+                        else{
+                            TopSwerveMotor.setPower(0.2);
+                            BottomSwerveMotor.setPower(0.2);
+                        }
+                    }
+                    else{
+                        resetBottomEncoder();
+                        resetTopEncoder();
+                        TopSwerveMotor.setPower(0);
+                        BottomSwerveMotor.setPower(0);
+                    }
+                }
+                else{
+                    TopSwerveMotor.setPower(power);
+                    BottomSwerveMotor.setPower(power);
+                }
+                */
             TopSwerveMotor.setPower(power);
             BottomSwerveMotor.setPower(power);
         }
@@ -222,12 +256,7 @@ public class SwerveModule {
         telemetry.addData(modPos + " Top Encoder: ", getTopMotorTicks());
         telemetry.addData(modPos + " Bottom Encoder: ", getBottomMotorTicks());
 
-        //When the sensor is crossed reset the encoders
-        //TODO: If that doesnt work, then use the more complex one
-        if(ZeroSwitch.getState()){
-            resetTopEncoder();
-            resetBottomEncoder();
-        }
+
 
         /*
          * Collect information to be used in module control / PID
@@ -281,32 +310,9 @@ public class SwerveModule {
 
             }
 
-            //If nothing is happening and the angle is 0 attempt to zero the modules
-            //TODO: If the first step doesnt work try this
             else {
-                /*
-                if(wantedRotation == 0){
-                    if(!ZeroSwitch.getState()) {
-                        if (power < 0) {
-                            TopSwerveMotor.setPower(-0.2);
-                            BottomSwerveMotor.setPower(-0.2);
-                        }
-                        else{
-                            TopSwerveMotor.setPower(0.2);
-                            BottomSwerveMotor.setPower(0.2);
-                        }
-                    }
-                    else{
-                        resetBottomEncoder();
-                        resetTopEncoder();
-                        TopSwerveMotor.setPower(0);
-                        BottomSwerveMotor.setPower(0);
-                    }
-                }
-                */
                 TopSwerveMotor.setPower(0);
                 BottomSwerveMotor.setPower(0);
-
             }
         }
         else{
