@@ -616,12 +616,7 @@ public class SwerveModule {
      * @return the zeroed number of ticks
      */
     private int getTopMotorTicks(){
-        if(TopSwerveMotor.getCurrentPosition() < 0){
-            return TopSwerveMotor.getCurrentPosition()+Math.abs(topMotorTickOffset);
-        }
-        else{
-            return TopSwerveMotor.getCurrentPosition()-topMotorTickOffset;
-        }
+        return TopSwerveMotor.getPosition()-topMotorTickOffset;
     }
 
     /**
@@ -629,12 +624,7 @@ public class SwerveModule {
      * @return the zeroed number of ticks
      */
     private int getBottomMotorTicks(){
-        if(BottomSwerveMotor.getCurrentPosition() < 0){
-            return BottomSwerveMotor.getCurrentPosition()+Math.abs(bottomMotorTickOffset);
-        }
-        else{
-            return BottomSwerveMotor.getCurrentPosition()-bottomMotorTickOffset;
-        }
+        return BottomSwerveMotor.getPosition()-bottomMotorTickOffset;
     }
 
     /**
