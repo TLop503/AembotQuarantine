@@ -115,7 +115,7 @@ public class SwerveModule {
     /**
      * Method Uses The PID Controller / PID class to move the module to the right position and then once there will allow it to spin, robot centric
      */
-    public void PIDControl(){
+    public void PIDControl() {
 
 
         double motorSpeed = 0.7;
@@ -160,7 +160,7 @@ public class SwerveModule {
                         BottomSwerveMotor.setPower(-motorSpeed);
                     }
                 }
-                else{
+                else {
                     if (wheelDirection == WheelDirection.FORWARD) {
                         TopSwerveMotor.setPower(-motorSpeed);
                         BottomSwerveMotor.setPower(motorSpeed);
@@ -173,6 +173,14 @@ public class SwerveModule {
                     }
                 }
 
+            }
+            else if(gamepad1.right_bumper) {
+                TopSwerveMotor.setPower(-motorSpeed);
+                BottomSwerveMotor.setPower(motorSpeed);
+            }
+            else if(gamepad1.left_bumper) {
+                TopSwerveMotor.setPower(motorSpeed);
+                BottomSwerveMotor.setPower(-motorSpeed);
             }
             else {
                 TopSwerveMotor.setPower(0);

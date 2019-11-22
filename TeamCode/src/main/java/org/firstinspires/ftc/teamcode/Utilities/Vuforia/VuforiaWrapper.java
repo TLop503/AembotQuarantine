@@ -125,7 +125,7 @@ public class VuforiaWrapper {
         double newZcoordinate = stoneZ - zOffset;
 
         // Use the Pythagorean theorem to calculate the distance to drive
-        return Math.sqrt(Math.pow(stoneX, 2) + Math.pow(newZcoordinate, 2));
+        return Math.hypot(stoneX, stoneZ);
     }
 
     /**

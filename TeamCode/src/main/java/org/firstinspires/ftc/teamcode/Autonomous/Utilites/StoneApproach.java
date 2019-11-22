@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.Utilities.Vuforia.VuforiaWrapper;
 import org.firstinspires.ftc.teamcode.Utilities.Vuforia.SkystonePostion;
 
 /**
- * A class to facilitate the approach of a SkyStone during the autonomous period
+ * A class to facilitate the approach of a SkyStone during the autonomous period.
  * @author Zane Othman-Gomez
  */
 public class StoneApproach {
@@ -20,7 +20,8 @@ public class StoneApproach {
     private final double leftArmOffset = -10;
     private final double rightArmOffset = 10;
     // TODO: Decide whether to use left or right arm if block is straight ahead
-    private final double centerArmOffset = 0;
+    // Set to right for now, might change later
+    private final double centerArmOffset = 10;
 
     /**
      * A method to construct a StoneApproach instance
@@ -49,8 +50,9 @@ public class StoneApproach {
      * @param zOffset How far we want to be from the SkyStone in Vuforia coordinate units.
      */
     public void approachStone(double zOffset) {
-        // Calculate the x-distance to the SkyStone for PID purposes
+        // Get the x and z coordinates relative to the Skystone with Vuforia
         double xStoneDistance = vuforia.getX();
+        double zStoneDistance = vuforia.getZ();
 
         // Variable to store original stone position
         SkystonePostion stonePos;
@@ -86,13 +88,15 @@ public class StoneApproach {
         // TODO: Find x-offsets required to end up with left or right arm in front of the stone
         switch(stonePos) {
             case LEFT:
+                // Calculate distance to stone based on predetermined offsets
+                double distanceToStoneOffset = Math.hypot(xStoneDistance - this.leftArmOffset, zStoneDistance - zOffset);
+
+                double calculatedSpeed = drivePid.calcOutput(distanceToStoneOffset);
+
                 break;
 
-            case RIGHT:
-                break;
-
-            // TODO:
             case CENTER:
+            case RIGHT:
                 break;
 
             default:
