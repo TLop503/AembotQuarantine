@@ -145,6 +145,16 @@ public class SwerveController {
     }
 
     /**
+     * For each module go through and reset the encoders
+     */
+    public void zeroModules(){
+        for(SwerveModule module : moduleList){
+            module.resetTopEncoder();
+            module.resetBottomEncoder();
+        }
+    }
+
+    /**
      * A method to stop the motors in every swerve module
      */
     public void stopModules() {

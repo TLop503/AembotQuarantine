@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.Swerve;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -28,6 +29,15 @@ public class SwerveModule {
     //Gets references to the top and bottom motors
     private DcMotor TopSwerveMotor;
     private DcMotor BottomSwerveMotor;
+
+    //The switch that helps to zero the module
+    private DigitalChannel ZeroSwitch;
+
+    //Determines the offset to apply to the tickCounts
+    private int topMotorTickOffset = 0;
+    private int bottomMotorTickOffset = 0;
+
+    private boolean hasResetEncoders = false;
 
     //Module control variables are created up here to not destroy the garbage collector
     private double currentRotation = 0;
@@ -79,10 +89,12 @@ public class SwerveModule {
             case RIGHT:
                 TopSwerveMotor = hardwareMap.get(DcMotor.class, "RightTopSwerveMotor");
                 BottomSwerveMotor = hardwareMap.get(DcMotor.class, "RightBottomSwerveMotor");
+                ZeroSwitch = hardwareMap.get(DigitalChannel.class, "RightMagSwitch");
                 break;
             case LEFT:
                 TopSwerveMotor = hardwareMap.get(DcMotor.class, "LeftTopSwerveMotor");
                 BottomSwerveMotor = hardwareMap.get(DcMotor.class, "LeftBottomSwerveMotor");
+                ZeroSwitch = hardwareMap.get(DigitalChannel.class, "LeftMagSwitch");
                 break;
         }
 
@@ -120,8 +132,8 @@ public class SwerveModule {
 
         double motorSpeed = 0.7;
 
-        telemetry.addData(modPos + " Top Encoder: ", TopSwerveMotor.getCurrentPosition());
-        telemetry.addData(modPos + " Bottom Encoder: ", BottomSwerveMotor.getCurrentPosition());
+        telemetry.addData(modPos + " Top Encoder: ", getTopMotorTicks());
+        telemetry.addData(modPos + " Bottom Encoder: ", getBottomMotorTicks());
 
         /*
          * Collect information to be used in module control / PID
@@ -129,7 +141,7 @@ public class SwerveModule {
          * wantedRotation - The normalized top hemisphere value of the joystick converted into rotations
          * wheelDirection - The direction the wheel should spin based off the Y axis of the joystick
          */
-        currentRotation = SwerveMath.getModulePosition(TopSwerveMotor.getCurrentPosition(), BottomSwerveMotor.getCurrentPosition());
+        currentRotation = SwerveMath.getModulePosition(getTopMotorTicks(),getBottomMotorTicks());
         wantedRotation = SwerveMath.normalizeJoystickAngle(gamepad1);
         wheelDirection = SwerveMath.getWheelDirection(gamepad1);
 
@@ -174,6 +186,10 @@ public class SwerveModule {
                 }
 
             }
+
+            /*
+             * Allows the robot to turn when the bumpers are pressed
+             */
             else if(gamepad1.right_bumper) {
                 TopSwerveMotor.setPower(-motorSpeed);
                 BottomSwerveMotor.setPower(motorSpeed);
@@ -203,8 +219,15 @@ public class SwerveModule {
 
         double motorSpeed = 0.7;
 
-        telemetry.addData(modPos + " Top Encoder: ", TopSwerveMotor.getCurrentPosition());
-        telemetry.addData(modPos + " Bottom Encoder: ", BottomSwerveMotor.getCurrentPosition());
+        telemetry.addData(modPos + " Top Encoder: ", getTopMotorTicks());
+        telemetry.addData(modPos + " Bottom Encoder: ", getBottomMotorTicks());
+
+        //When the sensor is crossed reset the encoders
+        //TODO: If that doesnt work, then use the more complex one
+        if(ZeroSwitch.getState()){
+            resetTopEncoder();
+            resetBottomEncoder();
+        }
 
         /*
          * Collect information to be used in module control / PID
@@ -212,13 +235,13 @@ public class SwerveModule {
          * wantedRotation - The normalized top hemisphere value of the joystick converted into rotations
          * wheelDirection - The direction the wheel should spin based off the Y axis of the joystick
          */
-        currentRotation = SwerveMath.getModulePosition(TopSwerveMotor.getCurrentPosition(), BottomSwerveMotor.getCurrentPosition());
+        currentRotation = SwerveMath.getModulePosition(getTopMotorTicks(), getBottomMotorTicks());
         wantedRotation = SwerveMath.normalizeJoystickAngle(gamepad1, imu);
         wheelDirection = SwerveMath.getWheelDirection(gamepad1);
 
         /*
          * This small section simply updates the point that it wants to reach based off the new wantedRotation
-         * And then the method calcOutput is called which you pass your current value into and it preforms the PID opperation and returns the output with your scalars
+         * And then the method calcOutput is called which you pass your current value into and it preforms the PID operation and returns the output with your scalars
          */
         TeleOpPID.setSetpoint(wantedRotation);
         power = TeleOpPID.calcOutput(currentRotation);
@@ -257,9 +280,33 @@ public class SwerveModule {
                 }
 
             }
+
+            //If nothing is happening and the angle is 0 attempt to zero the modules
+            //TODO: If the first step doesnt work try this
             else {
+                /*
+                if(wantedRotation == 0){
+                    if(!ZeroSwitch.getState()) {
+                        if (power < 0) {
+                            TopSwerveMotor.setPower(-0.2);
+                            BottomSwerveMotor.setPower(-0.2);
+                        }
+                        else{
+                            TopSwerveMotor.setPower(0.2);
+                            BottomSwerveMotor.setPower(0.2);
+                        }
+                    }
+                    else{
+                        resetBottomEncoder();
+                        resetTopEncoder();
+                        TopSwerveMotor.setPower(0);
+                        BottomSwerveMotor.setPower(0);
+                    }
+                }
+                */
                 TopSwerveMotor.setPower(0);
                 BottomSwerveMotor.setPower(0);
+
             }
         }
         else{
@@ -287,7 +334,7 @@ public class SwerveModule {
          * wantedRotation - The normalized values of the angle
          * wheelDirection - The direction the wheel should spin based off the angle passed as a parameter
          */
-        currentRotation = SwerveMath.getModulePosition(TopSwerveMotor.getCurrentPosition(), BottomSwerveMotor.getCurrentPosition());
+        currentRotation = SwerveMath.getModulePosition(getTopMotorTicks(), getBottomMotorTicks());
         wantedRotation = SwerveMath.normalizeAngle(angle);
         wheelDirection = SwerveMath.getWheelDirection(angle);
 
@@ -296,7 +343,7 @@ public class SwerveModule {
          * currentDistanceRot - The current # of rotations already completed
          * wantedDistanceRot - The new distance value we want to reach
          */
-        currentDistanceRot = SwerveMath.getWheelPosition(TopSwerveMotor.getCurrentPosition(), BottomSwerveMotor.getCurrentPosition());
+        currentDistanceRot = SwerveMath.getWheelPosition(getTopMotorTicks(), getBottomMotorTicks());
         wantedDistanceRot = SwerveMath.calculateWheelPosition(distance, currentDistanceRot);
 
         /*
@@ -377,7 +424,7 @@ public class SwerveModule {
          * wantedRotation - The normalized values of the angle
          * wheelDirection - The direction the wheel should spin based off the angle passed as a parameter
          */
-        currentRotation = SwerveMath.getModulePosition(TopSwerveMotor.getCurrentPosition(), BottomSwerveMotor.getCurrentPosition());
+        currentRotation = SwerveMath.getModulePosition(getTopMotorTicks(), getBottomMotorTicks());
         wantedRotation = SwerveMath.normalizeAngle(angle);
         wheelDirection = SwerveMath.getWheelDirection(angle);
 
@@ -504,7 +551,7 @@ public class SwerveModule {
          * wantedRotation - The normalized values of the angle
          * wheelDirection - The direction the wheel should spin based off the angle passed as a parameter
          */
-        currentRotation = SwerveMath.getModulePosition(TopSwerveMotor.getCurrentPosition(), BottomSwerveMotor.getCurrentPosition());
+        currentRotation = SwerveMath.getModulePosition(getTopMotorTicks(), getBottomMotorTicks());
         wantedRotation = SwerveMath.normalizeAngle(angle);
         wheelDirection = SwerveMath.getWheelDirection(angle);
 
@@ -557,5 +604,45 @@ public class SwerveModule {
     }
 
     //endregion
+
+    /**
+     * Gets the number of ticks including the zeroed value for the top motor
+     * @return the zeroed number of ticks
+     */
+    private int getTopMotorTicks(){
+        if(TopSwerveMotor.getCurrentPosition() < 0){
+            return TopSwerveMotor.getCurrentPosition()+Math.abs(topMotorTickOffset);
+        }
+        else{
+            return TopSwerveMotor.getCurrentPosition()-topMotorTickOffset;
+        }
+    }
+
+    /**
+     * Gets the zeroed number of ticks for the bottom motor
+     * @return the zeroed number of ticks
+     */
+    private int getBottomMotorTicks(){
+        if(BottomSwerveMotor.getCurrentPosition() < 0){
+            return BottomSwerveMotor.getCurrentPosition()+Math.abs(bottomMotorTickOffset);
+        }
+        else{
+            return BottomSwerveMotor.getCurrentPosition()-bottomMotorTickOffset;
+        }
+    }
+
+    /**
+     * Pseudo reset the top encoder value
+     */
+    public void resetTopEncoder(){
+        topMotorTickOffset = TopSwerveMotor.getCurrentPosition();
+    }
+
+    /**
+     * Pseudo reset the bottom encoder value
+     */
+    public void resetBottomEncoder(){
+        bottomMotorTickOffset = BottomSwerveMotor.getCurrentPosition();
+    }
 
 }

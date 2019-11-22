@@ -26,6 +26,9 @@ public class NonFieldCentricTest extends OpMode {
 
         //Set the position of the servos to zero on start
         servoArm.zeroArms();
+
+        //Zero the position of the modules at init
+        swerveController.zeroModules();
     }
 
     @Override
