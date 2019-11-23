@@ -4,6 +4,8 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.teamcode.Subsystems.Utilities.ArmDirection;
+
 
 /**
  * Class created to control the servos on the block arms
@@ -31,8 +33,10 @@ public class ServoArmController {
         leftBlockArm = hardwareMap.get(Servo.class,"leftBlockArm");
         leftBlockGrip = hardwareMap.get(Servo.class, "leftBlockGrip");
 
+        /*
         rightBlockArm = hardwareMap.get(Servo.class,"rightBlockArm");
         rightBlockGrip = hardwareMap.get(Servo.class, "rightBlockGrip");
+         */
 
         rightBlockArm.setDirection(Servo.Direction.REVERSE);
         rightBlockGrip.setDirection(Servo.Direction.REVERSE);
@@ -43,7 +47,7 @@ public class ServoArmController {
      */
     public void zeroArms(){
         leftBlockArm.setPosition(0);
-        rightBlockArm.setPosition(0);
+        //rightBlockArm.setPosition(0);
     }
 
     /**
@@ -51,7 +55,7 @@ public class ServoArmController {
      */
     public void moveDown(){
         leftBlockArm.setPosition(0.4);
-        rightBlockArm.setPosition(1);
+        //rightBlockArm.setPosition(1);
     }
 
     /**
@@ -59,7 +63,7 @@ public class ServoArmController {
       */
     private void moveUp() {
         leftBlockArm.setPosition(0);
-        rightBlockArm.setPosition(0);
+        //rightBlockArm.setPosition(0);
     }
 
     /**
@@ -67,7 +71,7 @@ public class ServoArmController {
      */
     private void grip() {
         leftBlockGrip.setPosition(0.9);
-        rightBlockGrip.setPosition(0.9);
+        //rightBlockGrip.setPosition(0.9);
     }
 
     /**
@@ -75,7 +79,7 @@ public class ServoArmController {
      */
     private void unGrip() {
         leftBlockGrip.setPosition(0.1);
-        rightBlockGrip.setPosition(0.1);
+        //rightBlockGrip.setPosition(0.1);
     }
 
     /**
@@ -93,6 +97,26 @@ public class ServoArmController {
         }
         if (gamepad.b){
             unGrip();
+        }
+    }
+
+    public void controlArmsAutonomous(ArmDirection direction) {
+        switch(direction) {
+            case DOWN:
+                moveDown();
+                break;
+
+            case UP:
+                moveUp();
+                break;
+
+            case GRIP:
+                grip();
+                break;
+
+            case UNGRIP:
+                unGrip();
+                break;
         }
     }
 

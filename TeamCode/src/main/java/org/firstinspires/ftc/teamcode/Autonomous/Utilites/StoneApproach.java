@@ -52,7 +52,7 @@ public class StoneApproach {
      * @param zOffset How far we want to be from the SkyStone in Vuforia coordinate units.
      * @param marginError The range you want to be within when approaching the Skystone
      */
-    public void approachStone(double zOffset, double marginError) {
+    public boolean approachStone(double zOffset, double marginError) {
         // Get the x and z coordinates relative to the Skystone with Vuforia
         double xStoneDistance = vuforia.getX();
         double zStoneDistance = vuforia.getZ();
@@ -136,13 +136,14 @@ public class StoneApproach {
                     xStoneDistance = vuforia.getX();
                 }
 
-                break;
+                swerve.stopModules();
+
+                return true;
 
             // FIXME: Add NONE case so this doesn't do weird things when no Skystone is detected
         }
 
         // TODO: Orient robot correctly relative to stone to correct, if necessary
 
-        swerve.stopModules();
     }
 }

@@ -21,7 +21,7 @@ public class MainTeleOp extends OpMode {
     //Creates a new controller to control the arms
     private ServoArmController servoArm;
 
-    //Used to controll the elevator
+    //Used to control the elevator
     private ElevatorSystemController elevatorSystem;
 
 
