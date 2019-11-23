@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Teleop;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -20,6 +21,7 @@ import org.firstinspires.ftc.teamcode.Utilities.Hardware.Enums.IMUOrientation;
 
 
 @TeleOp(name = "SwerveTeleop", group = "Teleop")
+@Disabled
 public class SwerveTeleop extends OpMode {
 
     //Creates a new swerve controller
@@ -39,9 +41,9 @@ public class SwerveTeleop extends OpMode {
 
         //Initialize the swerve controller
         swerveController = new SwerveController(gamepad1, hardwareMap, telemetry, IMUOrientation.HORIZONTAL, false);
-        servoArmController = new ServoArmController(hardwareMap);
+        //servoArmController = new ServoArmController(hardwareMap);
 
-        servoArmController.zeroArms();
+        //servoArmController.zeroArms();
 
         // Motors related to elevator
         dcElevator = hardwareMap.get(DcMotor.class, "dcElevator");

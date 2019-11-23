@@ -23,7 +23,7 @@ public class NonFieldCentricTest extends OpMode {
 
         //Initialize the swerve controller
         swerveController = new SwerveController(gamepad1, hardwareMap, telemetry, IMUOrientation.VERTICAL, false);
-        servoArm = new ServoArmController(hardwareMap);
+        servoArm = new ServoArmController(hardwareMap, gamepad2);
 
         //Set the position of the servos to zero on start
         //servoArm.zeroArms();
@@ -41,18 +41,10 @@ public class NonFieldCentricTest extends OpMode {
         //Control the modules
         swerveController.controlModules();
 
-        if (gamepad1.a){
-            servoArm.moveDown();
-        }
-        if (gamepad1.y){
-            servoArm.moveUp();
-        }
-        if (gamepad1.x){
-            servoArm.grip();
-        }
-        if (gamepad1.b){
-            servoArm.unGrip();
-        }
+        //Controls the arms
+        servoArm.controlArms();
+
+
 
        // telemetry.addData("Right Position: ", servoArm.getRightArm());
 

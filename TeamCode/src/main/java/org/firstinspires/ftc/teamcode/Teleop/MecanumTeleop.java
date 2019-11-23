@@ -14,9 +14,8 @@ import org.firstinspires.ftc.teamcode.Subsystems.ServoArmController;
  * @author Troy Lopez
  */
 
-@Disabled
-
 @TeleOp(name = "MecanumTeleop",  group = "Teleop")
+@Disabled
 public class MecanumTeleop extends OpMode {
 
     private Servo svTop;
@@ -32,9 +31,9 @@ public class MecanumTeleop extends OpMode {
     @Override
     public void init() {
 
-        servoArmController = new ServoArmController(hardwareMap);
+       //servoArmController = new ServoArmController(hardwareMap);
 
-        servoArmController.zeroArms();
+       // servoArmController.zeroArms();
 
         dcElevator = hardwareMap.get(DcMotor.class, "dcElevator");
         svTop = hardwareMap.get(Servo.class, "svTop");

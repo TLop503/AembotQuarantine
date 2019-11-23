@@ -8,10 +8,9 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import org.firstinspires.ftc.teamcode.Swerve.SwerveController;
 import org.firstinspires.ftc.teamcode.Utilities.Hardware.Enums.IMUOrientation;
 
-//import com.qualcomm.robotcore.hardware.DcMotorSimple;
-@Autonomous(name = "Week0Auto", group = "Autonomous")
+@Autonomous(name = "Line Drive Auto", group = "Autonomous")
 
-public class Week0Auto extends OpMode {
+public class LineDriveAuto extends OpMode {
 
     private boolean hasRun = false;
     private SwerveController swerveController;

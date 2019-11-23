@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Subsystems;
 
+import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -14,6 +15,8 @@ public class ServoArmController {
     private Servo leftBlockArm;
     private Servo leftBlockGrip;
 
+    private Gamepad gamepad;
+
     //Right Block Arm
     private Servo rightBlockArm;
     private Servo rightBlockGrip;
@@ -22,7 +25,9 @@ public class ServoArmController {
      * The constructor for a servo arm controller.
      * @param hardwareMap The HardwareMap configuration on the phones to get the ports for all 4 arm servos.
      */
-    public ServoArmController(HardwareMap hardwareMap){
+    public ServoArmController(HardwareMap hardwareMap, Gamepad gamepad){
+        this.gamepad = gamepad;
+
         leftBlockArm = hardwareMap.get(Servo.class,"leftBlockArm");
         leftBlockGrip = hardwareMap.get(Servo.class, "leftBlockGrip");
 
@@ -36,7 +41,7 @@ public class ServoArmController {
     /**
      * Called to set the arm positions to zero at start
      */
-    public void zeroArms(){
+    private void zeroArms(){
         leftBlockArm.setPosition(0);
         rightBlockArm.setPosition(0);
     }
@@ -52,7 +57,7 @@ public class ServoArmController {
     /**
      * Retract Both Arms
       */
-    public void moveUp() {
+    private void moveUp() {
         leftBlockArm.setPosition(0);
         rightBlockArm.setPosition(0);
     }
@@ -60,7 +65,7 @@ public class ServoArmController {
     /**
      * Close the grabber on both arms
      */
-    public void grip() {
+    private void grip() {
         leftBlockGrip.setPosition(0.9);
         rightBlockGrip.setPosition(0.9);
     }
@@ -68,13 +73,27 @@ public class ServoArmController {
     /**
      * Release the grip on the block on both arms
      */
-    public void unGrip() {
+    private void unGrip() {
         leftBlockGrip.setPosition(0.1);
         rightBlockGrip.setPosition(0.1);
     }
 
-    public double getRightArm(){
-        return rightBlockArm.getPosition();
+    /**
+     * General method to control the block arms
+     */
+    public void controlArms(){
+        if (gamepad.dpad_down){
+            moveDown();
+        }
+        if (gamepad.dpad_up){
+            moveUp();
+        }
+        if (gamepad.a){
+            grip();
+        }
+        if (gamepad.b){
+            unGrip();
+        }
     }
 
 
