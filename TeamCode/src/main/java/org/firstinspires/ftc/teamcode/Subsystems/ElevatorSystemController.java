@@ -59,8 +59,8 @@ public class ElevatorSystemController {
         //Used for opening the stacker
         //TODO: Make sure the values for the servo are correct
         if(gamepad.right_bumper) {
-            topArmServo.setPosition(0.857);
-            bottomArmServo.setPosition(0.857);
+            topArmServo.setPosition(0.55);
+            bottomArmServo.setPosition(0.55);
         }
 
         //Closes the stacker

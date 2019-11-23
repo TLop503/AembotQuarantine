@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.Utilities.Hardware.IMU;
 public class SwerveMath {
 
     public static final double WHEEL_DIAMETER = 2.5; //inches
-    public static final double WHEEL_CIRCUMFRANCE = WHEEL_DIAMETER*Math.PI;
+    public static final double WHEEL_CIRCUMFERENCE = WHEEL_DIAMETER*Math.PI;
 
 
     /**
@@ -173,8 +173,8 @@ public class SwerveMath {
      * @param distance the distance needed to move in inches
      * @return the distance in terms of rotations
      */
-    public static double calculateWheelPosition(double distance, double currentPosition){
-       return currentPosition + (distance/WHEEL_CIRCUMFRANCE);
+    public static double calculateWheelPosition(double distance){
+       return (distance/ WHEEL_CIRCUMFERENCE);
     }
 
 }

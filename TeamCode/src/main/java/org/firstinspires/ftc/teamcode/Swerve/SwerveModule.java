@@ -176,13 +176,14 @@ public class SwerveModule {
          */
         if(gamepad1.start){
             if(MagSwitch.getState()){
+                telemetry.addData("Mag Switch: ", MagSwitch.getState());
                 if(modPos == ModulePosition.RIGHT) {
-                    TopSwerveMotor.setPower(0.15);
-                    BottomSwerveMotor.setPower(0.15);
+                    TopSwerveMotor.setPower(0.3);
+                    BottomSwerveMotor.setPower(0.3);
                 }
                 else{
-                    TopSwerveMotor.setPower(-0.15);
-                    BottomSwerveMotor.setPower(-0.15);
+                    TopSwerveMotor.setPower(-0.3);
+                    BottomSwerveMotor.setPower(-0.3);
                 }
             }
             else{
@@ -406,7 +407,11 @@ public class SwerveModule {
      * @return the status of the completeness of the control
      */
     public boolean AutoPIDControl(double angle, double distance, double maxMotorSpeed){
-
+        if(!hasResetEncoders) {
+            resetBottomEncoder();
+            resetTopEncoder();
+            hasResetEncoders = true;
+        }
         /*
          * Collect information to be used in module control / PID
          * currentRotation - The number of rotations he module has currently completed
@@ -423,7 +428,10 @@ public class SwerveModule {
          * wantedDistanceRot - The new distance value we want to reach
          */
         currentDistanceRot = SwerveMath.getWheelPosition(getTopMotorTicks(), getBottomMotorTicks());
-        wantedDistanceRot = SwerveMath.calculateWheelPosition(distance, currentDistanceRot);
+        wantedDistanceRot = SwerveMath.calculateWheelPosition(distance);
+
+        telemetry.addData("Wanted Distance: ", wantedDistanceRot);
+        telemetry.addData("Current Disrance: ", currentDistanceRot);
 
         /*
          * This small section simply updates the point that it wants to reach based off the new wantedRotation
@@ -474,6 +482,8 @@ public class SwerveModule {
 
             //If it is in range return true
             else {
+                stopMotors();
+                hasResetEncoders = false;
                 return true;
             }
         }

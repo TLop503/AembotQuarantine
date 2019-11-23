@@ -9,7 +9,6 @@ import org.firstinspires.ftc.teamcode.Swerve.SwerveController;
 import org.firstinspires.ftc.teamcode.Utilities.Hardware.Enums.IMUOrientation;
 
 @Autonomous(name = "Line Drive Auto", group = "Autonomous")
-
 public class LineDriveAuto extends OpMode {
 
     private boolean hasRun = false;
