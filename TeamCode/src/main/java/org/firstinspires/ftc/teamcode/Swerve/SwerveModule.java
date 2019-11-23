@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Swerve.Enums.ModulePosition;
 import org.firstinspires.ftc.teamcode.Swerve.Enums.WheelDirection;
+import org.firstinspires.ftc.teamcode.Utilities.Constants;
 import org.firstinspires.ftc.teamcode.Utilities.Control.PID;
 import org.firstinspires.ftc.teamcode.Utilities.Hardware.IMU;
 
@@ -51,7 +52,7 @@ public class SwerveModule {
     private double wantedDistanceRot = 0;
 
     //P = 3 or 5, or 8
-    private final double P = 5.2, I = 0, D = 0;
+    private final double P = Constants.TURN_P, I = Constants.TURN_I, D = Constants.TURN_D;
 
     //Reference to the PID class that allows us to use PID
     private PID TeleOpPID;
@@ -128,7 +129,7 @@ public class SwerveModule {
          * Create a new drivePID to be used for autonomous driving of the modules
          * TODO: Tune values
          */
-        drivePID = new PID(0,0,0);
+        drivePID = new PID(Constants.DRIVE_P,Constants.DRIVE_I,Constants.DRIVE_D);
         drivePID.setAcceptableRange(0.02);
         drivePID.setSetpoint(0);
 

@@ -5,7 +5,6 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.teamcode.Autonomous.Utilites.StoneApproach;
-import org.firstinspires.ftc.teamcode.Utilities.Control.PID;
 import org.firstinspires.ftc.teamcode.Utilities.Vuforia.VuforiaWrapper;
 import org.firstinspires.ftc.teamcode.Swerve.SwerveController;
 
@@ -13,9 +12,6 @@ import org.firstinspires.ftc.teamcode.Swerve.SwerveController;
 public class DriveToStoneTest extends OpMode {
     private VuforiaWrapper vuforia;
     private SwerveController swerveController;
-
-    // Initialize PID controller for movement
-    private PID drivePid;
 
     // Z Offset to be relative to the stone
     private double zOffset = 10;
@@ -28,6 +24,10 @@ public class DriveToStoneTest extends OpMode {
 
     @Override
     public void init() {
+        // Initialize the conroller for the swerve modules
+        swerveController = new SwerveController(hardwareMap);
+
+        // Initialize class facilitating the approach of a stone
         StoneApproach approach = new StoneApproach(vuforia, swerveController, hardwareMap);
     }
 
@@ -39,7 +39,7 @@ public class DriveToStoneTest extends OpMode {
     @Override
     public void loop() {
         if(!hasRun) {
-            approach.approachStone(10, 10);
+            approach.approachStone(zOffset, 10);
 
             // Stop the op mode
             hasRun = true;

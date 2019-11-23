@@ -65,7 +65,8 @@ public class IMU {
         if(orientation.equals(IMUOrientation.HORIZONTAL))
             return (imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES)).firstAngle - angleOffset.firstAngle;
         else
-            return (imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES)).thirdAngle - angleOffset.thirdAngle;
+            // This originally used the thirdAngle for the offset
+            return (imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES)).secondAngle - angleOffset.secondAngle;
     }
 
     public boolean getIsGyroCalibrated(){

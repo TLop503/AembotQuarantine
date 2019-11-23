@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.Autonomous.Utilites;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.Swerve.SwerveController;
+import org.firstinspires.ftc.teamcode.Utilities.Constants;
 import org.firstinspires.ftc.teamcode.Utilities.Control.PID;
 import org.firstinspires.ftc.teamcode.Utilities.Vuforia.VuforiaWrapper;
 import org.firstinspires.ftc.teamcode.Utilities.Vuforia.SkystonePostion;
@@ -36,7 +37,7 @@ public class StoneApproach {
 
         // Initialize the PID instance inside this class
         // TODO: Tune the P scalar to actually work; 5 is just a placeholder value
-        this.drivePid = new PID(5, 0, 0);
+        this.drivePid = new PID(Constants.DRIVE_P, Constants.DRIVE_I, Constants.DRIVE_D);
 
         drivePid.setSetpoint(0);
         drivePid.setMaxOutput(1);
@@ -90,6 +91,7 @@ public class StoneApproach {
 
         // TODO: Find x-offsets required to end up with left or right arm in front of the stone
         switch(stonePos) {
+            /*
             case LEFT:
                 while(xStoneDistance <= marginError + leftArmOffset && xStoneDistance >= marginError - leftArmOffset) {
                     // Update x-distance and regular distance to stone for while loop purposes
@@ -110,7 +112,10 @@ public class StoneApproach {
 
                 break;
 
+             */
+
             default:
+            case LEFT: // This should be removed when the left arm starts working
             case CENTER:
             case RIGHT:
                 // FIXME: Consider refactoring to separate function
