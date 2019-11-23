@@ -38,8 +38,8 @@ public class ServoArmController {
         rightBlockGrip = hardwareMap.get(Servo.class, "rightBlockGrip");
          */
 
-        rightBlockArm.setDirection(Servo.Direction.REVERSE);
-        rightBlockGrip.setDirection(Servo.Direction.REVERSE);
+        //rightBlockArm.setDirection(Servo.Direction.REVERSE);
+        //rightBlockGrip.setDirection(Servo.Direction.REVERSE);
     }
 
     /**

@@ -43,7 +43,7 @@ public class ElevatorSystemController {
 
         //Moves the elevator down
         if(gamepad.dpad_down){
-            elevatorMotor.setPower(-0.7);
+            elevatorMotor.setPower(0.7);
         }
 
         //Moves the elevator up
