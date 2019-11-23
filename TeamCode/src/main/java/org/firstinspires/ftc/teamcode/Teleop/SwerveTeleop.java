@@ -18,8 +18,6 @@ import org.firstinspires.ftc.teamcode.Utilities.Hardware.Enums.IMUOrientation;
  * @author Will Richards, Troy Lopez
  */
 
-
-
 @TeleOp(name = "SwerveTeleop", group = "Teleop")
 @Disabled
 public class SwerveTeleop extends OpMode {

@@ -1,10 +1,12 @@
 package org.firstinspires.ftc.teamcode.Test.General;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 @TeleOp(name = "Min Speed Test", group = "Test")
+@Disabled
 public class MotorMinSpeedTest extends OpMode {
 
     DcMotor RightTopSwerve;

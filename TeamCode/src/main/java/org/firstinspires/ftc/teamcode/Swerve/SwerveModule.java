@@ -6,7 +6,6 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.robotcore.internal.tfod.BorderedText;
 import org.firstinspires.ftc.teamcode.Swerve.Enums.ModulePosition;
 import org.firstinspires.ftc.teamcode.Swerve.Enums.WheelDirection;
 import org.firstinspires.ftc.teamcode.Utilities.Control.PID;
@@ -31,6 +30,7 @@ public class SwerveModule {
     private DcMotor TopSwerveMotor;
     private DcMotor BottomSwerveMotor;
 
+    //Magnetic limit switch that is used to zero modules
     private DigitalChannel MagSwitch;
 
     private double motorSpeedOffset = 0.1;
@@ -46,6 +46,7 @@ public class SwerveModule {
     private double wantedRotation = 0;
     private WheelDirection wheelDirection = WheelDirection.STATIC;
 
+    //Represents the distances in wheel rotations
     private double currentDistanceRot = 0;
     private double wantedDistanceRot = 0;
 
@@ -162,10 +163,10 @@ public class SwerveModule {
         power = TeleOpPID.calcOutput(currentRotation);
 
         /*
-         * This is a chunk of code specific to swerve, however, the PID class is universally accessible
-         * It first asks the PID controller if it is in the acceptable range, If so it will stop the motors so they are not trying to get to a value that is impossible with the current scalars
-         * Next if the driver wants to accelerate this can only be done once it has aligned  to the right angle
-         * However if it is not in rage simply add the calculated motor power to the motors
+         * This code is used to actively re-zero the modules while on the field
+         * It takes the mag switches that are above the modules and uses those to re-zero the module when the start button is pressed
+         * It then turns the modules at a very slow speed to realign with the magnetic limit switches
+         * At which point it resets the encoders on the motors
          */
         if(gamepad1.start){
             if(MagSwitch.getState()){
@@ -185,7 +186,16 @@ public class SwerveModule {
                 resetTopEncoder();
             }
         }
+
+
+       //If we weren't trying to zero the modules
         else{
+
+            /*
+             * This is where the bulk of the control code happens
+             * It first checks to see if the control loop has reached its desired angle, if it has allow the module to drive forward, if it hasn't then keep trying
+             * Next if it is "in range" and the driver is pressing the trigger, check which module it is and then depending on where the joystick is either run the wheels forward or backward
+             */
             if(TeleOpPID.isInRange()){
                 if(gamepad1.right_trigger > 0.1){
                     if(modPos == ModulePosition.RIGHT) {
@@ -216,21 +226,32 @@ public class SwerveModule {
                 }
 
                 /*
-                 * Allows the robot to turn when the bumpers are pressed
+                 * If it isn't trying to drive then check if it is trying to turn right
                  */
                 else if(gamepad1.right_bumper) {
                     TopSwerveMotor.setPower(-motorSpeed);
                     BottomSwerveMotor.setPower(motorSpeed);
                 }
+                /*
+                 * If not right then check left
+                 */
                 else if(gamepad1.left_bumper) {
                     TopSwerveMotor.setPower(motorSpeed);
                     BottomSwerveMotor.setPower(-motorSpeed);
                 }
+
+                /*
+                 * Finally if it is aligned and we aren't trying to drive or turn stop the motors and don't do anything
+                 */
                 else {
                     TopSwerveMotor.setPower(0);
                     BottomSwerveMotor.setPower(0);
                 }
             }
+
+            /*
+             * Now if the angle is outside the acceptable range feed the PID loop values into the motors to reach the range
+             */
             else{
 
                 TopSwerveMotor.setPower(power);
@@ -268,51 +289,101 @@ public class SwerveModule {
         power = TeleOpPID.calcOutput(currentRotation);
 
         /*
-         * This is a chunk of code specific to swerve, however, the PID class is universally accessible
-         * It first asks the PID controller if it is in the acceptable range, If so it will stop the motors so they are not trying to get to a value that is impossible with the current scalars
-         * Next if the driver wants to accelerate this can only be done once it has aligned  to the right angle
-         * However if it is not in rage simply add the calculated motor power to the motors
+         * This code is used to actively re-zero the modules while on the field
+         * It takes the mag switches that are above the modules and uses those to re-zero the module when the start button is pressed
+         * It then turns the modules at a very slow speed to realign with the magnetic limit switches
+         * At which point it resets the encoders on the motors
          */
-        if(TeleOpPID.isInRange()){
-            if(gamepad1.right_trigger > 0.1){
+        if(gamepad1.start){
+            if(MagSwitch.getState()){
                 if(modPos == ModulePosition.RIGHT) {
-                    if (wheelDirection == WheelDirection.FORWARD) {
-                        TopSwerveMotor.setPower(motorSpeed);
-                        BottomSwerveMotor.setPower(-motorSpeed);
-                    } else if (wheelDirection == WheelDirection.BACKWARD) {
-                        TopSwerveMotor.setPower(-motorSpeed);
-                        BottomSwerveMotor.setPower(motorSpeed);
-                    } else {
-                        TopSwerveMotor.setPower(motorSpeed);
-                        BottomSwerveMotor.setPower(-motorSpeed);
-                    }
+                    TopSwerveMotor.setPower(0.15);
+                    BottomSwerveMotor.setPower(0.15);
                 }
                 else{
-                    if (wheelDirection == WheelDirection.FORWARD) {
-                        TopSwerveMotor.setPower(-motorSpeed);
-                        BottomSwerveMotor.setPower(motorSpeed);
-                    } else if (wheelDirection == WheelDirection.BACKWARD) {
-                        TopSwerveMotor.setPower(motorSpeed);
-                        BottomSwerveMotor.setPower(-motorSpeed);
-                    } else {
-                        TopSwerveMotor.setPower(-motorSpeed);
-                        BottomSwerveMotor.setPower(motorSpeed);
-                    }
+                    TopSwerveMotor.setPower(-0.15);
+                    BottomSwerveMotor.setPower(-0.15);
                 }
-
             }
-
-            else {
+            else{
                 TopSwerveMotor.setPower(0);
                 BottomSwerveMotor.setPower(0);
+                resetBottomEncoder();
+                resetTopEncoder();
             }
         }
+
+
+        //If we weren't trying to zero the modules
         else{
-            TopSwerveMotor.setPower(power);
-            BottomSwerveMotor.setPower(power);
+
+            /*
+             * This is where the bulk of the control code happens
+             * It first checks to see if the control loop has reached its desired angle, if it has allow the module to drive forward, if it hasn't then keep trying
+             * Next if it is "in range" and the driver is pressing the trigger, check which module it is and then depending on where the joystick is either run the wheels forward or backward
+             */
+            if(TeleOpPID.isInRange()){
+                if(gamepad1.right_trigger > 0.1){
+                    if(modPos == ModulePosition.RIGHT) {
+                        if (wheelDirection == WheelDirection.FORWARD) {
+                            TopSwerveMotor.setPower(motorSpeed);
+                            BottomSwerveMotor.setPower(-motorSpeed);
+                        } else if (wheelDirection == WheelDirection.BACKWARD) {
+                            TopSwerveMotor.setPower(-motorSpeed);
+                            BottomSwerveMotor.setPower(motorSpeed);
+                        } else {
+                            TopSwerveMotor.setPower(motorSpeed);
+                            BottomSwerveMotor.setPower(-motorSpeed);
+                        }
+                    }
+                    else {
+                        if (wheelDirection == WheelDirection.FORWARD) {
+                            TopSwerveMotor.setPower(-motorSpeed);
+                            BottomSwerveMotor.setPower(motorSpeed);
+                        } else if (wheelDirection == WheelDirection.BACKWARD) {
+                            TopSwerveMotor.setPower(motorSpeed);
+                            BottomSwerveMotor.setPower(-motorSpeed);
+                        } else {
+                            TopSwerveMotor.setPower(-motorSpeed);
+                            BottomSwerveMotor.setPower(motorSpeed);
+                        }
+                    }
+
+                }
+
+                /*
+                 * If it isn't trying to drive then check if it is trying to turn right
+                 */
+                else if(gamepad1.right_bumper) {
+                    TopSwerveMotor.setPower(-motorSpeed);
+                    BottomSwerveMotor.setPower(motorSpeed);
+                }
+                /*
+                 * If not right then check left
+                 */
+                else if(gamepad1.left_bumper) {
+                    TopSwerveMotor.setPower(motorSpeed);
+                    BottomSwerveMotor.setPower(-motorSpeed);
+                }
+
+                /*
+                 * Finally if it is aligned and we aren't trying to drive or turn stop the motors and don't do anything
+                 */
+                else {
+                    TopSwerveMotor.setPower(0);
+                    BottomSwerveMotor.setPower(0);
+                }
+            }
+
+            /*
+             * Now if the angle is outside the acceptable range feed the PID loop values into the motors to reach the range
+             */
+            else{
+
+                TopSwerveMotor.setPower(power);
+                BottomSwerveMotor.setPower(power);
+            }
         }
-
-
     }
 
     //endregion
@@ -543,7 +614,7 @@ public class SwerveModule {
      */
     public void activeDrive(double angle, double motorSpeed){
 
-        /*
+        /**
          * Collect information to be used in module control / PID
          * currentRotation - The number of rotations he module has currently completed
          * wantedRotation - The normalized values of the angle
@@ -556,7 +627,7 @@ public class SwerveModule {
         turnPID.setSetpoint(wantedRotation);
         turnPower = turnPID.calcOutput(currentRotation);
 
-        /*
+        /**
          * Runs the motors to a given position and then stops
          */
         if(turnPID.isInRange()) {
@@ -623,6 +694,7 @@ public class SwerveModule {
      * Pseudo reset the top encoder value
      */
     public void resetTopEncoder(){
+
         topMotorTickOffset = TopSwerveMotor.getCurrentPosition();
     }
 

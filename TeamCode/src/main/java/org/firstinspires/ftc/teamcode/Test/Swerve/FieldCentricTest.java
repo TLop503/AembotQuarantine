@@ -15,6 +15,7 @@ import org.firstinspires.ftc.teamcode.Utilities.Hardware.Enums.IMUOrientation;
  * @author Will Richards
  */
 @TeleOp(name = "Field Centric Test", group = "Test")
+@Disabled
 public class FieldCentricTest extends OpMode {
 
     //Creates a new swerve controller

@@ -41,7 +41,7 @@ public class ServoArmController {
     /**
      * Called to set the arm positions to zero at start
      */
-    private void zeroArms(){
+    public void zeroArms(){
         leftBlockArm.setPosition(0);
         rightBlockArm.setPosition(0);
     }
@@ -82,13 +82,13 @@ public class ServoArmController {
      * General method to control the block arms
      */
     public void controlArms(){
-        if (gamepad.dpad_down){
+        if (gamepad.a){
             moveDown();
         }
-        if (gamepad.dpad_up){
+        if (gamepad.y){
             moveUp();
         }
-        if (gamepad.a){
+        if (gamepad.x){
             grip();
         }
         if (gamepad.b){
