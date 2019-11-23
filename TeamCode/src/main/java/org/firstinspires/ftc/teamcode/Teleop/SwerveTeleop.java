@@ -99,16 +99,16 @@ public class SwerveTeleop extends OpMode {
          */
         if (armSwitch == true){
             if (gamepad2.dpad_down){
-                servoArmController.moveRightDown();
+               // servoArmController.moveRightDown();
             }
             if (gamepad2.dpad_up){
-                servoArmController.moveRightUp();
+                //servoArmController.moveRightUp();
             }
             if (gamepad2.a){
-                servoArmController.gripRight();
+                //servoArmController.gripRight();
             }
             if (gamepad2.b){
-                servoArmController.unGripRight();
+            //    servoArmController.unGripRight();
             }
         }
 
@@ -117,16 +117,16 @@ public class SwerveTeleop extends OpMode {
          */
         else {
             if (gamepad2.dpad_down){
-                servoArmController.moveLeftDown();
+              //  servoArmController.moveLeftDown();
             }
             if (gamepad2.dpad_up){
-                servoArmController.moveLeftUp();
+                ///servoArmController.moveLeftUp();
             }
             if (gamepad2.a){
-                servoArmController.gripLeft();
+             //   servoArmController.gripLeft();
             }
             if (gamepad2.b){
-                servoArmController.unGripLeft();
+               // servoArmController.unGripLeft();
             }
         }
 

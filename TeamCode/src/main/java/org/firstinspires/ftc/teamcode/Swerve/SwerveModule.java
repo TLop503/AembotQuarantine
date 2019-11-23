@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.internal.tfod.BorderedText;
 import org.firstinspires.ftc.teamcode.Swerve.Enums.ModulePosition;
 import org.firstinspires.ftc.teamcode.Swerve.Enums.WheelDirection;
 import org.firstinspires.ftc.teamcode.Utilities.Control.PID;
@@ -30,8 +31,9 @@ public class SwerveModule {
     private DcMotor TopSwerveMotor;
     private DcMotor BottomSwerveMotor;
 
-    //The switch that helps to zero the module
-    private DigitalChannel ZeroSwitch;
+    private DigitalChannel MagSwitch;
+
+    private double motorSpeedOffset = 0.1;
 
     //Determines the offset to apply to the tickCounts
     private int topMotorTickOffset = 0;
@@ -89,14 +91,18 @@ public class SwerveModule {
             case RIGHT:
                 TopSwerveMotor = hardwareMap.get(DcMotor.class, "RightTopSwerveMotor");
                 BottomSwerveMotor = hardwareMap.get(DcMotor.class, "RightBottomSwerveMotor");
-                ZeroSwitch = hardwareMap.get(DigitalChannel.class, "RightMagSwitch");
+                MagSwitch = hardwareMap.get(DigitalChannel.class, "RightMagSwitch");
                 break;
             case LEFT:
                 TopSwerveMotor = hardwareMap.get(DcMotor.class, "LeftTopSwerveMotor");
                 BottomSwerveMotor = hardwareMap.get(DcMotor.class, "LeftBottomSwerveMotor");
-                ZeroSwitch = hardwareMap.get(DigitalChannel.class, "LeftMagSwitch");
+                MagSwitch = hardwareMap.get(DigitalChannel.class, "LeftMagSwitch");
                 break;
         }
+
+        //Tells the motors to run at a constant velocity, not just based on the motor values
+        TopSwerveMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        BottomSwerveMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         /*
          * Creates a new TeleOpPID and passes P, I and D into it.
@@ -106,6 +112,7 @@ public class SwerveModule {
         TeleOpPID = new PID(P,I,D);
         TeleOpPID.setAcceptableRange(0.02);
         TeleOpPID.setSetpoint(0);
+        TeleOpPID.setMaxOutput(0.6);
 
         /*
          * Create a new turnPID to specifically be used for autonomous turning of the robot
@@ -121,6 +128,9 @@ public class SwerveModule {
         drivePID = new PID(0,0,0);
         drivePID.setAcceptableRange(0.02);
         drivePID.setSetpoint(0);
+
+        resetBottomEncoder();
+        resetTopEncoder();
     }
 
     //region Teleop Module Control
@@ -129,20 +139,7 @@ public class SwerveModule {
      */
     public void PIDControl() {
 
-        //When the sensor is crossed reset the encoders
-        //TODO: If that doesnt work, then use the more complex one
-        //if(ZeroSwitch.getState()){
-          //  resetTopEncoder();
-           // resetBottomEncoder();
-        //}
-
-
         double motorSpeed = 0.7;
-
-        telemetry.addData(modPos + " Top Encoder: ", getTopMotorTicks());
-        telemetry.addData(modPos + " Bottom Encoder: ", getBottomMotorTicks());
-
-
 
         /*
          * Collect information to be used in module control / PID
@@ -153,6 +150,9 @@ public class SwerveModule {
         currentRotation = SwerveMath.getModulePosition(getTopMotorTicks(),getBottomMotorTicks());
         wantedRotation = SwerveMath.normalizeJoystickAngle(gamepad1);
         wheelDirection = SwerveMath.getWheelDirection(gamepad1);
+
+        telemetry.addData(modPos + " Current Rotation: ", currentRotation);
+
 
         /*
          * This small section simply updates the point that it wants to reach based off the new wantedRotation
@@ -167,106 +167,77 @@ public class SwerveModule {
          * Next if the driver wants to accelerate this can only be done once it has aligned  to the right angle
          * However if it is not in rage simply add the calculated motor power to the motors
          */
-        if(TeleOpPID.isInRange()){
-            if(gamepad1.right_trigger > 0.1){
+        if(gamepad1.start){
+            if(MagSwitch.getState()){
                 if(modPos == ModulePosition.RIGHT) {
-                    if (wheelDirection == WheelDirection.FORWARD) {
-                        TopSwerveMotor.setPower(motorSpeed);
-                        BottomSwerveMotor.setPower(-motorSpeed);
-                    } else if (wheelDirection == WheelDirection.BACKWARD) {
-                        TopSwerveMotor.setPower(-motorSpeed);
-                        BottomSwerveMotor.setPower(motorSpeed);
-                    } else {
-                        TopSwerveMotor.setPower(motorSpeed);
-                        BottomSwerveMotor.setPower(-motorSpeed);
-                    }
-                }
-                else {
-                    if (wheelDirection == WheelDirection.FORWARD) {
-                        TopSwerveMotor.setPower(-motorSpeed);
-                        BottomSwerveMotor.setPower(motorSpeed);
-                    } else if (wheelDirection == WheelDirection.BACKWARD) {
-                        TopSwerveMotor.setPower(motorSpeed);
-                        BottomSwerveMotor.setPower(-motorSpeed);
-                    } else {
-                        TopSwerveMotor.setPower(-motorSpeed);
-                        BottomSwerveMotor.setPower(motorSpeed);
-                    }
-                }
-
-            }
-
-            /*
-             * Allows the robot to turn when the bumpers are pressed
-             */
-            else if(gamepad1.right_bumper) {
-                TopSwerveMotor.setPower(-motorSpeed);
-                BottomSwerveMotor.setPower(motorSpeed);
-            }
-            else if(gamepad1.left_bumper) {
-                TopSwerveMotor.setPower(motorSpeed);
-                BottomSwerveMotor.setPower(-motorSpeed);
-            }
-            else {
-
-                if(wantedRotation == 0){
-                    if(ZeroSwitch.getState()) {
-                        TopSwerveMotor.setPower(0.2);
-                        BottomSwerveMotor.setPower(0.2);
-                    }
-                    else{
-                        resetBottomEncoder();
-                        resetTopEncoder();
-                        TopSwerveMotor.setPower(0);
-                        BottomSwerveMotor.setPower(0);
-                    }
-                }
-            }
-        }
-        else{
-
-                if(wantedRotation == 0){
-                    if(ZeroSwitch.getState()) {
-                        TopSwerveMotor.setPower(0.2);
-                        BottomSwerveMotor.setPower(0.2);
-                    }
-                    else{
-                        resetBottomEncoder();
-                        resetTopEncoder();
-                        TopSwerveMotor.setPower(0);
-                        BottomSwerveMotor.setPower(0);
-                    }
+                    TopSwerveMotor.setPower(0.15);
+                    BottomSwerveMotor.setPower(0.15);
                 }
                 else{
-                    TopSwerveMotor.setPower(power);
-                    BottomSwerveMotor.setPower(power);
+                    TopSwerveMotor.setPower(-0.15);
+                    BottomSwerveMotor.setPower(-0.15);
                 }
-        }
-
-
-    }
-
-    public boolean getSwitchStatus(){
-        return ZeroSwitch.getState();
-    }
-
-    /**
-     * Actively zero the modules
-     * @return weather or not its zeroed
-     */
-    public boolean activeZeroModules(){
-        if(ZeroSwitch.getState()) {
-            TopSwerveMotor.setPower(0.2);
-            BottomSwerveMotor.setPower(0.2);
+            }
+            else{
+                TopSwerveMotor.setPower(0);
+                BottomSwerveMotor.setPower(0);
+                resetBottomEncoder();
+                resetTopEncoder();
+            }
         }
         else{
-            resetBottomEncoder();
-            resetTopEncoder();
-            TopSwerveMotor.setPower(0);
-            BottomSwerveMotor.setPower(0);
-            return true;
+            if(TeleOpPID.isInRange()){
+                if(gamepad1.right_trigger > 0.1){
+                    if(modPos == ModulePosition.RIGHT) {
+                        if (wheelDirection == WheelDirection.FORWARD) {
+                            TopSwerveMotor.setPower(motorSpeed);
+                            BottomSwerveMotor.setPower(-motorSpeed);
+                        } else if (wheelDirection == WheelDirection.BACKWARD) {
+                            TopSwerveMotor.setPower(-motorSpeed);
+                            BottomSwerveMotor.setPower(motorSpeed);
+                        } else {
+                            TopSwerveMotor.setPower(motorSpeed);
+                            BottomSwerveMotor.setPower(-motorSpeed);
+                        }
+                    }
+                    else {
+                        if (wheelDirection == WheelDirection.FORWARD) {
+                            TopSwerveMotor.setPower(-motorSpeed);
+                            BottomSwerveMotor.setPower(motorSpeed);
+                        } else if (wheelDirection == WheelDirection.BACKWARD) {
+                            TopSwerveMotor.setPower(motorSpeed);
+                            BottomSwerveMotor.setPower(-motorSpeed);
+                        } else {
+                            TopSwerveMotor.setPower(-motorSpeed);
+                            BottomSwerveMotor.setPower(motorSpeed);
+                        }
+                    }
+
+                }
+
+                /*
+                 * Allows the robot to turn when the bumpers are pressed
+                 */
+                else if(gamepad1.right_bumper) {
+                    TopSwerveMotor.setPower(-motorSpeed);
+                    BottomSwerveMotor.setPower(motorSpeed);
+                }
+                else if(gamepad1.left_bumper) {
+                    TopSwerveMotor.setPower(motorSpeed);
+                    BottomSwerveMotor.setPower(-motorSpeed);
+                }
+                else {
+                    TopSwerveMotor.setPower(0);
+                    BottomSwerveMotor.setPower(0);
+                }
+            }
+            else{
+
+                TopSwerveMotor.setPower(power);
+                BottomSwerveMotor.setPower(power);
+            }
         }
-        return false;
+
     }
 
     /**
@@ -274,13 +245,10 @@ public class SwerveModule {
      */
     public void PIDControl(IMU imu){
 
-
         double motorSpeed = 0.7;
 
-        telemetry.addData(modPos + " Top Encoder: ", getTopMotorTicks());
-        telemetry.addData(modPos + " Bottom Encoder: ", getBottomMotorTicks());
-
-
+        telemetry.addData(modPos + " Top Encoder: ", TopSwerveMotor.getCurrentPosition());
+        telemetry.addData(modPos + " Bottom Encoder: ", BottomSwerveMotor.getCurrentPosition());
 
         /*
          * Collect information to be used in module control / PID
@@ -288,7 +256,7 @@ public class SwerveModule {
          * wantedRotation - The normalized top hemisphere value of the joystick converted into rotations
          * wheelDirection - The direction the wheel should spin based off the Y axis of the joystick
          */
-        currentRotation = SwerveMath.getModulePosition(getTopMotorTicks(), getBottomMotorTicks());
+        currentRotation = SwerveMath.getModulePosition(TopSwerveMotor.getCurrentPosition(), BottomSwerveMotor.getCurrentPosition());
         wantedRotation = SwerveMath.normalizeJoystickAngle(gamepad1, imu);
         wheelDirection = SwerveMath.getWheelDirection(gamepad1);
 

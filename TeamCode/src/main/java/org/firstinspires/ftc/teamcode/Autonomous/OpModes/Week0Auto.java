@@ -23,14 +23,9 @@ public class Week0Auto extends OpMode {
 
     @Override
     public void loop() {
-        if(!hasRun) {
-
+        if(!hasRun){
             //Parks On Line
-            swerveController.autoControlModules(0, 26, 0.5);
-
-            //Ends Program
-            hasRun = true;
+            hasRun = swerveController.autoControlModules(0, 26, 0.5);
         }
     }
-
 }

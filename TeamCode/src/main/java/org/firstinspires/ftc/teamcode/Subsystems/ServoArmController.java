@@ -28,6 +28,9 @@ public class ServoArmController {
 
         rightBlockArm = hardwareMap.get(Servo.class,"rightBlockArm");
         rightBlockGrip = hardwareMap.get(Servo.class, "rightBlockGrip");
+
+        rightBlockArm.setDirection(Servo.Direction.REVERSE);
+        rightBlockGrip.setDirection(Servo.Direction.REVERSE);
     }
 
     /**
@@ -43,7 +46,7 @@ public class ServoArmController {
      */
     public void moveDown(){
         leftBlockArm.setPosition(0.4);
-        rightBlockArm.setPosition(0.4);
+        rightBlockArm.setPosition(1);
     }
 
     /**
@@ -58,56 +61,22 @@ public class ServoArmController {
      * Close the grabber on both arms
      */
     public void grip() {
-        leftBlockGrip.setPosition(1);
-        rightBlockGrip.setPosition(1);
+        leftBlockGrip.setPosition(0.9);
+        rightBlockGrip.setPosition(0.9);
     }
 
     /**
      * Release the grip on the block on both arms
      */
     public void unGrip() {
-        leftBlockGrip.setPosition(0);
-        rightBlockGrip.setPosition(0);
+        leftBlockGrip.setPosition(0.1);
+        rightBlockGrip.setPosition(0.1);
     }
 
-    /**
-     * Code only controlling Left arm
-     */
-
-    public void moveLeftDown(){
-        leftBlockArm.setPosition(0.4);
+    public double getRightArm(){
+        return rightBlockArm.getPosition();
     }
 
-    public void moveLeftUp() {
-        leftBlockArm.setPosition(0);
-    }
 
-    public void gripLeft() {
-        leftBlockGrip.setPosition(1);
-    }
-
-    public void unGripLeft() {
-        leftBlockGrip.setPosition(0);
-    }
-
-    /**
-     * Code only controlling Right arm
-     */
-
-    public void moveRightDown(){
-        rightBlockArm.setPosition(0.4);
-    }
-
-    public void moveRightUp() {
-        rightBlockArm.setPosition(0);
-    }
-
-    public void gripRight() {
-        rightBlockGrip.setPosition(1);
-    }
-
-    public void unGripRight() {
-        rightBlockGrip.setPosition(0);
-    }
 
 }

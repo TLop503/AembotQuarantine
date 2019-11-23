@@ -26,16 +26,13 @@ public class NonFieldCentricTest extends OpMode {
         servoArm = new ServoArmController(hardwareMap);
 
         //Set the position of the servos to zero on start
-        servoArm.zeroArms();
+        //servoArm.zeroArms();
 
         //Zero the position of the modules at init
         swerveController.zeroModules();
 
         telemetry.addData("Wanted Rotation: ", SwerveMath.normalizeJoystickAngle(gamepad1));
 
-        while (swerveController.activeZeroModules()){
-
-        }
     }
 
     @Override
@@ -43,7 +40,6 @@ public class NonFieldCentricTest extends OpMode {
 
         //Control the modules
         swerveController.controlModules();
-        swerveController.getSwitch();
 
         if (gamepad1.a){
             servoArm.moveDown();
@@ -57,6 +53,8 @@ public class NonFieldCentricTest extends OpMode {
         if (gamepad1.b){
             servoArm.unGrip();
         }
+
+       // telemetry.addData("Right Position: ", servoArm.getRightArm());
 
     }
 }

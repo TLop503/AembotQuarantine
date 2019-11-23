@@ -100,11 +100,6 @@ public class SwerveController {
         }
     }
 
-    public void getSwitch(){
-        telemetry.addData("Left Switch: ", moduleList.get(0).getSwitchStatus());
-        telemetry.addData("Right Switch: ", moduleList.get(1).getSwitchStatus());
-    }
-
     /**
      * Method that allows for autonomous control of modules
      */
@@ -137,18 +132,6 @@ public class SwerveController {
             module.activeDrive(angle, speed);
         }
     }
-
-    public boolean activeZeroModules(){
-        isModuleOneZeroed = moduleList.get(0).activeZeroModules();
-        isModuleTwoZeroed = moduleList.get(1).activeZeroModules();
-
-        if(isModuleTwoZeroed && isModuleOneZeroed){
-            return false;
-        }
-
-        return true;
-    }
-
 
     /**
      * A method to scale the running power of swerve modules based on outside factors.
