@@ -121,6 +121,8 @@ public class SwerveController {
             return true;
         }
 
+        i = 0;
+
         //If the task wasn't completed return false
         return false;
     }

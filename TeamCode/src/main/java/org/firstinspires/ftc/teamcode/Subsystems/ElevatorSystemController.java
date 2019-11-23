@@ -52,19 +52,19 @@ public class ElevatorSystemController {
         }
 
         //If neither are pressed stop the elevator
-        else{
+        else {
             elevatorMotor.setPower(0);
         }
 
         //Used for opening the stacker
         //TODO: Make sure the values for the servo are correct
-        if(gamepad.right_bumper){
+        if(gamepad.right_bumper) {
             topArmServo.setPosition(0.857);
             bottomArmServo.setPosition(0.857);
         }
 
         //Closes the stacker
-        else if(gamepad.left_bumper){
+        else if(gamepad.left_bumper) {
             topArmServo.setPosition(0.286);
             bottomArmServo.setPosition(0.286);
         }

@@ -13,22 +13,28 @@ import org.firstinspires.ftc.teamcode.Utilities.Vuforia.VuforiaWrapper;
 public class StoneToFoundationBlue extends OpMode {
     private boolean[] actionsComplete = {false, false, false, false};
 
+    // Declare all the different subsystems
     private ServoArmController servos;
     private SwerveController swerveController;
     private VuforiaWrapper vuforia;
     private StoneApproach approach;
 
     /**
-     * Initialization method for this OpMode.
+     * Initialization method for this OpMode where all the subsystems are initialized
+     * (besides Vuforia).
      */
     @Override
     public void init() {
+        // Initialize Vuforia
+        vuforia = new VuforiaWrapper(hardwareMap);
+
         // Initialize swerve
         swerveController = new SwerveController(hardwareMap);
 
         // Initialize the StoneApproach class
         approach = new StoneApproach(vuforia, swerveController, hardwareMap);
 
+        // Initialize the servo controller for the stone arms
         servos = new ServoArmController(hardwareMap, null);
     }
 
@@ -45,15 +51,33 @@ public class StoneToFoundationBlue extends OpMode {
      */
     @Override
     public void loop() {
+        // Drive ~2 feet forward to be able to detect the Skystones
         if(!actionsComplete[0]) {
             actionsComplete[0] = swerveController.autoControlModules(0, 25, 1);
-        } else if(!actionsComplete[1]) {
+        }
+
+        // Drive up to stone using vuforia
+        else if(!actionsComplete[1]) {
             actionsComplete[1] = approach.approachStone(10, 10);
-        } else if(!actionsComplete[2]) {
+        }
+
+        // Pick up stone using right servo arm
+        else if(!actionsComplete[2]) {
+            // Lower arm
             servos.controlArmsAutonomous(ArmDirection.DOWN);
+
+            // Grab stone
             servos.controlArmsAutonomous(ArmDirection.GRIP);
+
+            // Raise arm
+            servos.controlArmsAutonomous(ArmDirection.UP);
+
+            // Mark this action as complete
             actionsComplete[2] = true;
-        } else if(!actionsComplete[3]) {
+        }
+
+        // Drive under skybridge (~4 feet away)
+        else if(!actionsComplete[3]) {
             actionsComplete[3] = swerveController.autoControlModules(-90, 48, 1);
         }
     }

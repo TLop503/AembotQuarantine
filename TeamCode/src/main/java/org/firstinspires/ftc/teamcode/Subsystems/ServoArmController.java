@@ -100,6 +100,11 @@ public class ServoArmController {
         }
     }
 
+    /**
+     * A method to control the stone servo arms during the autonomous period using the enum ArmDirection.
+     * FIXME: Rename ArmDirection enum, as gripping and ungripping aren't really directions
+     * @param direction The action you want to do with the servo arms.
+     */
     public void controlArmsAutonomous(ArmDirection direction) {
         switch(direction) {
             case DOWN:

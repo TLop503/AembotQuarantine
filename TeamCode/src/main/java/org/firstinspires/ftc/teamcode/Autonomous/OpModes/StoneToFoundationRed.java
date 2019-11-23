@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.Autonomous.OpModes;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.Autonomous.Utilites.StoneApproach;
 import org.firstinspires.ftc.teamcode.Subsystems.ServoArmController;
@@ -12,9 +11,11 @@ import org.firstinspires.ftc.teamcode.Utilities.Vuforia.VuforiaWrapper;
 
 @Autonomous(name = "Skystone to Foundation RED", group = "Week 2")
 public class StoneToFoundationRed extends OpMode {
-    // private boolean hasRun = false;
+    // This array allows us to progress through different actions in our program
+    // TODO: Write our own style of OpMode that does this automatically
     private boolean[] actionsComplete = {false, false, false, false};
 
+    // Declare all of the robot subsystems
     private ServoArmController servos;
     private SwerveController swerveController;
     private VuforiaWrapper vuforia;
@@ -25,12 +26,16 @@ public class StoneToFoundationRed extends OpMode {
      */
     @Override
     public void init() {
+        // Initialize Vuforia
+        vuforia = new VuforiaWrapper(hardwareMap);
+
         // Initialize swerve
         swerveController = new SwerveController(hardwareMap);
 
-        // Initialize the StoneApproach class
+        // Initialize the StoneApproach class for going to a skystone
         approach = new StoneApproach(vuforia, swerveController, hardwareMap);
 
+        // Initialize servo arm controller
         servos = new ServoArmController(hardwareMap, null);
     }
 
@@ -48,13 +53,28 @@ public class StoneToFoundationRed extends OpMode {
      */
     @Override
     public void loop() {
+        // Drive forward ~2 feet to be able to detect the Skystones
         if(!actionsComplete[0]) {
             actionsComplete[0] = swerveController.autoControlModules(0, 25, 1);
-        } else if(!actionsComplete[1]) {
+        }
+
+        // Approach the stone using Vuforia via the StoneApproach class
+        else if(!actionsComplete[1]) {
             actionsComplete[1] = approach.approachStone(10, 10);
-        } else if(!actionsComplete[2]) {
+        }
+
+        // Pick up the Skystone after approaching it
+        else if(!actionsComplete[2]) {
+            // Lower arm
             servos.controlArmsAutonomous(ArmDirection.DOWN);
+
+            // Grab the stone
             servos.controlArmsAutonomous(ArmDirection.GRIP);
+
+            // Raise the arm
+            servos.controlArmsAutonomous(ArmDirection.UP);
+
+            // Mark this as done
             actionsComplete[2] = true;
         } else if(!actionsComplete[3]) {
             actionsComplete[3] = swerveController.autoControlModules(90, 48, 1);
