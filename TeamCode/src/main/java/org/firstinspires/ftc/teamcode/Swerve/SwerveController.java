@@ -43,7 +43,7 @@ public class SwerveController {
     int i = 0;
 
     /**
-     * Constructs the swerve modules and passes information only accsesible in the OpMode to this class to be used
+     * Constructs the swerve modules and passes information only accessible in the OpMode to this class to be used
      * @param gamepad1 a reference to the gamepad1
      * @param hardwareMap a reference to the robot's hardware map
      */

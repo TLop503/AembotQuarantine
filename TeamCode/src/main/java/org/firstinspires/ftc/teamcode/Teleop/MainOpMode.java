@@ -8,6 +8,10 @@ import org.firstinspires.ftc.teamcode.Subsystems.ServoArmController;
 import org.firstinspires.ftc.teamcode.Swerve.SwerveController;
 import org.firstinspires.ftc.teamcode.Utilities.Hardware.Enums.IMUOrientation;
 
+/**
+ * Main TeleOp Mode to be used during comp
+ * @author Will Richards, Troy Lopez
+ */
 @TeleOp(name = "Main OpMode", group = "Competition")
 public class MainOpMode extends OpMode {
 

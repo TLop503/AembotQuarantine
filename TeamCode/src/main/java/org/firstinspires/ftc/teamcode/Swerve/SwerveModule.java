@@ -67,6 +67,8 @@ public class SwerveModule {
     private double turnPower;
     private double drivePower;
 
+    private double wheelSpeed = 0;
+
     /**
      * Constructs each variable as well as determining the module side so it can properly assign motors
      * @param modPos which side the module is located on
@@ -141,6 +143,9 @@ public class SwerveModule {
     public void PIDControl() {
 
         double motorSpeed = 0.7;
+
+        //Wanted Speed, Rate of change, currentSpeed, TODO: Test this
+        wheelSpeed = rampMotorSpeed(0.7, 0.1, wheelSpeed);
 
         /*
          * Collect information to be used in module control / PID
@@ -268,6 +273,8 @@ public class SwerveModule {
 
         double motorSpeed = 0.7;
 
+
+
         telemetry.addData(modPos + " Top Encoder: ", TopSwerveMotor.getCurrentPosition());
         telemetry.addData(modPos + " Bottom Encoder: ", BottomSwerveMotor.getCurrentPosition());
 
@@ -280,6 +287,8 @@ public class SwerveModule {
         currentRotation = SwerveMath.getModulePosition(TopSwerveMotor.getCurrentPosition(), BottomSwerveMotor.getCurrentPosition());
         wantedRotation = SwerveMath.normalizeJoystickAngle(gamepad1, imu);
         wheelDirection = SwerveMath.getWheelDirection(gamepad1);
+
+        telemetry.addData("Wanted Rotation (IMU): ", wantedRotation);
 
         /*
          * This small section simply updates the point that it wants to reach based off the new wantedRotation
@@ -703,6 +712,26 @@ public class SwerveModule {
      */
     public void resetBottomEncoder(){
         bottomMotorTickOffset = BottomSwerveMotor.getCurrentPosition();
+    }
+
+    /**
+     * Used to ramp the motor speed to a setpoint
+     * @param rampRate the rate at which we will increase to reach it
+     * @param setPower the point we are trying to reach
+     * @return the current speed for the motor
+     */
+    private double rampMotorSpeed(double setPower, double rampRate, double currentPower){
+        if(setPower > currentPower){
+            currentPower+=rampRate;
+            return currentPower;
+        }
+        else if(setPower< currentPower){
+            currentPower-=rampRate;
+            return currentPower;
+        }
+        else {
+            return setPower;
+        }
     }
 
 }

@@ -74,7 +74,7 @@ public class StoneApproach {
         /*
         // Drive the modules using PID until you reach the SkyStone
         // TODO: This range is related to acceptable range in constructor; update accordingly
-        while(xStoneDistance >= 10 && xStoneDistance <= -10) {
+        while(!drivePid.isInRange()) {
             double distanceToStone = vuforia.getDistanceZOffset(zOffset);
             double speedCalculated = drivePid.calcOutput(distanceToStone);
             moduleAngle = vuforia.getAngleZOffset(zOffset);
