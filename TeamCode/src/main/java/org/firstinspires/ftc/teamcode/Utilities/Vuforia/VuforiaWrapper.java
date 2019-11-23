@@ -102,14 +102,15 @@ public class VuforiaWrapper {
      * @param zOffset the z offset to calculate the angle with
      * @return the angle to a point offset from the SkyStone by zOffset
      */
-    public double getAngleZOffset(double zOffset) {
+    public double getAngleOffset(double xOffset, double zOffset) {
         // Get X and Z coordinates relative to stone
         double stoneX = getX();
         double stoneZ = getZ();
 
-        double newZcoordinate = stoneZ - zOffset;
+        double newXCoordinate = stoneX - xOffset;
+        double newZCoordinate = stoneZ - zOffset;
 
-        return Math.atan2(newZcoordinate, stoneX);
+        return Math.atan2(newZCoordinate, newXCoordinate);
     }
 
     /**

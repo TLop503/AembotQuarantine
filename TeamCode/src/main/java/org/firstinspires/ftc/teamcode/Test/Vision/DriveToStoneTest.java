@@ -45,7 +45,7 @@ public class DriveToStoneTest extends OpMode {
 
         // Calculate the angle to drive at in order to get in front of the SkyStone
         // TODO: the z-offset must also be tuned based on the robot
-        driveAngle = vuforia.getAngleZOffset(zOffset);
+        driveAngle = vuforia.getAngleOffset(0, zOffset);
     }
 
     @Override

@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Subsystems.ServoArmController;
 import org.firstinspires.ftc.teamcode.Swerve.SwerveController;
+import org.firstinspires.ftc.teamcode.Swerve.SwerveMath;
 import org.firstinspires.ftc.teamcode.Utilities.Hardware.Enums.IMUOrientation;
 
 /**
@@ -29,6 +30,12 @@ public class NonFieldCentricTest extends OpMode {
 
         //Zero the position of the modules at init
         swerveController.zeroModules();
+
+        telemetry.addData("Wanted Rotation: ", SwerveMath.normalizeJoystickAngle(gamepad1));
+
+        while (swerveController.activeZeroModules()){
+
+        }
     }
 
     @Override
@@ -36,6 +43,7 @@ public class NonFieldCentricTest extends OpMode {
 
         //Control the modules
         swerveController.controlModules();
+        swerveController.getSwitch();
 
         if (gamepad1.a){
             servoArm.moveDown();

@@ -131,10 +131,10 @@ public class SwerveModule {
 
         //When the sensor is crossed reset the encoders
         //TODO: If that doesnt work, then use the more complex one
-        if(ZeroSwitch.getState()){
-            resetTopEncoder();
-            resetBottomEncoder();
-        }
+        //if(ZeroSwitch.getState()){
+          //  resetTopEncoder();
+           // resetBottomEncoder();
+        //}
 
 
         double motorSpeed = 0.7;
@@ -209,22 +209,26 @@ public class SwerveModule {
             }
             else {
 
-                TopSwerveMotor.setPower(0);
-                BottomSwerveMotor.setPower(0);
+                if(wantedRotation == 0){
+                    if(ZeroSwitch.getState()) {
+                        TopSwerveMotor.setPower(0.2);
+                        BottomSwerveMotor.setPower(0.2);
+                    }
+                    else{
+                        resetBottomEncoder();
+                        resetTopEncoder();
+                        TopSwerveMotor.setPower(0);
+                        BottomSwerveMotor.setPower(0);
+                    }
+                }
             }
         }
         else{
-              /* TODO: Uncomment and use if first doesn't work
+
                 if(wantedRotation == 0){
-                    if(!ZeroSwitch.getState()) {
-                        if (power < 0) {
-                            TopSwerveMotor.setPower(-0.2);
-                            BottomSwerveMotor.setPower(-0.2);
-                        }
-                        else{
-                            TopSwerveMotor.setPower(0.2);
-                            BottomSwerveMotor.setPower(0.2);
-                        }
+                    if(ZeroSwitch.getState()) {
+                        TopSwerveMotor.setPower(0.2);
+                        BottomSwerveMotor.setPower(0.2);
                     }
                     else{
                         resetBottomEncoder();
@@ -237,12 +241,32 @@ public class SwerveModule {
                     TopSwerveMotor.setPower(power);
                     BottomSwerveMotor.setPower(power);
                 }
-                */
-            TopSwerveMotor.setPower(power);
-            BottomSwerveMotor.setPower(power);
         }
 
 
+    }
+
+    public boolean getSwitchStatus(){
+        return ZeroSwitch.getState();
+    }
+
+    /**
+     * Actively zero the modules
+     * @return weather or not its zeroed
+     */
+    public boolean activeZeroModules(){
+        if(ZeroSwitch.getState()) {
+            TopSwerveMotor.setPower(0.2);
+            BottomSwerveMotor.setPower(0.2);
+        }
+        else{
+            resetBottomEncoder();
+            resetTopEncoder();
+            TopSwerveMotor.setPower(0);
+            BottomSwerveMotor.setPower(0);
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -616,7 +640,7 @@ public class SwerveModule {
      * @return the zeroed number of ticks
      */
     private int getTopMotorTicks(){
-        return TopSwerveMotor.getPosition()-topMotorTickOffset;
+        return TopSwerveMotor.getCurrentPosition()-topMotorTickOffset;
     }
 
     /**
@@ -624,7 +648,7 @@ public class SwerveModule {
      * @return the zeroed number of ticks
      */
     private int getBottomMotorTicks(){
-        return BottomSwerveMotor.getPosition()-bottomMotorTickOffset;
+        return BottomSwerveMotor.getCurrentPosition()-bottomMotorTickOffset;
     }
 
     /**

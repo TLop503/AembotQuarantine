@@ -43,6 +43,7 @@ public class SwerveTeleop extends OpMode {
 
         servoArmController.zeroArms();
 
+        // Motors related to elevator
         dcElevator = hardwareMap.get(DcMotor.class, "dcElevator");
         svTop = hardwareMap.get(Servo.class, "svTop");
         svBottom = hardwareMap.get(Servo.class, "svBottom");

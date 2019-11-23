@@ -47,9 +47,11 @@ public class StoneApproach {
     // TODO: Add correction for angle offset
     /**
      * The method responsible for actually driving up to the SkyStone.
+     * Note that this method assumes Vuforia can see a Skystone; if it can't, this might crash.
      * @param zOffset How far we want to be from the SkyStone in Vuforia coordinate units.
+     * @param marginError The range you want to be within when approaching the Skystone
      */
-    public void approachStone(double zOffset) {
+    public void approachStone(double zOffset, double marginError) {
         // Get the x and z coordinates relative to the Skystone with Vuforia
         double xStoneDistance = vuforia.getX();
         double zStoneDistance = vuforia.getZ();
@@ -69,8 +71,6 @@ public class StoneApproach {
             stonePos = SkystonePostion.NONE;
         }
 
-        double moduleAngle = vuforia.getAngleZOffset(zOffset);
-
         /*
         // Drive the modules using PID until you reach the SkyStone
         // TODO: This range is related to acceptable range in constructor; update accordingly
@@ -85,24 +85,58 @@ public class StoneApproach {
         }
         */
 
+        // Initialize variable
+        double distanceToStoneOffset;
+
         // TODO: Find x-offsets required to end up with left or right arm in front of the stone
         switch(stonePos) {
             case LEFT:
-                // Calculate distance to stone based on predetermined offsets
-                double distanceToStoneOffset = Math.hypot(xStoneDistance - this.leftArmOffset, zStoneDistance - zOffset);
+                while(xStoneDistance <= marginError + leftArmOffset && xStoneDistance >= marginError - leftArmOffset) {
+                    // Update x-distance and regular distance to stone for while loop purposes
+                    xStoneDistance = vuforia.getX();
+                    distanceToStoneOffset = Math.hypot(xStoneDistance - this.leftArmOffset, zStoneDistance - zOffset);
 
-                double calculatedSpeed = drivePid.calcOutput(distanceToStoneOffset);
+                    // Calculated angle to stone
+                    double approachModuleAngle = vuforia.getAngleOffset(this.leftArmOffset, zOffset);
 
-                break;
+                    // PID-calculated speed to get to stone
+                    double calculatedSpeed = drivePid.calcOutput(distanceToStoneOffset);
 
-            case CENTER:
-            case RIGHT:
+                    // Run motors at correct angle and speed
+                    swerve.activeControl(approachModuleAngle, calculatedSpeed);
+
+                    xStoneDistance = vuforia.getX();
+                }
+
                 break;
 
             default:
-            case NONE:
+            case CENTER:
+            case RIGHT:
+                // FIXME: Consider refactoring to separate function
+                while(xStoneDistance <= marginError + rightArmOffset && xStoneDistance >= marginError - rightArmOffset) {
+                    // Update x-distance and regular distance to stone for while loop purposes
+                    xStoneDistance = vuforia.getX();
+                    distanceToStoneOffset = Math.hypot(xStoneDistance - this.rightArmOffset, zStoneDistance - zOffset);
+
+                    // Calculated angle to stone
+                    double approachModuleAngle = vuforia.getAngleOffset(this.rightArmOffset, zOffset);
+
+                    // PID-calculated speed to get to stone
+                    double calculatedSpeed = drivePid.calcOutput(distanceToStoneOffset);
+
+                    // Run motors at correct angle and speed
+                    swerve.activeControl(approachModuleAngle, calculatedSpeed);
+
+                    xStoneDistance = vuforia.getX();
+                }
+
                 break;
+
+            // FIXME: Add NONE case so this doesn't do weird things when no Skystone is detected
         }
+
+        // TODO: Orient robot correctly relative to stone to correct, if necessary
 
         swerve.stopModules();
     }
