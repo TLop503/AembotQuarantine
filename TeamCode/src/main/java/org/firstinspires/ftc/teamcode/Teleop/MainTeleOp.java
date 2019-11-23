@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.Utilities.Hardware.Enums.IMUOrientation;
  * @author Will Richards, Troy Lopez
  */
 @TeleOp(name = "Main OpMode", group = "Competition")
-public class MainOpMode extends OpMode {
+public class MainTeleOp extends OpMode {
 
     //Creates a new swerve controller
     private SwerveController swerveController;
