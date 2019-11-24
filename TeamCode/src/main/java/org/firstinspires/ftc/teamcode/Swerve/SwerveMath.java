@@ -105,6 +105,7 @@ public class SwerveMath {
     public static double normalizeAngle(double angle){
 
         double alteredAngle = 0;
+        // FIXME: Isn't this trueAngle variable redundant? We could just rename the parameter to achieve the same effect
         double trueAngle = angle;
         if(angle==0)
             alteredAngle = 0;
@@ -169,12 +170,12 @@ public class SwerveMath {
     }
 
     /**
-     * Calculate the required wheel rotations
+     * Calculate the required wheel rotations, assuming the motor encoders have already been reset.
      * @param distance the distance needed to move in inches
      * @return the distance in terms of rotations
      */
     public static double calculateWheelPosition(double distance){
-       return (distance/ WHEEL_CIRCUMFERENCE);
+       return (distance / WHEEL_CIRCUMFERENCE);
     }
 
 }

@@ -70,7 +70,7 @@ public class ServoArmController {
      * Close the grabber on both arms
      */
     private void grip() {
-        leftBlockGrip.setPosition(0.9);
+        leftBlockGrip.setPosition(1);
         //rightBlockGrip.setPosition(0.9);
     }
 

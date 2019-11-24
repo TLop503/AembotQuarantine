@@ -68,7 +68,7 @@ public class SwerveModule {
     private double turnPower;
     private double drivePower;
 
-    private double wheelSpeed = 0;
+    //private double motorSpeed = 0;
 
     /**
      * Constructs each variable as well as determining the module side so it can properly assign motors
@@ -146,7 +146,7 @@ public class SwerveModule {
         double motorSpeed = 0.7;
 
         //Wanted Speed, Rate of change, currentSpeed, TODO: Test this
-        wheelSpeed = rampMotorSpeed(0.7, 0.1, wheelSpeed);
+        //motorSpeed = rampMotorSpeed(0.7, 0.1, motorSpeed);
 
         /*
          * Collect information to be used in module control / PID
@@ -195,9 +195,8 @@ public class SwerveModule {
         }
 
 
-       //If we weren't trying to zero the modules
-        else{
-
+        // If we weren't trying to zero the modules, drive them
+        else {
             /*
              * This is where the bulk of the control code happens
              * It first checks to see if the control loop has reached its desired angle, if it has allow the module to drive forward, if it hasn't then keep trying
@@ -251,16 +250,15 @@ public class SwerveModule {
                  * Finally if it is aligned and we aren't trying to drive or turn stop the motors and don't do anything
                  */
                 else {
-                    TopSwerveMotor.setPower(0);
-                    BottomSwerveMotor.setPower(0);
+                    TopSwerveMotor.setPower(power);
+                    BottomSwerveMotor.setPower(power);
                 }
             }
 
             /*
              * Now if the angle is outside the acceptable range feed the PID loop values into the motors to reach the range
              */
-            else{
-
+            else {
                 TopSwerveMotor.setPower(power);
                 BottomSwerveMotor.setPower(power);
             }
@@ -431,7 +429,7 @@ public class SwerveModule {
         wantedDistanceRot = SwerveMath.calculateWheelPosition(distance);
 
         telemetry.addData("Wanted Distance: ", wantedDistanceRot);
-        telemetry.addData("Current Disrance: ", currentDistanceRot);
+        telemetry.addData("Current Distance: ", currentDistanceRot);
 
         /*
          * This small section simply updates the point that it wants to reach based off the new wantedRotation
@@ -736,7 +734,7 @@ public class SwerveModule {
             currentPower+=rampRate;
             return currentPower;
         }
-        else if(setPower< currentPower){
+        else if(setPower < currentPower){
             currentPower-=rampRate;
             return currentPower;
         }
