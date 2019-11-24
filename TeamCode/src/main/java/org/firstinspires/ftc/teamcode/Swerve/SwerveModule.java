@@ -156,7 +156,30 @@ public class SwerveModule {
          */
         currentRotation = SwerveMath.getModulePosition(getTopMotorTicks(),getBottomMotorTicks());
         wantedRotation = SwerveMath.normalizeJoystickAngle(gamepad1);
+
+
         wheelDirection = SwerveMath.getWheelDirection(gamepad1);
+
+        /*
+         * TODO: Test first if broken remove
+         * Created to angle the modules slightly in or out to make it drive straighter
+         */
+        if(wantedRotation == 0 && wheelDirection == WheelDirection.FORWARD){
+            if(modPos == ModulePosition.RIGHT){
+                wantedRotation+=10;
+            }
+            else {
+                wantedRotation-=10;
+            }
+        }
+        else if(wantedRotation == 0 && wheelDirection == WheelDirection.BACKWARD){
+            if(modPos == ModulePosition.RIGHT){
+                wantedRotation-=10;
+            }
+            else {
+                wantedRotation+=10;
+            }
+        }
 
         telemetry.addData(modPos + " Current Rotation: ", currentRotation);
 
@@ -250,8 +273,8 @@ public class SwerveModule {
                  * Finally if it is aligned and we aren't trying to drive or turn stop the motors and don't do anything
                  */
                 else {
-                    TopSwerveMotor.setPower(power);
-                    BottomSwerveMotor.setPower(power);
+                    TopSwerveMotor.setPower(0);
+                    BottomSwerveMotor.setPower(0);
                 }
             }
 
