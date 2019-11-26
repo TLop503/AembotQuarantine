@@ -164,22 +164,22 @@ public class SwerveModule {
          * TODO: Test first if broken remove
          * Created to angle the modules slightly in or out to make it drive straighter
          */
-        if(wantedRotation == 0 && wheelDirection == WheelDirection.FORWARD){
-            if(modPos == ModulePosition.RIGHT){
-                wantedRotation+=10;
-            }
-            else {
-                wantedRotation-=10;
-            }
-        }
-        else if(wantedRotation == 0 && wheelDirection == WheelDirection.BACKWARD){
-            if(modPos == ModulePosition.RIGHT){
-                wantedRotation-=10;
-            }
-            else {
-                wantedRotation+=10;
-            }
-        }
+//        if(wantedRotation == 0 && wheelDirection == WheelDirection.FORWARD){
+//            if(modPos == ModulePosition.RIGHT){
+//                wantedRotation+=0.02;
+//            }
+//            else {
+//                wantedRotation-=0.02;
+//            }
+//        }
+//        else if(wantedRotation == 0 && wheelDirection == WheelDirection.BACKWARD){
+//            if(modPos == ModulePosition.RIGHT){
+//                wantedRotation-=0.02;
+//            }
+//            else {
+//                wantedRotation+=0.02;
+//            }
+//        }
 
         telemetry.addData(modPos + " Current Rotation: ", currentRotation);
 

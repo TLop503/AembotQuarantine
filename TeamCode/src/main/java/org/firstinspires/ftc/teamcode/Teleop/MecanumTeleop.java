@@ -64,6 +64,16 @@ public class MecanumTeleop extends OpMode {
         }
 
         /**
+         * Hypothetical strafe:  might need to change if mecanum is adapted
+         */
+        if (gamepad1.dpad_left){
+            dcBackRight.setPower(1);
+            dcFrontRight.setPower(-1);
+            dcBackLeft.setPower(1);
+            dcFrontLeft.setPower(-1);
+        }
+
+        /**
          * Adjusts rack and pinion
          */
         if (gamepad2.right_bumper) {

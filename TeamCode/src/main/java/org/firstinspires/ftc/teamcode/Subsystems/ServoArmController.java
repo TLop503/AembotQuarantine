@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.Utilities.ArmDirection;
 
 /**
  * Class created to control the servos on the block arms
- * @author Vishy Krishnamurthy, Troy Lopez
+ * @author Vishy Krishnamurthy
  */
 public class ServoArmController {
 
