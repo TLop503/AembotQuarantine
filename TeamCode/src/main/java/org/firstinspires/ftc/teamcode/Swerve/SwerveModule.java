@@ -114,7 +114,7 @@ public class SwerveModule {
          * And finally it sets the point the module is trying to reach, at this point we just set it to 0
          */
         TeleOpPID = new PID(P,I,D);
-        TeleOpPID.setAcceptableRange(0.02);
+        TeleOpPID.setAcceptableRange(0.005);
         TeleOpPID.setSetpoint(0);
         TeleOpPID.setMaxOutput(0.6);
 
@@ -143,7 +143,7 @@ public class SwerveModule {
      */
     public void PIDControl() {
 
-        double motorSpeed = 0.7;
+        double motorSpeed = 0.3;
 
         //Wanted Speed, Rate of change, currentSpeed, TODO: Test this
         //motorSpeed = rampMotorSpeed(0.7, 0.1, motorSpeed);
@@ -190,6 +190,10 @@ public class SwerveModule {
          */
         TeleOpPID.setSetpoint(wantedRotation);
         power = TeleOpPID.calcOutput(currentRotation);
+        if(power<0)
+            power -= 0.05;
+        else
+            power+=0.05;
 
         /*
          * This code is used to actively re-zero the modules while on the field
