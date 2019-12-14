@@ -86,20 +86,22 @@ public class StoneApproach {
         switch(position) {
             case LEFT:
                 while(!isInRange(20, 50)) {
+                    /* Removed because PID is finicky
                     // Update x-distance and regular distance to stone for while loop purposes
                     // TODO: Get correct leftArmOffset from Vuforia
                     xStoneDistance = vuforia.getX();
                     zStoneDistance = vuforia.getZ();
                     distanceToStoneOffset = Math.hypot(xStoneDistance - this.leftArmOffset, zStoneDistance - zOffset);
+                    */
 
                     // Calculated angle to stone
                     double approachModuleAngle = vuforia.getAngleOffset(this.leftArmOffset, zOffset);
 
                     // PID-calculated speed to get to stone
-                    double calculatedSpeed = drivePid.calcOutput(distanceToStoneOffset);
+                    //double calculatedSpeed = drivePid.calcOutput(distanceToStoneOffset);
 
                     // Run motors at correct angle and speed
-                    swerve.activeControl(approachModuleAngle, 0.2 * calculatedSpeed);
+                    swerve.activeControl(approachModuleAngle, 0.2);
                 }
 
                 swerve.stopModules();
@@ -111,19 +113,22 @@ public class StoneApproach {
                 // FIXME: Consider refactoring to separate function
                 // FIXME: This while loop also has 4 conditions, so those could probably be split into different functions like isInRangeX/Z or a single function below
                 while(!isInRange(20, 100)) {
+                    /* PID doesn't work reliably
                     // Update x-distance and regular distance to stone for while loop purposes
                     xStoneDistance = vuforia.getX();
                     zStoneDistance = vuforia.getZ();
                     distanceToStoneOffset = Math.hypot(xStoneDistance - this.rightArmOffset, zStoneDistance - zOffset);
 
+                     */
+
                     // Calculated angle to stone
                     double approachModuleAngle = vuforia.getAngleOffset(this.rightArmOffset, zOffset);
 
                     // PID-calculkted speed to get to stone
-                    double calculatedSpeed = drivePid.calcOutput(distanceToStoneOffset);
+                    // double calculatedSpeed = drivePid.calcOutput(distanceToStoneOffset);
 
                     // Run motors at correct angle and speed
-                    swerve.activeControl(approachModuleAngle, 0.2 * calculatedSpeed);
+                    swerve.activeControl(approachModuleAngle, 0.2);
                 }
 
                 swerve.stopModules();
