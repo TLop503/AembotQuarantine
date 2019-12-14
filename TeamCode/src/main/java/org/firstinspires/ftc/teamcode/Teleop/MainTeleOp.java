@@ -75,8 +75,9 @@ public class MainTeleOp extends OpMode {
         if (gamepad2.right_bumper) {
             armToggle = !armToggle;
         }
-        if (armToggle){
-            elevatorArmController.controlArms();
+        // FIXME: Change this to not !
+        if (!armToggle){
+            //elevatorArmController.controlArms();
         }
         else {
             elevatorArmController.svPivot();
