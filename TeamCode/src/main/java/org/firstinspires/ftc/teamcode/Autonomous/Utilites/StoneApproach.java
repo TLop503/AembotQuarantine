@@ -119,7 +119,8 @@ public class StoneApproach {
             case CENTER:
             case RIGHT:
                 // FIXME: Consider refactoring to separate function
-                while(xStoneDistance <= marginError + rightArmOffset && xStoneDistance >= marginError - rightArmOffset) {
+                // FIXME: This while loop also has 4 conditions, so those could probably be split into different functions like isInRangeX/Z or a single function below
+                while(isInRange(10, 10)) {
                     // Update x-distance and regular distance to stone for while loop purposes
                     xStoneDistance = vuforia.getX();
                     distanceToStoneOffset = Math.hypot(xStoneDistance - this.rightArmOffset, zStoneDistance - zOffset);
@@ -132,8 +133,6 @@ public class StoneApproach {
 
                     // Run motors at correct angle and speed
                     swerve.activeControl(approachModuleAngle, calculatedSpeed);
-
-                    xStoneDistance = vuforia.getX();
                 }
 
                 swerve.stopModules();
@@ -145,5 +144,18 @@ public class StoneApproach {
 
         // TODO: Orient robot correctly relative to stone to correct, if necessary
 
+    }
+
+    /**
+     * A function to check if we are close enough to a Skystone to pick it up.
+     * @param xRange How accurate we want to be horizontally in terms of Vuforia coordinates.
+     * @param zRange How accurate we want to be forward/backward relative to the Skystone.
+     * @return Whether we are in range or not, where true.
+     */
+    private boolean isInRange(double xRange, double zRange) {
+        double xDistance = vuforia.getX();
+        double zDistance = vuforia.getZ();
+
+        return xDistance <= xRange && xDistance >= -xRange && zDistance <= zRange && zDistance >= -zRange;
     }
 }
