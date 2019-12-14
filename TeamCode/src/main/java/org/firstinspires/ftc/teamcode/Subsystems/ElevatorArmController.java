@@ -12,25 +12,25 @@ import com.qualcomm.robotcore.hardware.CRServo;
 
 
 public class ElevatorArmController {
-    private CRServo svElevator;
+    //private CRServo svElevator;
     private CRServo svPivot;
     private Servo svGrip;
     private Gamepad gamepad;
     private double armPos;
     private boolean armToggle;
 
-    private Servo leftBlockArm;
-    private Servo leftBlockGrip;
+    private Servo LeftBlockArm;
+    private Servo LeftBlockGrip;
 
     public ElevatorArmController(HardwareMap hardwareMap, Gamepad gamepad){
         this.gamepad = gamepad;
 
-        svElevator = hardwareMap.get(CRServo.class, "svElevator");
+        //svElevator = hardwareMap.get(CRServo.class, "svElevator");
         svPivot = hardwareMap.get(CRServo.class, "svPivot");
         svGrip = hardwareMap.get(Servo.class, "svGrip");
 
-        leftBlockArm = hardwareMap.get(Servo.class,"leftBlockArm");
-        leftBlockGrip = hardwareMap.get(Servo.class, "leftBlockGrip");
+        LeftBlockArm = hardwareMap.get(Servo.class,"LeftBlockArm");
+        LeftBlockArm = hardwareMap.get(Servo.class, "LeftBlockGrip");
 
         armToggle = true;
 
@@ -38,9 +38,9 @@ public class ElevatorArmController {
 
 
 
-    public void svElevator(){
-        svElevator.setPower(-gamepad.left_stick_y);
-    }
+    //public void svElevator(){
+    //    svElevator.setPower(-gamepad.left_stick_y);
+    //}
 
     public void svPivot(){
         svPivot.setPower(gamepad.right_stick_y);
@@ -79,31 +79,31 @@ public class ElevatorArmController {
     }
 
     public void zeroArms(){
-        leftBlockArm.setPosition(0);
+        LeftBlockArm.setPosition(0);
         //rightBlockArm.setPosition(0);
     }
 
 
     public void moveDown(){
-        leftBlockArm.setPosition(0.4);
+        LeftBlockArm.setPosition(0.4);
         //rightBlockArm.setPosition(1);
     }
 
 
     private void moveUp() {
-        leftBlockArm.setPosition(0);
+        LeftBlockArm.setPosition(0);
         //rightBlockArm.setPosition(0);
     }
 
 
     private void grip() {
-        leftBlockGrip.setPosition(1);
+        LeftBlockGrip.setPosition(1);
         //rightBlockGrip.setPosition(0.9);
     }
 
 
     private void unGrip() {
-        leftBlockGrip.setPosition(0.1);
+        LeftBlockGrip.setPosition(0.1);
         //rightBlockGrip.setPosition(0.1);
     }
 

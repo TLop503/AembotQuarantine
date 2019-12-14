@@ -14,8 +14,8 @@ import org.firstinspires.ftc.teamcode.Subsystems.Utilities.ArmDirection;
 public class ServoArmController {
 
     //Left block arm
-    private Servo leftBlockArm;
-    private Servo leftBlockGrip;
+    private Servo LeftBlockArm;
+    private Servo LeftBlockGrip;
 
     private Gamepad gamepad;
 
@@ -30,8 +30,8 @@ public class ServoArmController {
     public ServoArmController(HardwareMap hardwareMap, Gamepad gamepad){
         this.gamepad = gamepad;
 
-        leftBlockArm = hardwareMap.get(Servo.class,"leftBlockArm");
-        leftBlockGrip = hardwareMap.get(Servo.class, "leftBlockGrip");
+        LeftBlockArm = hardwareMap.get(Servo.class,"LeftBlockArm");
+        LeftBlockGrip = hardwareMap.get(Servo.class, "LeftBlockGrip");
 
         /*
         rightBlockArm = hardwareMap.get(Servo.class,"rightBlockArm");
@@ -46,7 +46,7 @@ public class ServoArmController {
      * Called to set the arm positions to zero at start
      */
     public void zeroArms(){
-        leftBlockArm.setPosition(0);
+        LeftBlockArm.setPosition(0);
         //rightBlockArm.setPosition(0);
     }
 
@@ -54,7 +54,7 @@ public class ServoArmController {
      * Move Both Arms Down
      */
     public void moveDown(){
-        leftBlockArm.setPosition(0.4);
+        LeftBlockArm.setPosition(0.4);
         //rightBlockArm.setPosition(1);
     }
 
@@ -62,7 +62,7 @@ public class ServoArmController {
      * Retract Both Arms
       */
     private void moveUp() {
-        leftBlockArm.setPosition(0);
+        LeftBlockArm.setPosition(0);
         //rightBlockArm.setPosition(0);
     }
 
@@ -70,7 +70,7 @@ public class ServoArmController {
      * Close the grabber on both arms
      */
     private void grip() {
-        leftBlockGrip.setPosition(1);
+        LeftBlockGrip.setPosition(1);
         //rightBlockGrip.setPosition(0.9);
     }
 
@@ -78,7 +78,7 @@ public class ServoArmController {
      * Release the grip on the block on both arms
      */
     private void unGrip() {
-        leftBlockGrip.setPosition(0.1);
+        LeftBlockGrip.setPosition(0.1);
         //rightBlockGrip.setPosition(0.1);
     }
 

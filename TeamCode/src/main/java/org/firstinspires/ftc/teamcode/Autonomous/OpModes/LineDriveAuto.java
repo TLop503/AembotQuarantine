@@ -5,6 +5,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+
 import org.firstinspires.ftc.teamcode.Swerve.SwerveController;
 import org.firstinspires.ftc.teamcode.Utilities.Hardware.Enums.IMUOrientation;
 
@@ -12,12 +14,13 @@ import org.firstinspires.ftc.teamcode.Utilities.Hardware.Enums.IMUOrientation;
 public class LineDriveAuto extends OpMode {
 
     private boolean hasRun = false;
-    private SwerveController swerveController;
-    private DcMotor elevator;
+    //private SwerveController swerveController;
+    private DcMotorSimple elevator;
 
     @Override
     public void init() {
         //swerveController = new SwerveController(gamepad1, hardwareMap, telemetry, IMUOrientation.HORIZONTAL, false);
+        elevator = hardwareMap.get(DcMotorSimple.class, "ElevatorMotor");
 
     }
 
@@ -26,14 +29,11 @@ public class LineDriveAuto extends OpMode {
         if(!hasRun){
             //Parks On Line
             //hasRun = swerveController.autoControlModules(0, 26, 0.5);
-            elevator.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            elevator.setTargetPosition(2240);
-            elevator.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            elevator.setPower(.25);
-
-            while (elevator.isBusy()){
-
+            elevator.setPower(0.25);
+            try {
+                Thread.sleep(2000);
             }
+            catch (InterruptedException e) { System.out.println(e); }
             elevator.setPower(0);
         }
     }

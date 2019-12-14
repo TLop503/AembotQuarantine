@@ -32,15 +32,15 @@ public class MainTeleOp extends OpMode {
     public void init() {
 
         //Initialize the swerve controller
-        //swerveController = new SwerveController(gamepad1, hardwareMap, telemetry, IMUOrientation.VERTICAL, false);
+        swerveController = new SwerveController(gamepad1, hardwareMap, telemetry, IMUOrientation.VERTICAL, false);
 
         //Creates a new elevator controller
-        //elevatorSystem = new ElevatorSystemController(hardwareMap, gamepad2);
+        elevatorSystem = new ElevatorSystemController(hardwareMap, gamepad2);
 
         elevatorArmController = new ElevatorArmController(hardwareMap, gamepad2);
 
         //Zero the position of the modules at init
-        //swerveController.zeroModules();
+        swerveController.zeroModules();
 
         elevatorArmController.setArm();
 
@@ -50,14 +50,14 @@ public class MainTeleOp extends OpMode {
     public void loop() {
 
         //Control the swerve modules
-        //swerveController.controlModules();
+        swerveController.controlModules();
 
 
 
         //Controls the elevator
-       // elevatorSystem.controlElevator();
+        elevatorSystem.controlElevator();
 
-        elevatorArmController.svElevator();
+        //elevatorArmController.svElevator();
 
         elevatorArmController.svPivot();
 
@@ -74,7 +74,7 @@ public class MainTeleOp extends OpMode {
 
         }
 
-        if (gamepad2.y) {
+        if (gamepad2.right_bumper) {
             armToggle = !armToggle;
         }
         if (armToggle == true){
@@ -82,12 +82,12 @@ public class MainTeleOp extends OpMode {
         }
         else {
             elevatorArmController.svPivot();
-            elevatorArmController.svElevator();
+            // elevatorArmController.svElevator();
 
-            if(gamepad2.a){
+            if(gamepad2.x){
                 elevatorArmController.closeGrip();
             }
-            if (gamepad2.b){
+            if (gamepad2.y){
                 elevatorArmController.openGrip();
             }
         }
