@@ -2,11 +2,13 @@ package org.firstinspires.ftc.teamcode.Teleop;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.Subsystems.ElevatorSystemController;
 import org.firstinspires.ftc.teamcode.Subsystems.ServoArmController;
 import org.firstinspires.ftc.teamcode.Swerve.SwerveController;
 import org.firstinspires.ftc.teamcode.Utilities.Hardware.Enums.IMUOrientation;
+import org.firstinspires.ftc.teamcode.Subsystems.ElevatorArmController;
 
 /**
  * Main TeleOp Mode to be used during comp
@@ -18,30 +20,28 @@ public class MainTeleOp extends OpMode {
     //Creates a new swerve controller
     private SwerveController swerveController;
 
-    //Creates a new controller to control the arms
-    private ServoArmController servoArm;
-
     //Used to control the elevator
     private ElevatorSystemController elevatorSystem;
+
+    private ElevatorArmController elevatorArmController;
+
+    private Servo svBottom;
 
     @Override
     public void init() {
 
         //Initialize the swerve controller
-        swerveController = new SwerveController(gamepad1, hardwareMap, telemetry, IMUOrientation.VERTICAL, false);
-
-        //Creates a new servo controller
-        servoArm = new ServoArmController(hardwareMap, gamepad2);
+        //swerveController = new SwerveController(gamepad1, hardwareMap, telemetry, IMUOrientation.VERTICAL, false);
 
         //Creates a new elevator controller
-        elevatorSystem = new ElevatorSystemController(hardwareMap, gamepad2);
+        //elevatorSystem = new ElevatorSystemController(hardwareMap, gamepad2);
 
-        //Set the position of the servos to zero on start
-        servoArm.zeroArms();
+        elevatorArmController = new ElevatorArmController(hardwareMap, gamepad2);
 
         //Zero the position of the modules at init
-        swerveController.zeroModules();
+        //swerveController.zeroModules();
 
+        elevatorArmController.setArm();
 
     }
 
@@ -49,13 +49,37 @@ public class MainTeleOp extends OpMode {
     public void loop() {
 
         //Control the swerve modules
-        swerveController.controlModules();
+        //swerveController.controlModules();
 
-        //Controls the servo arms
-        servoArm.controlArms();
+
 
         //Controls the elevator
-        elevatorSystem.controlElevator();
+       // elevatorSystem.controlElevator();
+
+        elevatorArmController.svElevator();
+
+        elevatorArmController.svPivot();
+
+        if (gamepad2.a){
+            elevatorArmController.closeGrip();
+        }
+
+        if (gamepad2.b) {
+            elevatorArmController.openGrip();
+        }
+
+        /*
+        if (gamepad1.a){
+            svBottom.setPosition(.857);
+            svBottom.setPosition(0.286);
+
+            //lift
+            swerveController.autoControlModules(270, 12, .5);
+
+            //lower
+
+        }
+        */
 
     }
 }

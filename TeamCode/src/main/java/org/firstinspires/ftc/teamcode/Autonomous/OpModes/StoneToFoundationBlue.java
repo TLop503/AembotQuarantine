@@ -87,14 +87,17 @@ public class StoneToFoundationBlue extends OpMode {
             switch(stonePosition) {
                 default:
                 case LEFT:
+                    swerveController.autoControlModules(180, 6, .8);
+                    swerveController.autoControlModules(270, 40, .8);
                 case RIGHT:
+                    swerveController.autoControlModules(180, 6, .8);
+                    swerveController.autoControlModules(270, 48, .8);
                 case CENTER:
-                    // Code goes here
+                    swerveController.autoControlModules(180, 6, .8);
+                    swerveController.autoControlModules(270, 56, .8);
                     break;
-
                 case NONE:
                     break;
-
             }
             actionsComplete[3] = swerveController.autoControlModules(-90, 48, 1);
         }
