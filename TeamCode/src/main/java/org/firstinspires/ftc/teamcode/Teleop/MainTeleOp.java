@@ -50,8 +50,6 @@ public class MainTeleOp extends OpMode {
         //Control the swerve modules
         swerveController.controlModules();
 
-
-
         //Controls the elevator
         elevatorSystem.controlElevator();
 
@@ -63,7 +61,7 @@ public class MainTeleOp extends OpMode {
         if (gamepad1.a) {
             svBottom.setPosition(.857);
 
-            //lift
+            //TODO: lift
             svBottom.setPosition(0.286);
 
 
@@ -73,7 +71,6 @@ public class MainTeleOp extends OpMode {
 
         }
 
-        //yeet
 
         if (gamepad2.right_bumper) {
             armToggle = !armToggle;

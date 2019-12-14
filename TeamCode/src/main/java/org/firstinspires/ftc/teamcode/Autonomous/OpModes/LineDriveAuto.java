@@ -14,12 +14,12 @@ import org.firstinspires.ftc.teamcode.Utilities.Hardware.Enums.IMUOrientation;
 public class LineDriveAuto extends OpMode {
 
     private boolean hasRun = false;
-    //private SwerveController swerveController;
+    private SwerveController swerveController;
     private DcMotorSimple elevator;
 
     @Override
     public void init() {
-        //swerveController = new SwerveController(gamepad1, hardwareMap, telemetry, IMUOrientation.HORIZONTAL, false);
+        swerveController = new SwerveController(gamepad1, hardwareMap, telemetry, IMUOrientation.HORIZONTAL, false);
         elevator = hardwareMap.get(DcMotorSimple.class, "ElevatorMotor");
 
     }
@@ -28,13 +28,8 @@ public class LineDriveAuto extends OpMode {
     public void loop() {
         if(!hasRun){
             //Parks On Line
-            //hasRun = swerveController.autoControlModules(0, 26, 0.5);
-            elevator.setPower(0.25);
-            try {
-                Thread.sleep(2000);
-            }
-            catch (InterruptedException e) { System.out.println(e); }
-            elevator.setPower(0);
+            hasRun = swerveController.autoControlModules(0, 26, 0.5);
+
         }
     }
 }

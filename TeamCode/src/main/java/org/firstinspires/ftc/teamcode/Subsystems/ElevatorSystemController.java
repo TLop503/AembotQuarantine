@@ -43,12 +43,12 @@ public class ElevatorSystemController {
 
         //Moves the elevator down
         if(gamepad.dpad_down){
-            elevatorMotor.setPower(0.7);
+            elevatorMotor.setPower(00.7);
         }
 
         //Moves the elevator up
         else if(gamepad.dpad_up){
-            elevatorMotor.setPower(-0.7);
+            elevatorMotor.setPower(0.7);
         }
 
         //If neither are pressed stop the elevator
@@ -58,13 +58,13 @@ public class ElevatorSystemController {
 
         //Used for opening the stacker
         //TODO: Make sure the values for the servo are correct
-        if(gamepad.right_bumper) {
+        if(gamepad.dpad_left) {
             //topArmServo.setPosition(0.55);
             svBottom.setPosition(0.55);
         }
 
         //Closes the stacker
-        else if(gamepad.left_bumper) {
+        else if(gamepad.dpad_right) {
             //topArmServo.setPosition(0.286);
             svBottom.setPosition(0.286);
         }
