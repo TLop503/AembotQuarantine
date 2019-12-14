@@ -26,6 +26,7 @@ public class MainTeleOp extends OpMode {
     private ElevatorArmController elevatorArmController;
 
     private Servo svBottom;
+    private Boolean armToggle;
 
     @Override
     public void init() {
@@ -68,6 +69,7 @@ public class MainTeleOp extends OpMode {
             elevatorArmController.openGrip();
         }
 
+
         /*
         if (gamepad1.a){
             svBottom.setPosition(.857);
@@ -80,6 +82,24 @@ public class MainTeleOp extends OpMode {
 
         }
         */
+
+        if (gamepad2.y) {
+            armToggle = !armToggle;
+        }
+        if (armToggle == true){
+            elevatorArmController.controlArms();
+        }
+        else{
+            elevatorArmController.svPivot();
+            elevatorArmController.svElevator();
+
+            if(gamepad2.a){
+                elevatorArmController.closeGrip();
+            }
+            if (gamepad2.b){
+                elevatorArmController.openGrip();
+            }
+        }
 
     }
 }

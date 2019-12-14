@@ -7,6 +7,7 @@ import org.firstinspires.ftc.teamcode.Autonomous.Utilites.StoneApproach;
 import org.firstinspires.ftc.teamcode.Subsystems.ServoArmController;
 import org.firstinspires.ftc.teamcode.Subsystems.Utilities.ArmDirection;
 import org.firstinspires.ftc.teamcode.Swerve.SwerveController;
+import org.firstinspires.ftc.teamcode.Utilities.Vuforia.SkystonePostion;
 import org.firstinspires.ftc.teamcode.Utilities.Vuforia.VuforiaWrapper;
 
 @Autonomous(name = "Skystone to Foundation RED", group = "Week 2")
@@ -20,6 +21,8 @@ public class StoneToFoundationRed extends OpMode {
     private SwerveController swerveController;
     private VuforiaWrapper vuforia;
     private StoneApproach approach;
+    private SkystonePostion stonePosition = SkystonePostion.NONE;
+
 
     /**
      * Initialization method for this OpMode.
@@ -76,8 +79,24 @@ public class StoneToFoundationRed extends OpMode {
 
             // Mark this as done
             actionsComplete[2] = true;
-        } else if(!actionsComplete[3]) {
-            actionsComplete[3] = swerveController.autoControlModules(90, 48, 1);
+        }
+        else if(!actionsComplete[3]) {
+            switch(stonePosition) {
+                default:
+                case LEFT:
+                    swerveController.autoControlModules(180, 6, .8);
+                    swerveController.autoControlModules(90, 40, .8);
+                case RIGHT:
+                    swerveController.autoControlModules(180, 6, .8);
+                    swerveController.autoControlModules(90, 48, .8);
+                case CENTER:
+                    swerveController.autoControlModules(180, 6, .8);
+                    swerveController.autoControlModules(90, 56, .8);
+                    break;
+                case NONE:
+                    break;
+            }
+            actionsComplete[3] = swerveController.autoControlModules(-90, 48, 1);
         }
     }
 }
