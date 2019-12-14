@@ -58,8 +58,8 @@ public class MainTeleOp extends OpMode {
         elevatorArmController.svPivot();
 
 
-        if (gamepad1.a) {
-            svBottom.setPosition(.857);
+        /*if (gamepad1.a) {
+            svBottom.setPosition(0.857);
 
             //TODO: lift
             svBottom.setPosition(0.286);
@@ -69,7 +69,7 @@ public class MainTeleOp extends OpMode {
 
             // TODO: lower
 
-        }
+        }*/
 
 
         if (gamepad2.right_bumper) {
