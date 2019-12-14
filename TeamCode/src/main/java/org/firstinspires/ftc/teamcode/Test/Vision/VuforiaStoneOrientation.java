@@ -15,7 +15,6 @@ import org.firstinspires.ftc.teamcode.Utilities.Vuforia.VuforiaWrapper;
  */
 
 @Autonomous(name = "Vuforia Stone Orientation", group = "test")
-@Disabled
 public class VuforiaStoneOrientation extends OpMode {
     // Variables to store the position and orientation of the SkyStone
     private SkystonePostion position = SkystonePostion.NONE;
@@ -48,12 +47,15 @@ public class VuforiaStoneOrientation extends OpMode {
     @Override
     public void loop() {
         // Get the position of the SkyStone
-        position = vuforia.getPosition();
-        telemetry.addData("Position: ", position.toString());
+        //position = vuforia.getPosition();
+        //telemetry.addData("Position: ", position.toString());
 
         // Get the orientation of the SkyStone
         // secondAngle in this case references the angle along the vertical axis
-        stoneOrientation = vuforia.getStoneOrientation();
-        telemetry.addData("Orientation: ", stoneOrientation.secondAngle);
+        //stoneOrientation = vuforia.getStoneOrientation();
+        telemetry.addData("Orientation: ", vuforia.getStoneAngle());
+
+        telemetry.addData("Stone X: ", vuforia.getX());
+        telemetry.addData("Stone Z: ", vuforia.getZ());
     }
 }

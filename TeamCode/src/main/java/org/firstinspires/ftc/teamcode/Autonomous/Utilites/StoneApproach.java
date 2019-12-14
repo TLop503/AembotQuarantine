@@ -41,7 +41,7 @@ public class StoneApproach {
         this.drivePid = new PID(Constants.DRIVE_P, Constants.DRIVE_I, Constants.DRIVE_D);
 
         drivePid.setSetpoint(0);
-        drivePid.setMaxOutput(1);
+        drivePid.setMaxOutput(0.5);
         // TODO: Also tune this acceptable range; coordinate values are weird
         drivePid.setAcceptableRange(10);
     }
@@ -121,7 +121,7 @@ public class StoneApproach {
             case RIGHT:
                 // FIXME: Consider refactoring to separate function
                 // FIXME: This while loop also has 4 conditions, so those could probably be split into different functions like isInRangeX/Z or a single function below
-                while(isInRange(10, 10)) {
+                while(!isInRange(10, 50)) {
                     // Update x-distance and regular distance to stone for while loop purposes
                     xStoneDistance = vuforia.getX();
                     distanceToStoneOffset = Math.hypot(xStoneDistance - this.rightArmOffset, zStoneDistance - zOffset);
@@ -133,7 +133,7 @@ public class StoneApproach {
                     double calculatedSpeed = drivePid.calcOutput(distanceToStoneOffset);
 
                     // Run motors at correct angle and speed
-                    swerve.activeControl(approachModuleAngle, calculatedSpeed);
+                    swerve.activeControl(approachModuleAngle, -0.1 * calculatedSpeed);
                 }
 
                 swerve.stopModules();

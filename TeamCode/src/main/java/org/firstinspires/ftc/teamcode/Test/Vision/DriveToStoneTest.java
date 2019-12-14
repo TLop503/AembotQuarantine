@@ -27,8 +27,10 @@ public class DriveToStoneTest extends OpMode {
         // Initialize the conroller for the swerve modules
         swerveController = new SwerveController(hardwareMap);
 
+        vuforia = new VuforiaWrapper(hardwareMap);
+
         // Initialize class facilitating the approach of a stone
-        StoneApproach approach = new StoneApproach(vuforia, swerveController, hardwareMap);
+        approach = new StoneApproach(vuforia, swerveController, hardwareMap);
     }
 
     @Override
@@ -39,10 +41,7 @@ public class DriveToStoneTest extends OpMode {
     @Override
     public void loop() {
         if(!hasRun) {
-            approach.approachStone(zOffset, 10);
-
-            // Stop the op mode
-            hasRun = true;
+            hasRun = approach.approachStone(zOffset, 10);
         }
     }
 }

@@ -77,7 +77,6 @@ public class VuforiaWrapper {
         return "";
     }
 
-
     /**
      * Get the orientation of a Skystone relative to the robot.
      * @return The Orientation of the Skystone
@@ -95,6 +94,17 @@ public class VuforiaWrapper {
         catch (NullPointerException e) { }
 
         return null;
+    }
+
+    public double getStoneAngle() {
+        OpenGLMatrix pose;
+
+        try {
+            pose = ((VuforiaTrackableDefaultListener)skystoneTarget.getListener()).getPose();
+            return Orientation.getOrientation(pose, AxesReference.EXTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES).secondAngle;
+        } catch(NullPointerException e) { System.out.println(e); }
+
+        return 0.0;
     }
 
     /**
@@ -135,6 +145,7 @@ public class VuforiaWrapper {
      * @return the value of X as a double
      */
     public double getX(){
+        /*
         String[] splitTransform = getDetectedTransform().split(" ");
 
         //If the transform string is greater than 0 return the normal X, if not return 4242 because that number is impossible to reach in this case and also 42..
@@ -142,6 +153,15 @@ public class VuforiaWrapper {
             return Double.parseDouble(splitTransform[6]);
         else
             return 4242;
+
+         */
+        OpenGLMatrix pose = ((VuforiaTrackableDefaultListener)skystoneTarget.getListener()).getPose();
+
+        if(pose != null) {
+            return pose.getTranslation().get(0);
+        } else {
+            return 0.0;
+        }
     }
 
     /**
@@ -165,6 +185,7 @@ public class VuforiaWrapper {
      * @return the value of Z as an double
      */
     public double getZ(){
+        /*
         String[] splitTransform = getDetectedTransform().split(" ");
 
         //If the transform string is greater than 0 return the normal X, if not return 4242 because that number is impossible to reach in this case and also 42..
@@ -172,6 +193,17 @@ public class VuforiaWrapper {
             return Double.parseDouble(splitTransform[4]);
         else
             return 4242;
+
+         */
+
+        OpenGLMatrix pose = ((VuforiaTrackableDefaultListener)skystoneTarget.getListener()).getPose();
+
+        if(pose != null) {
+            return pose.getTranslation().get(2);
+        } else {
+            return 0.0;
+        }
+
     }
 
     /**
