@@ -164,7 +164,7 @@ public class StoneApproach {
      * A getter method for the original Skystone position.
      * @return The position of the Skystone via the SkystonePosition enum.
      */
-    public SkystonePostion getOriginalSkystonePosition() {
+    public SkystonePostion getInitPosition() {
         return position;
     }
 }
