@@ -7,6 +7,7 @@ import org.firstinspires.ftc.teamcode.Autonomous.Utilites.StoneApproach;
 import org.firstinspires.ftc.teamcode.Subsystems.ServoArmController;
 import org.firstinspires.ftc.teamcode.Subsystems.Utilities.ArmDirection;
 import org.firstinspires.ftc.teamcode.Swerve.SwerveController;
+import org.firstinspires.ftc.teamcode.Utilities.Vuforia.SkystonePostion;
 import org.firstinspires.ftc.teamcode.Utilities.Vuforia.VuforiaWrapper;
 
 @Autonomous(name = "Skystone to Foundation BLUE", group = "Week 2")
@@ -18,15 +19,17 @@ public class StoneToFoundationBlue extends OpMode {
     private SwerveController swerveController;
     private VuforiaWrapper vuforia;
     private StoneApproach approach;
+    private SkystonePostion stonePosition = SkystonePostion.NONE;
 
     /**
      * Initialization method for this OpMode where all the subsystems are initialized
      * (besides Vuforia).
      */
+
     @Override
     public void init() {
         // Initialize Vuforia
-        vuforia = new VuforiaWrapper(hardwareMap);
+         vuforia = new VuforiaWrapper(hardwareMap);
 
         // Initialize swerve
         swerveController = new SwerveController(hardwareMap);
@@ -47,7 +50,7 @@ public class StoneToFoundationBlue extends OpMode {
 
     /**
      * Normally, this method is run continuously (as it is a loop), but because of the variable
-     * hasRun, the code within the if statement only runs once.
+     * hasRun, the code within the if statement only runs once (or however many times it takes to run to completion).
      */
     @Override
     public void loop() {
@@ -72,13 +75,29 @@ public class StoneToFoundationBlue extends OpMode {
             // Raise arm
             servos.controlArmsAutonomous(ArmDirection.UP);
 
+            // Get initial stone position for next action
+            stonePosition = approach.getInitPosition();
+
             // Mark this action as complete
             actionsComplete[2] = true;
         }
 
         // Drive under skybridge (~4 feet away)
         else if(!actionsComplete[3]) {
+            switch(stonePosition) {
+                default:
+                case LEFT:
+                case RIGHT:
+                case CENTER:
+                    // Code goes here
+                    break;
+
+                case NONE:
+                    break;
+
+            }
             actionsComplete[3] = swerveController.autoControlModules(-90, 48, 1);
         }
+
     }
 }

@@ -25,7 +25,7 @@ public class SwerveTeleop extends OpMode {
     //Creates a new swerve controller
     //private SwerveController swerveController;
 
-    private IndependentArmController independentArmController;
+    private ServoArmController servoArm;
 
     //private Servo svTop;
     //private Servo svBottom;
@@ -37,7 +37,7 @@ public class SwerveTeleop extends OpMode {
     @Override
     public void init() {
 
-        independentArmController = new IndependentArmController(hardwareMap, gamepad1);
+        servoArm = new ServoArmController(hardwareMap, gamepad2);
 
         //Initialize the swerve controller
         //swerveController = new SwerveController(gamepad1, hardwareMap, telemetry, IMUOrientation.HORIZONTAL, false);
@@ -57,7 +57,7 @@ public class SwerveTeleop extends OpMode {
     @Override
     public void loop(){
 
-        independentArmController.controlArms();
+        servoArm.controlArms();
 
         /*
 

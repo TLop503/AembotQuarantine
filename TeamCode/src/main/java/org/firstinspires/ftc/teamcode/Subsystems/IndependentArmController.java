@@ -11,6 +11,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.Utilities.ArmDirection;
  * Class created to control the servos on the block arms
  * @author Troy Lopez
  */
+
 public class IndependentArmController {
 
     //Left block arm
@@ -112,7 +113,6 @@ public class IndependentArmController {
      */
     private void rightUnGrip() {
         rightBlockGrip.setPosition(0.1);
-
     }
 
     /**
