@@ -23,6 +23,7 @@ public class StoneApproach {
     // TODO: Decide whether to use left or right arm if block is straight ahead
     // Set to right for now, might change later
     private final double centerArmOffset = 10;
+    private SkystonePostion position = SkystonePostion.NONE;
 
     /**
      * A method to construct a StoneApproach instance
@@ -63,13 +64,13 @@ public class StoneApproach {
         // Define where the stone is relative to the robot and store that placement with the SkytonePosition enum
         // TODO: Measure and tune these values to be more accurate
         if(xStoneDistance < -50) {
-            stonePos = SkystonePostion.LEFT;
+            position = SkystonePostion.LEFT;
         } else if(-50 < xStoneDistance && xStoneDistance < 50) {
-            stonePos =  SkystonePostion.CENTER;
+            position =  SkystonePostion.CENTER;
         } else if(xStoneDistance > 50) {
-            stonePos =  SkystonePostion.RIGHT;
+            position =  SkystonePostion.RIGHT;
         } else {
-            stonePos = SkystonePostion.NONE;
+            position = SkystonePostion.NONE;
         }
 
         /*
@@ -90,7 +91,7 @@ public class StoneApproach {
         double distanceToStoneOffset;
 
         // TODO: Find x-offsets required to end up with left or right arm in front of the stone
-        switch(stonePos) {
+        switch(position) {
             /*
             case LEFT:
                 while(xStoneDistance <= marginError + leftArmOffset && xStoneDistance >= marginError - leftArmOffset) {
@@ -157,5 +158,13 @@ public class StoneApproach {
         double zDistance = vuforia.getZ();
 
         return xDistance <= xRange && xDistance >= -xRange && zDistance <= zRange && zDistance >= -zRange;
+    }
+
+    /**
+     * A getter method for the original Skystone position.
+     * @return The position of the Skystone via the SkystonePosition enum.
+     */
+    public SkystonePostion getOriginalSkystonePosition() {
+        return position;
     }
 }
