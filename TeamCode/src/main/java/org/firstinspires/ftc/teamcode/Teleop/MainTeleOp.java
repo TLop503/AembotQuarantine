@@ -53,7 +53,7 @@ public class MainTeleOp extends OpMode {
         swerveController.controlModules();
 
 
-
+        /*
         //Controls the elevator
         elevatorSystem.controlElevator();
 
@@ -74,6 +74,8 @@ public class MainTeleOp extends OpMode {
 
         }
 
+        //yeet
+
         if (gamepad2.right_bumper) {
             armToggle = !armToggle;
         }
@@ -91,6 +93,8 @@ public class MainTeleOp extends OpMode {
                 elevatorArmController.openGrip();
             }
         }
+        */
+
 
     }
 }
