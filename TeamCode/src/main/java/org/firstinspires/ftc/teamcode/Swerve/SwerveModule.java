@@ -143,7 +143,7 @@ public class SwerveModule {
      */
     public void PIDControl() {
 
-        double motorSpeed = 0.3;
+        double motorSpeed = 0.6;
 
         //Wanted Speed, Rate of change, currentSpeed, TODO: Test this
         //motorSpeed = rampMotorSpeed(0.7, 0.1, motorSpeed);

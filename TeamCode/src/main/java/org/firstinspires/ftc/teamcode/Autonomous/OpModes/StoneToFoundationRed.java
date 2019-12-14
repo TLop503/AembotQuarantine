@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.Autonomous.OpModes;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.teamcode.Autonomous.Utilites.StoneApproach;
@@ -10,6 +11,7 @@ import org.firstinspires.ftc.teamcode.Swerve.SwerveController;
 import org.firstinspires.ftc.teamcode.Utilities.Vuforia.SkystonePostion;
 import org.firstinspires.ftc.teamcode.Utilities.Vuforia.VuforiaWrapper;
 
+@Disabled
 @Autonomous(name = "Skystone to Foundation RED", group = "Week 2")
 public class StoneToFoundationRed extends OpMode {
     // This array allows us to progress through different actions in our program

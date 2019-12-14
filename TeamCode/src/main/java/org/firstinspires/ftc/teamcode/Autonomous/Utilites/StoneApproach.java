@@ -80,8 +80,6 @@ public class StoneApproach {
         */
 
         // Initialize variable
-        double distanceToStoneOffset;
-
         // TODO: Find x-offsets required to end up with left or right arm in front of the stone
         switch(position) {
             case LEFT:
@@ -92,7 +90,9 @@ public class StoneApproach {
                     xStoneDistance = vuforia.getX();
                     zStoneDistance = vuforia.getZ();
                     distanceToStoneOffset = Math.hypot(xStoneDistance - this.leftArmOffset, zStoneDistance - zOffset);
-                    */
+
+                     */
+
 
                     // Calculated angle to stone
                     double approachModuleAngle = vuforia.getAngleOffset(this.leftArmOffset, zOffset);
@@ -118,8 +118,9 @@ public class StoneApproach {
                     xStoneDistance = vuforia.getX();
                     zStoneDistance = vuforia.getZ();
                     distanceToStoneOffset = Math.hypot(xStoneDistance - this.rightArmOffset, zStoneDistance - zOffset);
-
                      */
+
+
 
                     // Calculated angle to stone
                     double approachModuleAngle = vuforia.getAngleOffset(this.rightArmOffset, zOffset);

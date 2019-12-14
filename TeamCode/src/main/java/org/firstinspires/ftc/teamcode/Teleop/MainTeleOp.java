@@ -12,11 +12,10 @@ import org.firstinspires.ftc.teamcode.Subsystems.ElevatorArmController;
 
 /**
  * Main TeleOp Mode to be used during comp
- * @author Will Richards, Troy Lopez
+ * @author Will Richards, Troy Lopez, Zane Othman-Gomez
  */
 @TeleOp(name = "Main OpMode", group = "Competition")
 public class MainTeleOp extends OpMode {
-
     //Creates a new swerve controller
     private SwerveController swerveController;
 
@@ -26,7 +25,7 @@ public class MainTeleOp extends OpMode {
     private ElevatorArmController elevatorArmController;
 
     private Servo svBottom;
-    private Boolean armToggle;
+    private Boolean armToggle = false;
 
     @Override
     public void init() {
@@ -48,12 +47,11 @@ public class MainTeleOp extends OpMode {
 
     @Override
     public void loop() {
-
         //Control the swerve modules
         swerveController.controlModules();
 
 
-        /*
+
         //Controls the elevator
         elevatorSystem.controlElevator();
 
@@ -62,15 +60,16 @@ public class MainTeleOp extends OpMode {
         elevatorArmController.svPivot();
 
 
-        if (gamepad1.a){
+        if (gamepad1.a) {
             svBottom.setPosition(.857);
+
             //lift
             svBottom.setPosition(0.286);
 
 
-            swerveController.autoControlModules(270, 12, .5);
+            //swerveController.autoControlModules(270, 12, .5);
 
-            //lower
+            // TODO: lower
 
         }
 
@@ -79,7 +78,7 @@ public class MainTeleOp extends OpMode {
         if (gamepad2.right_bumper) {
             armToggle = !armToggle;
         }
-        if (armToggle == true){
+        if (armToggle){
             elevatorArmController.controlArms();
         }
         else {
@@ -93,7 +92,6 @@ public class MainTeleOp extends OpMode {
                 elevatorArmController.openGrip();
             }
         }
-        */
 
 
     }
