@@ -51,13 +51,13 @@ public class ElevatorArmController {
    }
 
    public void closeGrip(){
-        if (armPos < 0.6){
+        if (armPos <= 0.5){
             svGrip.setPosition(armPos + 0.5);
         }
    }
 
    public void openGrip() {
-       if (armPos > 0.5) {
+       if (armPos >= 0.5) {
            svGrip.setPosition(armPos - 0.5);
 
        }
@@ -106,6 +106,5 @@ public class ElevatorArmController {
         LeftBlockGrip.setPosition(0);
         //rightBlockGrip.setPosition(0.1);
     }
-
 
 }

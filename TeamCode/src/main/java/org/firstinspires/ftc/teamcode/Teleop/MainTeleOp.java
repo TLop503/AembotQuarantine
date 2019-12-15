@@ -76,9 +76,10 @@ public class MainTeleOp extends OpMode {
             armToggle = !armToggle;
         }
         // FIXME: Change this to not !
-        if (!armToggle){
-            //elevatorArmController.controlArms();
+        if (armToggle){
+            elevatorArmController.controlArms();
         }
+        /*
         else {
             elevatorArmController.svPivot();
             // elevatorArmController.svElevator();
@@ -90,7 +91,7 @@ public class MainTeleOp extends OpMode {
                 elevatorArmController.openGrip();
             }
         }
-
+    */
 
     }
 }
