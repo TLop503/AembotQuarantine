@@ -30,7 +30,7 @@ public class DriveToStoneTest extends OpMode {
         vuforia = new VuforiaWrapper(hardwareMap);
 
         // Initialize class facilitating the approach of a stone
-        approach = new StoneApproach(vuforia, swerveController, hardwareMap);
+        approach = new StoneApproach(vuforia, swerveController);
     }
 
     @Override

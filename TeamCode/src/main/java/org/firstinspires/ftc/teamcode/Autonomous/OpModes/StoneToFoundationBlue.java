@@ -35,7 +35,7 @@ public class StoneToFoundationBlue extends OpMode {
         swerveController = new SwerveController(hardwareMap);
 
         // Initialize the StoneApproach class
-        approach = new StoneApproach(vuforia, swerveController, hardwareMap);
+        approach = new StoneApproach(vuforia, swerveController);
 
         // Initialize the servo controller for the stone arms
         servos = new ServoArmController(hardwareMap, null);

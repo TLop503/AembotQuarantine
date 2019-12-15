@@ -54,7 +54,7 @@ public class StoneApproach {
         double zStoneDistance = vuforia.getZ();
 
         // Variable to store original stone position
- :       SkystonePostion stonePos;
+        SkystonePostion stonePos;
 
         // Define where the stone is relative to the robot and store that placement with the SkytonePosition enum
         // TODO: Measure and tune these values to be more accurate
