@@ -170,13 +170,13 @@ public class VuforiaWrapper {
      * @return the value of Y as an double
      */
     public double getY(){
-        String[] splitTransform = getDetectedTransform().split(" ");
+        OpenGLMatrix pose = ((VuforiaTrackableDefaultListener)skystoneTarget.getListener()).getPose();
 
         //If the transform string is greater than 0 return the normal X, if not return 4242 because that number is impossible to reach in this case and also 42..
-        if(splitTransform.length > 0)
-            return Double.parseDouble(splitTransform[5]);
+        if(pose != null)
+            return pose.getTranslation().get(1);
         else
-            return 4242;
+            return 0.0;
     }
 
     /**
