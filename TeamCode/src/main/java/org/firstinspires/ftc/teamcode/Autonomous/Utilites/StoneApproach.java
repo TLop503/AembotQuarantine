@@ -33,10 +33,10 @@ public class StoneApproach {
 
         // Initialize the PID instance inside this class
         // TODO: Tune the P scalar to actually work; 5 is just a placeholder value
-        this.drivePid = new PID(0.05, Constants.DRIVE_I, Constants.DRIVE_D);
+        this.drivePid = new PID(0.01, Constants.DRIVE_I, Constants.DRIVE_D);
 
         drivePid.setSetpoint(0);
-        drivePid.setMaxOutput(0.05);
+        drivePid.setMaxOutput(0.01);
         // TODO: Also tune this acceptable range; coordinate values are weird
         drivePid.setAcceptableRange(10);
     }
@@ -99,7 +99,7 @@ public class StoneApproach {
                     double calculatedSpeed = drivePid.calcOutput(distanceToStoneOffset);
 
                     // Run motors at correct angle and speed
-                    swerve.activeControl(approachModuleAngle, calculatedSpeed);
+                    swerve.activeControl(approachModuleAngle, 0.2 * calculatedSpeed);
                 }
 
                 swerve.stopModules();
@@ -119,11 +119,11 @@ public class StoneApproach {
                     // Calculated angle to stone
                     double approachModuleAngle = vuforia.getAngleOffset(this.rightArmOffset, zOffset);
 
-                    // PID-calculated speed to get to stone
+                    // PID-calculkted speed to get to stone
                     double calculatedSpeed = drivePid.calcOutput(distanceToStoneOffset);
 
                     // Run motors at correct angle and speed
-                    swerve.activeControl(approachModuleAngle, calculatedSpeed);
+                    swerve.activeControl(approachModuleAngle, 0.2 * calculatedSpeed);
                 }
 
                 swerve.stopModules();
