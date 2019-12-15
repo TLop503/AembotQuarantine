@@ -15,30 +15,25 @@ import org.firstinspires.ftc.teamcode.Utilities.Vuforia.SkystonePostion;
 public class StoneApproach {
     private VuforiaWrapper vuforia;
     private SwerveController swerve;
-    private HardwareMap hardwareMap;
     private PID drivePid;
 
-    private final double leftArmOffset = -10;
-    private final double rightArmOffset = 10;
-    // TODO: Decide whether to use left or right arm if block is straight ahead
-    // Set to right for now, might change later
-    private final double centerArmOffset = 10;
+    // FIXME: These values aren't accurate, so they need to be tested later
+    private final double leftArmOffset = -50;
+    private final double rightArmOffset = -50;
     private SkystonePostion position = SkystonePostion.NONE;
 
     /**
      * A method to construct a StoneApproach instance
      * @param vuforia A reference to a VuforiaWrapper
      * @param swerve The SwerveController used in an OpMode
-     * @param hardwareMap The hardware map of the robot
      */
-    public StoneApproach(VuforiaWrapper vuforia, SwerveController swerve, HardwareMap hardwareMap) {
+    public StoneApproach(VuforiaWrapper vuforia, SwerveController swerve) {
         this.vuforia = vuforia;
         this.swerve = swerve;
-        this.hardwareMap = hardwareMap;
 
         // Initialize the PID instance inside this class
         // TODO: Tune the P scalar to actually work; 5 is just a placeholder value
-        this.drivePid = new PID(Constants.DRIVE_P, Constants.DRIVE_I, Constants.DRIVE_D);
+        this.drivePid = new PID(0.05, Constants.DRIVE_I, Constants.DRIVE_D);
 
         drivePid.setSetpoint(0);
         drivePid.setMaxOutput(0.5);
@@ -59,7 +54,7 @@ public class StoneApproach {
         double zStoneDistance = vuforia.getZ();
 
         // Variable to store original stone position
-        SkystonePostion stonePos;
+ :       SkystonePostion stonePos;
 
         // Define where the stone is relative to the robot and store that placement with the SkytonePosition enum
         // TODO: Measure and tune these values to be more accurate
@@ -92,10 +87,10 @@ public class StoneApproach {
 
         // TODO: Find x-offsets required to end up with left or right arm in front of the stone
         switch(position) {
-            /*
             case LEFT:
-                while(xStoneDistance <= marginError + leftArmOffset && xStoneDistance >= marginError - leftArmOffset) {
+                while(!isInRange(20, 50)) {
                     // Update x-distance and regular distance to stone for while loop purposes
+                    // TODO: Get correct leftArmOffset from Vuforia
                     xStoneDistance = vuforia.getX();
                     distanceToStoneOffset = Math.hypot(xStoneDistance - this.leftArmOffset, zStoneDistance - zOffset);
 
@@ -106,22 +101,20 @@ public class StoneApproach {
                     double calculatedSpeed = drivePid.calcOutput(distanceToStoneOffset);
 
                     // Run motors at correct angle and speed
-                    swerve.activeControl(approachModuleAngle, calculatedSpeed);
+                    swerve.activeControl(approachModuleAngle, -calculatedSpeed);
 
                     xStoneDistance = vuforia.getX();
                 }
 
-                break;
-
-             */
+                swerve.stopModules();
+                return true;
 
             default:
-            case LEFT: // This should be removed when the left arm starts working
             case CENTER:
             case RIGHT:
                 // FIXME: Consider refactoring to separate function
                 // FIXME: This while loop also has 4 conditions, so those could probably be split into different functions like isInRangeX/Z or a single function below
-                while(!isInRange(10, 50)) {
+                while(!isInRange(20, 50)) {
                     // Update x-distance and regular distance to stone for while loop purposes
                     xStoneDistance = vuforia.getX();
                     distanceToStoneOffset = Math.hypot(xStoneDistance - this.rightArmOffset, zStoneDistance - zOffset);
@@ -133,7 +126,7 @@ public class StoneApproach {
                     double calculatedSpeed = drivePid.calcOutput(distanceToStoneOffset);
 
                     // Run motors at correct angle and speed
-                    swerve.activeControl(approachModuleAngle, -0.1 * calculatedSpeed);
+                    swerve.activeControl(approachModuleAngle, -calculatedSpeed);
                 }
 
                 swerve.stopModules();
