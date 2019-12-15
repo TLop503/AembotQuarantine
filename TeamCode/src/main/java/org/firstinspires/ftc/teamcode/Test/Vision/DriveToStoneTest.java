@@ -41,7 +41,7 @@ public class DriveToStoneTest extends OpMode {
     @Override
     public void loop() {
         if(!hasRun) {
-            hasRun = approach.approachStone(zOffset, 10);
+            hasRun = approach.approachStone(zOffset, 20);
         }
     }
 }

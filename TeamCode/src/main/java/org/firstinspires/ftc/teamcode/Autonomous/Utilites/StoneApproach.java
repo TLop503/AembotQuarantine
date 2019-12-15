@@ -36,7 +36,7 @@ public class StoneApproach {
         this.drivePid = new PID(0.05, Constants.DRIVE_I, Constants.DRIVE_D);
 
         drivePid.setSetpoint(0);
-        drivePid.setMaxOutput(0.5);
+        drivePid.setMaxOutput(0.05);
         // TODO: Also tune this acceptable range; coordinate values are weird
         drivePid.setAcceptableRange(10);
     }
@@ -52,9 +52,6 @@ public class StoneApproach {
         // Get the x and z coordinates relative to the Skystone with Vuforia
         double xStoneDistance = vuforia.getX();
         double zStoneDistance = vuforia.getZ();
-
-        // Variable to store original stone position
-        SkystonePostion stonePos;
 
         // Define where the stone is relative to the robot and store that placement with the SkytonePosition enum
         // TODO: Measure and tune these values to be more accurate
@@ -92,6 +89,7 @@ public class StoneApproach {
                     // Update x-distance and regular distance to stone for while loop purposes
                     // TODO: Get correct leftArmOffset from Vuforia
                     xStoneDistance = vuforia.getX();
+                    zStoneDistance = vuforia.getZ();
                     distanceToStoneOffset = Math.hypot(xStoneDistance - this.leftArmOffset, zStoneDistance - zOffset);
 
                     // Calculated angle to stone
@@ -101,9 +99,7 @@ public class StoneApproach {
                     double calculatedSpeed = drivePid.calcOutput(distanceToStoneOffset);
 
                     // Run motors at correct angle and speed
-                    swerve.activeControl(approachModuleAngle, -calculatedSpeed);
-
-                    xStoneDistance = vuforia.getX();
+                    swerve.activeControl(approachModuleAngle, calculatedSpeed);
                 }
 
                 swerve.stopModules();
@@ -114,9 +110,10 @@ public class StoneApproach {
             case RIGHT:
                 // FIXME: Consider refactoring to separate function
                 // FIXME: This while loop also has 4 conditions, so those could probably be split into different functions like isInRangeX/Z or a single function below
-                while(!isInRange(20, 50)) {
+                while(!isInRange(20, 100)) {
                     // Update x-distance and regular distance to stone for while loop purposes
                     xStoneDistance = vuforia.getX();
+                    zStoneDistance = vuforia.getZ();
                     distanceToStoneOffset = Math.hypot(xStoneDistance - this.rightArmOffset, zStoneDistance - zOffset);
 
                     // Calculated angle to stone
@@ -126,7 +123,7 @@ public class StoneApproach {
                     double calculatedSpeed = drivePid.calcOutput(distanceToStoneOffset);
 
                     // Run motors at correct angle and speed
-                    swerve.activeControl(approachModuleAngle, -calculatedSpeed);
+                    swerve.activeControl(approachModuleAngle, calculatedSpeed);
                 }
 
                 swerve.stopModules();
