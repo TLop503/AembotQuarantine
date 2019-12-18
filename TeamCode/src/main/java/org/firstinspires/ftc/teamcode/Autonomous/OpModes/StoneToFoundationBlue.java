@@ -11,10 +11,9 @@ import org.firstinspires.ftc.teamcode.Swerve.SwerveController;
 import org.firstinspires.ftc.teamcode.Utilities.Vuforia.SkystonePostion;
 import org.firstinspires.ftc.teamcode.Utilities.Vuforia.VuforiaWrapper;
 
-@Disabled
 @Autonomous(name = "Skystone to Foundation BLUE", group = "Week 2")
 public class StoneToFoundationBlue extends OpMode {
-    private boolean[] actionsComplete = {false, false, false, false};
+    //private boolean[] actionsComplete = {false, false, false, false};
 
     // Declare all the different subsystems
     private ServoArmController servos;
@@ -31,7 +30,9 @@ public class StoneToFoundationBlue extends OpMode {
     @Override
     public void init() {
         // Initialize Vuforia
-         vuforia = new VuforiaWrapper(hardwareMap);
+        vuforia = new VuforiaWrapper(hardwareMap);
+
+        stonePosition = SkystonePostion.NONE;
 
         // Initialize swerve
         swerveController = new SwerveController(hardwareMap);
@@ -57,6 +58,27 @@ public class StoneToFoundationBlue extends OpMode {
     @Override
     public void loop() {
         // Drive ~2 feet forward to be able to detect the Skystones
+        swerveController.autoControlModules(0, 25, 1);
+
+        switch(stonePosition) {
+            default:
+            case LEFT:
+                swerveController.autoControlModules(360-33.7, 25.3, 0.8);
+                swerveController.autoControlModules(270, 28, 0.8);
+            case RIGHT:
+                swerveController.autoControlModules(33.7, 25.3, 0.8);
+                swerveController.autoControlModules(270, 44, 0.8);
+
+            case CENTER:
+                swerveController.autoControlModules(0, 24, 0.8);
+                swerveController.autoControlModules(270, 36, 0.8);
+                break;
+            case NONE:
+                break;
+        }
+
+
+        /*
         if(!actionsComplete[0]) {
             actionsComplete[0] = swerveController.autoControlModules(0, 25, 1);
         }
@@ -103,6 +125,8 @@ public class StoneToFoundationBlue extends OpMode {
             }
             actionsComplete[3] = swerveController.autoControlModules(-90, 48, 1);
         }
+
+         */
 
     }
 }

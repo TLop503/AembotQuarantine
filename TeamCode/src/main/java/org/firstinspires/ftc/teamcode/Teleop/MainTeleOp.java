@@ -14,8 +14,10 @@ import org.firstinspires.ftc.teamcode.Subsystems.ElevatorArmController;
  * Main TeleOp Mode to be used during comp
  * @author Will Richards, Troy Lopez, Zane Othman-Gomez
  */
+
 @TeleOp(name = "Main OpMode", group = "Competition")
 public class MainTeleOp extends OpMode {
+
     //Creates a new swerve controller
     private SwerveController swerveController;
 
@@ -76,7 +78,7 @@ public class MainTeleOp extends OpMode {
             armToggle = !armToggle;
         }
         // FIXME: Change this to not !
-        if (armToggle){
+        if (!armToggle){
             elevatorArmController.controlArms();
         }
         /*

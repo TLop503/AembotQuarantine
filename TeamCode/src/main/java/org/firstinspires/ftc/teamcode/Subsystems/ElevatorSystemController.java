@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.hardware.Servo;
  * Class created to control the elevator and its parts
  * @author Will Richards
  */
+
 public class ElevatorSystemController {
 
     //Creates a motor that will control the elevator, it is a "simple" DcMotor becaues it is running a SparkMINI
@@ -39,6 +40,7 @@ public class ElevatorSystemController {
     /**
      * General method created to control the elevator based on input
      */
+
     public void controlElevator(){
 
         //Moves the elevator down
