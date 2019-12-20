@@ -1,10 +1,13 @@
 package org.firstinspires.ftc.teamcode.Subsystems;
 
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 /**
  * Class created to control the elevator and its parts
@@ -18,22 +21,25 @@ public class ElevatorSystemController {
 
     //Servos that control the grippers of the stacker
     //private Servo topArmServo;
-    private Servo svBottom;
+    private CRServo svBottom;
 
     private Gamepad gamepad;
+
+    private Telemetry telemetry;
 
     /**
      * Constructs all necessary variables for controlling the elevator and its parts
      * @param hardwareMap a reference to the map of all the ports
      */
-    public ElevatorSystemController(HardwareMap hardwareMap, Gamepad gamepad){
+    public ElevatorSystemController(HardwareMap hardwareMap, Gamepad gamepad, Telemetry telemetry){
 
         this.gamepad = gamepad;
+        this.telemetry = telemetry;
 
         elevatorMotor = hardwareMap.get(DcMotorSimple.class, "ElevatorMotor");
 
         //topArmServo = hardwareMap.get(Servo.class, "TopArmServo");
-        svBottom = hardwareMap.get(Servo.class, "svBottom");
+        svBottom = hardwareMap.get(CRServo.class, "svBottom");
 
     }
 
@@ -43,9 +49,11 @@ public class ElevatorSystemController {
 
     public void controlElevator(){
 
+        //telemetry.addData("Arm Pos: ", svBottom.getPosition());
+
         //Moves the elevator down
         if(gamepad.dpad_down){
-            elevatorMotor.setPower(00.7);
+            elevatorMotor.setPower(-0.7);
         }
 
         //Moves the elevator up
@@ -61,14 +69,16 @@ public class ElevatorSystemController {
         //Used for opening the stacker
         //TODO: Make sure the values for the servo are correct
         if(gamepad.dpad_left) {
-            //topArmServo.setPosition(0.55);
-            svBottom.setPosition(0.55);
+            svBottom.setPower(1);
         }
 
         //Closes the stacker
         else if(gamepad.dpad_right) {
-            //topArmServo.setPosition(0.286);
-            svBottom.setPosition(0.286);
+            svBottom.setPower(-1);
+        }
+
+        else {
+            svBottom.setPower(0);
         }
     }
 }

@@ -29,7 +29,7 @@ public class SwerveDrivePathingTest extends OpMode {
 
     @Override
     public void init() {
-        controller = new SwerveController(hardwareMap);
+        controller = new SwerveController(hardwareMap, telemetry);
 
         path = new Path(DriveStyles.SWERVE,controller,hardwareMap, IMUOrientation.HORIZONTAL);
 

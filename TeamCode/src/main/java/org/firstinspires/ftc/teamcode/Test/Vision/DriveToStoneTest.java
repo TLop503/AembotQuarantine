@@ -25,7 +25,7 @@ public class DriveToStoneTest extends OpMode {
     @Override
     public void init() {
         // Initialize the conroller for the swerve modules
-        swerveController = new SwerveController(hardwareMap);
+        swerveController = new SwerveController(hardwareMap, telemetry);
 
         vuforia = new VuforiaWrapper(hardwareMap);
 

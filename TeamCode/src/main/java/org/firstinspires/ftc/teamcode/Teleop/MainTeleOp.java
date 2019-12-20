@@ -36,7 +36,7 @@ public class MainTeleOp extends OpMode {
         swerveController = new SwerveController(gamepad1, hardwareMap, telemetry, IMUOrientation.VERTICAL, false);
 
         //Creates a new elevator controller
-        elevatorSystem = new ElevatorSystemController(hardwareMap, gamepad2);
+        elevatorSystem = new ElevatorSystemController(hardwareMap, gamepad2, telemetry);
 
         elevatorArmController = new ElevatorArmController(hardwareMap, gamepad2);
 

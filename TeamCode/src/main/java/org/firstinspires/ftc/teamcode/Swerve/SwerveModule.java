@@ -114,7 +114,7 @@ public class SwerveModule {
          * And finally it sets the point the module is trying to reach, at this point we just set it to 0
          */
         TeleOpPID = new PID(P,I,D);
-        TeleOpPID.setAcceptableRange(0.005);
+        TeleOpPID.setAcceptableRange(0.01);
         TeleOpPID.setSetpoint(0);
         TeleOpPID.setMaxOutput(0.6);
 
