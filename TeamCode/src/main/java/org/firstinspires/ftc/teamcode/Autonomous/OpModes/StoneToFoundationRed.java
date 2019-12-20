@@ -35,7 +35,7 @@ public class StoneToFoundationRed extends OpMode {
         vuforia = new VuforiaWrapper(hardwareMap);
 
         // Initialize swerve
-        swerveController = new SwerveController(hardwareMap);
+        swerveController = new SwerveController(hardwareMap, telemetry);
 
         // Initialize the StoneApproach class for going to a skystone
         approach = new StoneApproach(vuforia, swerveController);

@@ -71,7 +71,7 @@ public class SwerveController {
      * Constructs swerve modules for autonomous op modes, where there are no gamepads
      * @param hardwareMap a reference to the robot's hardware map
      */
-    public SwerveController(HardwareMap hardwareMap){
+    public SwerveController(HardwareMap hardwareMap, Telemetry telemetry){
         this.gamepad1 = null;
         this.hardwareMap = hardwareMap;
 
