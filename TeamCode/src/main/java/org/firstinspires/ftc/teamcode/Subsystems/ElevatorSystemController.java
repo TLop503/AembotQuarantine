@@ -16,7 +16,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class ElevatorSystemController {
 
-    //Creates a motor that will control the elevator, it is a "simple" DcMotor becaues it is running a SparkMINI
+    //Creates a motor that will control the elevator, it is a "simple" DcMotor because it is running a SparkMINI
     private DcMotorSimple elevatorMotor;
 
     //Servos that control the grippers of the stacker
@@ -30,6 +30,8 @@ public class ElevatorSystemController {
     /**
      * Constructs all necessary variables for controlling the elevator and its parts
      * @param hardwareMap a reference to the map of all the ports
+     * @param gamepad The gamepad to use for controlling the elevator.
+     * @param telemetry The telemetry that prints out to the phone for debugging purposes.
      */
     public ElevatorSystemController(HardwareMap hardwareMap, Gamepad gamepad, Telemetry telemetry){
 
@@ -46,7 +48,6 @@ public class ElevatorSystemController {
     /**
      * General method created to control the elevator based on input
      */
-
     public void controlElevator(){
 
         //telemetry.addData("Arm Pos: ", svBottom.getPosition());

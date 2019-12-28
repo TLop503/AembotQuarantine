@@ -11,12 +11,14 @@ import com.qualcomm.robotcore.hardware.CRServo;
  */
 
 
+// FIXME: This name is slightly misleading, as this controls both arms, not just the elevator arm.
 public class ElevatorArmController {
     //private CRServo svElevator;
     private CRServo svPivot;
     private Servo svGrip;
     private Gamepad gamepad;
     private double armPos;
+    // FIXME: We don't use armToggle at all in our code, so we should either use it or get rid of it.
     private boolean armToggle;
 
     private Servo LeftBlockArm;
@@ -30,10 +32,9 @@ public class ElevatorArmController {
         svGrip = hardwareMap.get(Servo.class, "svGrip");
 
         LeftBlockArm = hardwareMap.get(Servo.class,"LeftBlockArm");
-        LeftBlockArm = hardwareMap.get(Servo.class, "LeftBlockGrip");
+        LeftBlockGrip = hardwareMap.get(Servo.class, "LeftBlockGrip");
 
         armToggle = true;
-
     }
 
 
@@ -46,9 +47,9 @@ public class ElevatorArmController {
         svPivot.setPower(gamepad.right_stick_y);
     }
 
-   public void setArm(){
+    public void setArm(){
         armPos = svGrip.getPosition();
-   }
+    }
 
    public void closeGrip(){
         if (armPos <= 0.5){

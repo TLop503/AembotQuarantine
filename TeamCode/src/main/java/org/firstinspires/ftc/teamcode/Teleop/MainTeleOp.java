@@ -15,18 +15,20 @@ import org.firstinspires.ftc.teamcode.Subsystems.ElevatorArmController;
  * @author Will Richards, Troy Lopez, Zane Othman-Gomez
  */
 
-@TeleOp(name = "Main OpMode", group = "Competition")
+@TeleOp(name = "Main TeleOp", group = "Competition")
 public class MainTeleOp extends OpMode {
 
     //Creates a new swerve controller
     private SwerveController swerveController;
 
-    //Used to control the elevator
+    //Used to control the elevator for stacking stones
     private ElevatorSystemController elevatorSystem;
 
+    // This is for the stone grabbing arm with an elevator
     private ElevatorArmController elevatorArmController;
 
-    private Servo svBottom;
+    // FIXME: This isn't used - should we remove it in favor of the IndependentArmController or ServoArmController classes?
+    // private Servo svBottom;
     private Boolean armToggle = false;
 
     @Override
@@ -38,6 +40,7 @@ public class MainTeleOp extends OpMode {
         //Creates a new elevator controller
         elevatorSystem = new ElevatorSystemController(hardwareMap, gamepad2, telemetry);
 
+        // Instantiate a controller for the stone-grabbing arms
         elevatorArmController = new ElevatorArmController(hardwareMap, gamepad2);
 
         //Zero the position of the modules at init
@@ -60,6 +63,7 @@ public class MainTeleOp extends OpMode {
         elevatorArmController.svPivot();
 
 
+        // TODO: Wasn't the entire point of having subsystems to eliminate these if/else if/else chains?
         /*if (gamepad1.a) {
             svBottom.setPosition(0.857);
 
