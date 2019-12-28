@@ -2,13 +2,11 @@ package org.firstinspires.ftc.teamcode.Teleop;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.Subsystems.ElevatorSystemController;
-import org.firstinspires.ftc.teamcode.Subsystems.ServoArmController;
+import org.firstinspires.ftc.teamcode.Subsystems.StoneGripController;
 import org.firstinspires.ftc.teamcode.Swerve.SwerveController;
 import org.firstinspires.ftc.teamcode.Utilities.Hardware.Enums.IMUOrientation;
-import org.firstinspires.ftc.teamcode.Subsystems.ElevatorArmController;
 
 /**
  * Main TeleOp Mode to be used during comp
@@ -25,7 +23,7 @@ public class MainTeleOp extends OpMode {
     private ElevatorSystemController elevatorSystem;
 
     // This is for the stone grabbing arm with an elevator
-    private ElevatorArmController elevatorArmController;
+    private StoneGripController stoneGripController;
 
     // FIXME: This isn't used - should we remove it in favor of the IndependentArmController or ServoArmController classes?
     // private Servo svBottom;
@@ -41,13 +39,10 @@ public class MainTeleOp extends OpMode {
         elevatorSystem = new ElevatorSystemController(hardwareMap, gamepad2, telemetry);
 
         // Instantiate a controller for the stone-grabbing arms
-        elevatorArmController = new ElevatorArmController(hardwareMap, gamepad2);
+        stoneGripController = new StoneGripController(hardwareMap, gamepad2);
 
         //Zero the position of the modules at init
         swerveController.zeroModules();
-
-        elevatorArmController.setArm();
-
     }
 
     @Override
@@ -58,12 +53,16 @@ public class MainTeleOp extends OpMode {
         //Controls the elevator
         elevatorSystem.controlElevator();
 
-        //elevatorArmController.svElevator();
+        //stoneGripController.svElevator();
 
-        elevatorArmController.svPivot();
+        //stoneGripController.svPivot();
+
+        // Control the two different stone-gripping arms
+        // TODO: Program all the servos so the positions/modes are correct.
+        stoneGripController.controlArms();
 
 
-        // TODO: Wasn't the entire point of having subsystems to eliminate these if/else if/else chains?
+        // FIXME: Wasn't the entire point of having subsystems to eliminate these if/else if/else chains?
         /*if (gamepad1.a) {
             svBottom.setPosition(0.857);
 
@@ -83,18 +82,18 @@ public class MainTeleOp extends OpMode {
         }
         // FIXME: Change this to not !
         if (!armToggle){
-            elevatorArmController.controlArms();
+            stoneGripController.controlArms();
         }
         /*
         else {
-            elevatorArmController.svPivot();
-            // elevatorArmController.svElevator();
+            stoneGripController.svPivot();
+            // stoneGripController.svElevator();
 
             if(gamepad2.x){
-                elevatorArmController.closeGrip();
+                stoneGripController.closeGrip();
             }
             if (gamepad2.y){
-                elevatorArmController.openGrip();
+                stoneGripController.openGrip();
             }
         }
     */
