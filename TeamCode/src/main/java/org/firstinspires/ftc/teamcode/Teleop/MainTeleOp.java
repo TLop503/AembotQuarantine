@@ -39,7 +39,7 @@ public class MainTeleOp extends OpMode {
         elevatorSystem = new ElevatorSystemController(hardwareMap, gamepad2, telemetry);
 
         // Instantiate a controller for the stone-grabbing arms
-        stoneGripController = new StoneGripController(hardwareMap, gamepad2);
+        stoneGripController = new StoneGripController(hardwareMap, gamepad2, telemetry);
 
         //Zero the position of the modules at init
         swerveController.zeroModules();
@@ -77,6 +77,7 @@ public class MainTeleOp extends OpMode {
         }*/
 
 
+        /*
         if (gamepad2.right_bumper) {
             armToggle = !armToggle;
         }
@@ -84,7 +85,6 @@ public class MainTeleOp extends OpMode {
         if (!armToggle){
             stoneGripController.controlArms();
         }
-        /*
         else {
             stoneGripController.svPivot();
             // stoneGripController.svElevator();

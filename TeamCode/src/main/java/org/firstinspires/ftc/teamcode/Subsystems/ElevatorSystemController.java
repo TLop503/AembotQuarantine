@@ -67,19 +67,25 @@ public class ElevatorSystemController {
             elevatorMotor.setPower(0);
         }
 
+        /*
+        For some reason, power values act like positions to this servo, so the else statement
+        below is unnecessary.
+         */
+
         //Used for opening the stacker
-        //TODO: Make sure the values for the servo are correct
         if(gamepad.dpad_left) {
             svBottom.setPower(1);
         }
 
         //Closes the stacker
         else if(gamepad.dpad_right) {
-            svBottom.setPower(-1);
+            svBottom.setPower(0.25);
         }
 
+        /*
         else {
-            svBottom.setPower(0);
+            svBottom.setPower(0.5);
         }
+         */
     }
 }

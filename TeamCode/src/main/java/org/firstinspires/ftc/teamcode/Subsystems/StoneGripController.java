@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.CRServo;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Subsystems.Utilities.GripArmPosition;
 
 /**
@@ -32,6 +33,9 @@ public class StoneGripController {
     // The arm that is currently being controlled.
     private GripArmPosition armPos = GripArmPosition.RIGHT;
 
+    // The telemetry for debugging purposes
+    private Telemetry telemetry;
+
     // FIXME: We don't use armToggle at all in our code, so we should either use it or get rid of it.
     private boolean armToggle;
 
@@ -40,8 +44,9 @@ public class StoneGripController {
      * @param hardwareMap The hardwareMap from the configuration on the phones.
      * @param gamepad The gamepad for use in controlling the two arms.
      */
-    public StoneGripController(HardwareMap hardwareMap, Gamepad gamepad){
+    public StoneGripController(HardwareMap hardwareMap, Gamepad gamepad, Telemetry telemetry){
         this.gamepad = gamepad;
+        this.telemetry = telemetry;
 
         //svElevator = hardwareMap.get(CRServo.class, "svElevator");
         svRightPivot = hardwareMap.get(CRServo.class, "svPivot");
@@ -72,6 +77,8 @@ public class StoneGripController {
                     armPos = GripArmPosition.RIGHT;
                 }
 
+                telemetry.addData("Current Arm: ", "Left");
+
                 break;
 
             default:
@@ -84,9 +91,11 @@ public class StoneGripController {
                     ungripArm(svRightGrip);
                 }
 
-                if (gamepad.start) {
+                if (gamepad.back) {
                     armPos = GripArmPosition.LEFT;
                 }
+
+                telemetry.addData("Current Arm: ", "Right");
 
                 // TODO: Add logic for moving the elevator arm up and down.
 
@@ -158,7 +167,7 @@ public class StoneGripController {
 
     // region Old Control Methods
 
-    /**
+    /*
      * Pivots both arms back inside the robot.
      */
     /*
