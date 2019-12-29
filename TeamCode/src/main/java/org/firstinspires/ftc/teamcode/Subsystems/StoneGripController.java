@@ -19,7 +19,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.Utilities.GripArmPosition;
 public class StoneGripController {
     // TODO: Update configuration with more descriptive names
     // Right (elevator) arm servos
-    // private CRServo svElevator;
+    //private CRServo svElevator; // There isn't enough space for this on the expansion hub, as we are already using all 6 ports
     private CRServo svRightPivot;
     private Servo svRightGrip;
 
@@ -162,6 +162,16 @@ public class StoneGripController {
             gripServo.setPosition(0);
         }
     }
+
+    /**
+     * Moves the elevator arm up and down via the left stick.
+     * Since this only moves the right arm, it doesn't need a servo parameter
+     */
+    /*
+    private void elevateRightArm() {
+        svElevator.setPower(gamepad.left_stick_y);
+    }
+     */
 
     // endregion
 
