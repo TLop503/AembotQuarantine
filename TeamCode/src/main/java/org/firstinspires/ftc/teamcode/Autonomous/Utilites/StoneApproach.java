@@ -12,6 +12,9 @@ import org.firstinspires.ftc.teamcode.Utilities.Vuforia.SkystonePostion;
  * A class to facilitate the approach of a SkyStone during the autonomous period.
  * @author Zane Othman-Gomez
  */
+// Since vision isn't reliable enough for use, do not use this class for approaching stones.
+// Paths have to be hard-pathed instead.
+@Deprecated
 public class StoneApproach {
     private VuforiaWrapper vuforia;
     private SwerveController swerve;

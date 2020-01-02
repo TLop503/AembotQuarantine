@@ -69,6 +69,7 @@ public class SwerveController {
 
     /**
      * Constructs swerve modules for autonomous op modes, where there are no gamepads
+     * TODO: Fix this method too include gyros and other elements from above constructor or remove it.
      * @param hardwareMap a reference to the robot's hardware map
      */
     public SwerveController(HardwareMap hardwareMap, Telemetry telemetry){

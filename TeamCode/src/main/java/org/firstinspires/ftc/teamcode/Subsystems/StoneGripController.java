@@ -36,13 +36,11 @@ public class StoneGripController {
     // The telemetry for debugging purposes
     private Telemetry telemetry;
 
-    // FIXME: We don't use armToggle at all in our code, so we should either use it or get rid of it.
-    private boolean armToggle;
-
     /**
      * The constructor for a StoneGripController instance.
      * @param hardwareMap The hardwareMap from the configuration on the phones.
      * @param gamepad The gamepad for use in controlling the two arms.
+     * @param telemetry The telemetry used on the phones for debugging purposes.
      */
     public StoneGripController(HardwareMap hardwareMap, Gamepad gamepad, Telemetry telemetry){
         this.gamepad = gamepad;
@@ -54,8 +52,6 @@ public class StoneGripController {
 
         svLeftPivot = hardwareMap.get(CRServo.class,"LeftBlockArm");
         svLeftGrip = hardwareMap.get(Servo.class, "LeftBlockGrip");
-
-        // armToggle = true;
     }
 
     /**
