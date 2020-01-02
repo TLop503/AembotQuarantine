@@ -1,11 +1,15 @@
 package org.firstinspires.ftc.teamcode.Autonomous.OpModes;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.teamcode.Subsystems.StoneGripController;
 import org.firstinspires.ftc.teamcode.Swerve.SwerveController;
 import org.firstinspires.ftc.teamcode.Utilities.Hardware.Enums.IMUOrientation;
 
+@Autonomous
+@Disabled
 public class BlueLeftStone extends OpMode {
     private SwerveController swerve;
     private StoneGripController stoneArms;
