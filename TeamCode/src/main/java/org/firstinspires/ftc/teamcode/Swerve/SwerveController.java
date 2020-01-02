@@ -112,6 +112,8 @@ public class SwerveController {
          */
         for(SwerveModule module : moduleList){
             autoCompleteStatus[i] = module.AutoPIDControl(angle,distance,maxPower);
+            telemetry.addData("Module " + (i + 1) + ": ", autoCompleteStatus[i]);
+
             i++;
         }
 

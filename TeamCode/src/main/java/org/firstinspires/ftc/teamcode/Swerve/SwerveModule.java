@@ -435,8 +435,11 @@ public class SwerveModule {
         if(!hasResetEncoders) {
             resetBottomEncoder();
             resetTopEncoder();
+            telemetry.addData("Resetting Encoders", "");
             hasResetEncoders = true;
         }
+
+        telemetry.addData("Encoders Reset", "");
         /*
          * Collect information to be used in module control / PID
          * currentRotation - The number of rotations he module has currently completed
@@ -453,13 +456,22 @@ public class SwerveModule {
          * wantedDistanceRot - The new distance value we want to reach
          */
         currentDistanceRot = SwerveMath.getWheelPosition(getTopMotorTicks(), getBottomMotorTicks());
-        wantedDistanceRot = SwerveMath.calculateWheelPosition(distance);
+
+        switch(modPos) {
+            case RIGHT:
+                wantedDistanceRot = SwerveMath.calculateWheelPosition(-distance);
+                break;
+            case LEFT:
+                wantedDistanceRot = SwerveMath.calculateWheelPosition(distance);
+                break;
+        }
+        //wantedDistanceRot = SwerveMath.calculateWheelPosition(distance);
 
         telemetry.addData("Wanted Distance: ", wantedDistanceRot);
         telemetry.addData("Current Distance: ", currentDistanceRot);
 
         /*
-         * This small section simply updates the point that it wants to reach based off the new wantedRotation
+         * This small section simply updates the point that it  wants to reach based off the new wantedRotation
          * And then the method calcOutput is called which you pass your current value into and it preforms the PID opperation and returns the output with your scalars
          */
         turnPID.setSetpoint(wantedRotation);
@@ -470,7 +482,14 @@ public class SwerveModule {
          */
         drivePID.setSetpoint(wantedDistanceRot);
         drivePID.setMaxOutput(maxMotorSpeed);
-        drivePower = drivePID.calcOutput(currentDistanceRot);
+        switch(modPos) {
+            case RIGHT:
+                drivePower = -drivePID.calcOutput(currentDistanceRot);
+                break;
+            case LEFT:
+                drivePower = drivePID.calcOutput(currentDistanceRot);
+                break;
+        }
 
 
         /*

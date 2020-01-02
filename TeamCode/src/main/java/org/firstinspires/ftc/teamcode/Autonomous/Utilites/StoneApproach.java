@@ -82,8 +82,11 @@ public class StoneApproach {
         }
         */
 
+        boolean reachedStone = false;
+
         // Initialize variable
         // TODO: Find x-offsets required to end up with left or right arm in front of the stone
+        // FIXME: Try implementing this with `autoControlModules`
         switch(position) {
             case LEFT:
                 while(!isInRange(20, 50)) {
