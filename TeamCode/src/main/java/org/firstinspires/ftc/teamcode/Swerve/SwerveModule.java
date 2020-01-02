@@ -130,7 +130,7 @@ public class SwerveModule {
          * TODO: Tune values
          */
         drivePID = new PID(Constants.DRIVE_P,Constants.DRIVE_I,Constants.DRIVE_D);
-        drivePID.setAcceptableRange(0.02);
+        drivePID.setAcceptableRange(0.4);
         drivePID.setSetpoint(0);
 
         resetBottomEncoder();
@@ -432,14 +432,12 @@ public class SwerveModule {
      * @return the status of the completeness of the control
      */
     public boolean AutoPIDControl(double angle, double distance, double maxMotorSpeed){
-        if(!hasResetEncoders) {
-            resetBottomEncoder();
-            resetTopEncoder();
-            telemetry.addData("Resetting Encoders", "");
-            hasResetEncoders = true;
-        }
+//        if(!hasResetEncoders) {
+//            resetBottomEncoder();
+//            resetTopEncoder();
+//            hasResetEncoders = true;
+//        }
 
-        telemetry.addData("Encoders Reset", "");
         /*
          * Collect information to be used in module control / PID
          * currentRotation - The number of rotations he module has currently completed
@@ -456,19 +454,20 @@ public class SwerveModule {
          * wantedDistanceRot - The new distance value we want to reach
          */
         currentDistanceRot = SwerveMath.getWheelPosition(getTopMotorTicks(), getBottomMotorTicks());
+        wantedDistanceRot = SwerveMath.calculateWheelPosition(distance);
 
-        switch(modPos) {
-            case RIGHT:
-                wantedDistanceRot = SwerveMath.calculateWheelPosition(-distance);
-                break;
-            case LEFT:
-                wantedDistanceRot = SwerveMath.calculateWheelPosition(distance);
-                break;
-        }
+
+
         //wantedDistanceRot = SwerveMath.calculateWheelPosition(distance);
 
-        telemetry.addData("Wanted Distance: ", wantedDistanceRot);
-        telemetry.addData("Current Distance: ", currentDistanceRot);
+        if(modPos == ModulePosition.RIGHT) {
+            telemetry.addData("Right Module Wanted Distance: ", wantedDistanceRot);
+            telemetry.addData("Right Module Current Distance: ", currentDistanceRot);
+        }
+        else{
+            telemetry.addData("Left Module Wanted Distance: ", wantedDistanceRot);
+            telemetry.addData("Left Module Current Distance: ", currentDistanceRot);
+        }
 
         /*
          * This small section simply updates the point that it  wants to reach based off the new wantedRotation
@@ -477,20 +476,18 @@ public class SwerveModule {
         turnPID.setSetpoint(wantedRotation);
         turnPower = turnPID.calcOutput(currentRotation);
 
+
         /*
          * This section sets the position we want to reach with the wheels and the maxMotorSpeed
          */
         drivePID.setSetpoint(wantedDistanceRot);
         drivePID.setMaxOutput(maxMotorSpeed);
-        switch(modPos) {
-            case RIGHT:
-                drivePower = -drivePID.calcOutput(currentDistanceRot);
-                break;
-            case LEFT:
-                drivePower = drivePID.calcOutput(currentDistanceRot);
-                break;
-        }
 
+        drivePower = drivePID.calcOutput(currentDistanceRot);
+
+        if(modPos == ModulePosition.RIGHT){
+            drivePower *= -1;
+        }
 
         /*
          * Runs the motors to a given position and then stops
@@ -523,11 +520,8 @@ public class SwerveModule {
                     }
                 }
             }
-
-            //If it is in range return true
-            else {
+            else{
                 stopMotors();
-                return true;
             }
         }
 

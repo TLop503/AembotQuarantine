@@ -114,8 +114,8 @@ public class PID {
         }
 
         //Scales the value to the max output
-        if(output > maxOutput)
-            output = maxOutput;
+        if(Math.abs(output) > maxOutput)
+            output = Math.copySign(maxOutput, output);
 
         return output;
     }
