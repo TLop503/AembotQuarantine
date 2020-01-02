@@ -121,7 +121,7 @@ public class SwerveController {
         if(autoCompleteStatus[0] && autoCompleteStatus[1]){
 
             moduleList.get(0).hasResetEncoders = false;
-            moduleList.get(0).hasResetEncoders = false;
+            moduleList.get(1).hasResetEncoders = false;
 
             //If it was return true
             return true;
