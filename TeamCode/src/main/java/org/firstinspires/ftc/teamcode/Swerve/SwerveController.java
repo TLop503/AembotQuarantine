@@ -5,7 +5,6 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Swerve.Enums.ModulePosition;
-import org.firstinspires.ftc.teamcode.Swerve.Enums.WheelDirection;
 import org.firstinspires.ftc.teamcode.Utilities.Hardware.Enums.IMUOrientation;
 import org.firstinspires.ftc.teamcode.Utilities.Hardware.IMU;
 
@@ -112,10 +111,13 @@ public class SwerveController {
          * Iterates through the list of modules and calls the control method on all of them
          */
         for(SwerveModule module : moduleList){
-            autoCompleteStatus[i] = module.AutoPIDControl(angle,distance,maxPower);
+            autoCompleteStatus[i] = module.autoPIDControl(angle,distance,maxPower);
             //module.runMotorsDumb(WheelDirection.FORWARD, 0.5);
             i++;
         }
+
+        telemetry.addData("Left Module Finished: ", autoCompleteStatus[0]);
+        telemetry.addData("Right Module Finished: ", autoCompleteStatus[1]);
 
         //If both modules are complete
         if(autoCompleteStatus[0]){

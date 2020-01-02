@@ -130,7 +130,7 @@ public class SwerveModule {
          * TODO: Tune values
          */
         drivePID = new PID(Constants.DRIVE_P,Constants.DRIVE_I,Constants.DRIVE_D);
-        drivePID.setAcceptableRange(0.4);
+        drivePID.setAcceptableRange(0.1);
         drivePID.setSetpoint(0);
 
         resetBottomEncoder();
@@ -426,12 +426,12 @@ public class SwerveModule {
 
     //region Autonomous Module Control
     /**
-     * Overloaded AutoPIDControl used for autonomous control
+     * Overloaded autoPIDControl used for autonomous control
      * This method works in such a way that since it may take multiple loops of the program to align each time through this method will return true or false
      * If the module is oriented right it will return true and vice versa, this means that you will have to check this every iteration through the program and ignore it if the action has completed
      * @return the status of the completeness of the control
      */
-    public boolean AutoPIDControl(double angle, double distance, double maxMotorSpeed){
+    public boolean autoPIDControl(double angle, double distance, double maxMotorSpeed){
 //        if(!hasResetEncoders) {
 //            resetBottomEncoder();
 //            resetTopEncoder();
@@ -456,6 +456,9 @@ public class SwerveModule {
         currentDistanceRot = SwerveMath.getWheelPosition(getTopMotorTicks(), getBottomMotorTicks());
         wantedDistanceRot = SwerveMath.calculateWheelPosition(distance);
 
+        if (modPos == ModulePosition.LEFT){
+            wantedDistanceRot *= -1;
+        }
 
 
         //wantedDistanceRot = SwerveMath.calculateWheelPosition(distance);
@@ -477,6 +480,7 @@ public class SwerveModule {
         turnPower = turnPID.calcOutput(currentRotation);
 
 
+
         /*
          * This section sets the position we want to reach with the wheels and the maxMotorSpeed
          */
@@ -485,9 +489,8 @@ public class SwerveModule {
 
         drivePower = drivePID.calcOutput(currentDistanceRot);
 
-        if(modPos == ModulePosition.RIGHT){
+        if(modPos == ModulePosition.RIGHT)
             drivePower *= -1;
-        }
 
         /*
          * Runs the motors to a given position and then stops
@@ -520,8 +523,10 @@ public class SwerveModule {
                     }
                 }
             }
-            else{
+            else {
+                telemetry.addData(modPos == ModulePosition.RIGHT ? "Right Module Finished: " : "Left Module Finished: ", true);
                 stopMotors();
+                return true;
             }
         }
 
