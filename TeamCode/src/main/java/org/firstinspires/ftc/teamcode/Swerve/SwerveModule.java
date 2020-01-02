@@ -40,7 +40,7 @@ public class SwerveModule {
     private int topMotorTickOffset = 0;
     private int bottomMotorTickOffset = 0;
 
-    private boolean hasResetEncoders = false;
+    public boolean hasResetEncoders = false;
 
     //Module control variables are created up here to not destroy the garbage collector
     private double currentRotation = 0;
@@ -527,7 +527,6 @@ public class SwerveModule {
             //If it is in range return true
             else {
                 stopMotors();
-                hasResetEncoders = false;
                 return true;
             }
         }
@@ -787,6 +786,13 @@ public class SwerveModule {
         else {
             return setPower;
         }
+    }
+
+    /**
+     * Reset both module encoders
+     */
+    public void resetEncoders(){
+
     }
 
 }

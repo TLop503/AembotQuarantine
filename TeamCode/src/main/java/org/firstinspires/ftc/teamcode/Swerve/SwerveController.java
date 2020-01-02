@@ -120,6 +120,9 @@ public class SwerveController {
         //If both modules are complete
         if(autoCompleteStatus[0] && autoCompleteStatus[1]){
 
+            moduleList.get(0).hasResetEncoders = false;
+            moduleList.get(0).hasResetEncoders = false;
+
             //If it was return true
             return true;
         }
