@@ -105,6 +105,7 @@ public class ServoArmController {
      * FIXME: Rename MoveArmDirection enum, as gripping and ungripping aren't really directions
      * @param direction The action you want to do with the servo arms.
      */
+    /*
     public void controlArmsAutonomous(MoveArmDirection direction) {
         switch(direction) {
             case DOWN:
@@ -115,7 +116,6 @@ public class ServoArmController {
                 moveUp();
                 break;
 
-            /*
             case GRIP:
                 grip();
                 break;
@@ -123,10 +123,7 @@ public class ServoArmController {
             case UNGRIP:
                 unGrip();
                 break;
-             */
         }
     }
-
-
-
+    */
 }
