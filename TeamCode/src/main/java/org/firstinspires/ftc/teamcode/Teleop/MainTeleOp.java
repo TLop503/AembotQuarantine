@@ -27,6 +27,7 @@ public class MainTeleOp extends OpMode {
 
     // FIXME: This isn't used - should we remove it in favor of the IndependentArmController or ServoArmController classes?
     // private Servo svBottom;
+
     private Boolean armToggle = false;
 
     @Override
