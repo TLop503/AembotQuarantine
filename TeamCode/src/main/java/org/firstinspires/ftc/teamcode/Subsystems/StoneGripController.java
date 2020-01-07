@@ -54,6 +54,33 @@ public class StoneGripController {
         svLeftGrip = hardwareMap.get(Servo.class, "LeftBlockGrip");
     }
 
+    // region Autonomous Control Methods
+    /**
+     * A way to pivot the grip arms on the robot autonomously.
+     * @param arm The side on which the arm is on, given by the enum GripArmPosition.
+     */
+    public void autoPivot(GripArmPosition arm) {
+        // TODO: Verify power signs
+        if (arm == GripArmPosition.LEFT) {
+            svLeftPivot.setPower(0.5);
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+            svLeftPivot.setPower(0);
+        } else if (arm == GripArmPosition.RIGHT) {
+            svRightPivot.setPower(0.5);
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+            svRightPivot.setPower(0);
+        }
+    }
+    // endregion
+
     /**
      * Used for control in TeleOp via a single method.
      */
