@@ -71,13 +71,13 @@ public class StoneToFoundationRed extends OpMode {
         // Pick up the Skystone after approaching it
         else if(!actionsComplete[2]) {
             // Lower arm
-            servos.controlArmsAutonomous(MoveArmDirection.DOWN);
+            //servos.controlArmsAutonomous(MoveArmDirection.DOWN);
 
             // Grab the stone
             //servos.controlArmsAutonomous(MoveArmDirection.GRIP);
 
             // Raise the arm
-            servos.controlArmsAutonomous(MoveArmDirection.UP);
+            //servos.controlArmsAutonomous(MoveArmDirection.UP);
 
             // Mark this as done
             actionsComplete[2] = true;

@@ -23,13 +23,22 @@ public class VuforiaStoneOrientation extends OpMode {
     // Reference to Vuforia wrapper
     private VuforiaWrapper vuforia;
 
+    // Variables for finding average X/Z values over time
+    private double xAverage;
+    private double zAverage;
+
     /**
      * Called when "INIT" button is pressed
      *
      * Initializes Vuforia wrapper with the hardwareMap (for the camera)
      */
     @Override
-    public void init() { vuforia = new VuforiaWrapper(hardwareMap); }
+    public void init() {
+        vuforia = new VuforiaWrapper(hardwareMap);
+
+        xAverage = vuforia.getX();
+        zAverage = vuforia.getZ();
+    }
 
     /**
      * This function is called repeatedly when the "INIT" button is pressed
@@ -46,9 +55,8 @@ public class VuforiaStoneOrientation extends OpMode {
      */
     @Override
     public void loop() {
-        // Get the position of the SkyStone
-        //position = vuforia.getPosition();
-        //telemetry.addData("Position: ", position.toString());
+        double currentX = vuforia.getX();
+        double currentZ = vuforia.getZ();
 
         // Get the orientation of the SkyStone
         // secondAngle in this case references the angle along the vertical axis
@@ -57,5 +65,9 @@ public class VuforiaStoneOrientation extends OpMode {
 
         telemetry.addData("Stone X: ", vuforia.getX());
         telemetry.addData("Stone Z: ", vuforia.getZ());
+
+        zAverage = (currentZ + zAverage) / 2;
+
+        telemetry.addData("Average Z: ", zAverage);
     }
 }

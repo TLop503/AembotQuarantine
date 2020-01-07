@@ -12,9 +12,6 @@ import org.firstinspires.ftc.teamcode.Utilities.Vuforia.SkystonePostion;
  * A class to facilitate the approach of a SkyStone during the autonomous period.
  * @author Zane Othman-Gomez
  */
-// Since vision isn't reliable enough for use, do not use this class for approaching stones.
-// Paths have to be hard-pathed instead.
-@Deprecated
 public class StoneApproach {
     private VuforiaWrapper vuforia;
     private SwerveController swerve;
@@ -24,6 +21,10 @@ public class StoneApproach {
     private final double leftArmOffset = -50;
     private final double rightArmOffset = -50;
     private SkystonePostion position = SkystonePostion.NONE;
+
+    // Number of Vuforia coordinate units in an inch
+    // FIXME: This is a rough estimate, not a true measurement, taken from VuforiaStoneOrientation
+    private final double VUFORIA_UNITS_PER_INCH = 140;
 
     /**
      * A method to construct a StoneApproach instance
@@ -82,32 +83,27 @@ public class StoneApproach {
         }
         */
 
-        boolean reachedStone = false;
 
-        // Initialize variable
         // TODO: Find x-offsets required to end up with left or right arm in front of the stone
         // FIXME: Try implementing this with `autoControlModules`
+
+        // Used for swerve autonomous control purposes
+        boolean reachedStone = false;
+
         switch(position) {
             case LEFT:
                 while(!isInRange(20, 50)) {
-                    /* Removed because PID is finicky
                     // Update x-distance and regular distance to stone for while loop purposes
-                    // TODO: Get correct leftArmOffset from Vuforia
                     xStoneDistance = vuforia.getX();
                     zStoneDistance = vuforia.getZ();
-                    distanceToStoneOffset = Math.hypot(xStoneDistance - this.leftArmOffset, zStoneDistance - zOffset);
-
-                     */
+                    double distanceToStoneOffset = Math.hypot(xStoneDistance - this.leftArmOffset, zStoneDistance - zOffset);
 
 
                     // Calculated angle to stone
                     double approachModuleAngle = vuforia.getAngleOffset(this.leftArmOffset, zOffset);
 
-                    // PID-calculated speed to get to stone
-                    //double calculatedSpeed = drivePid.calcOutput(distanceToStoneOffset);
 
-                    // Run motors at correct angle and speed
-                    swerve.activeControl(approachModuleAngle, 0.2);
+                    //swerve.autoControlModules(approachModuleAngle, );
                 }
 
                 swerve.stopModules();
@@ -147,6 +143,10 @@ public class StoneApproach {
 
         // TODO: Orient robot correctly relative to stone to correct, if necessary
 
+    }
+
+    private double vuforiaCoordsToInches(double vuforiaCoords) {
+        return vuforiaCoords / VUFORIA_UNITS_PER_INCH;
     }
 
     /**
