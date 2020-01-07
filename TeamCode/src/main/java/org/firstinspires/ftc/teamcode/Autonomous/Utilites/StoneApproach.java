@@ -23,7 +23,7 @@ public class StoneApproach {
     private SkystonePostion position = SkystonePostion.NONE;
 
     // Number of Vuforia coordinate units in an inch
-    // FIXME: This is a rough estimate, not a true measurement, taken from VuforiaStoneOrientation
+    // FIXME: This is a rough estimate taken from VuforiaStoneOrientation
     private final double VUFORIA_UNITS_PER_INCH = 140;
 
     /**
@@ -50,9 +50,8 @@ public class StoneApproach {
      * The method responsible for actually driving up to the SkyStone.
      * Note that this method assumes Vuforia can see a Skystone; if it can't, this might crash.
      * @param zOffset How far we want to be from the SkyStone in Vuforia coordinate units.
-     * @param marginError The range you want to be within when approaching the Skystone
      */
-    public boolean approachStone(double zOffset, double marginError) {
+    public void approachStone(double zOffset) {
         // Get the x and z coordinates relative to the Skystone with Vuforia
         double xStoneDistance = vuforia.getX();
         double zStoneDistance = vuforia.getZ();
@@ -92,51 +91,44 @@ public class StoneApproach {
 
         switch(position) {
             case LEFT:
-                while(!isInRange(20, 50)) {
+            case CENTER:
+                while(!reachedStone) {
                     // Update x-distance and regular distance to stone for while loop purposes
                     xStoneDistance = vuforia.getX();
                     zStoneDistance = vuforia.getZ();
-                    double distanceToStoneOffset = Math.hypot(xStoneDistance - this.leftArmOffset, zStoneDistance - zOffset);
+                    double vuforiaDistanceToStoneOffset = Math.hypot(xStoneDistance - this.leftArmOffset, zStoneDistance - zOffset);
+                    double inchesToStoneOffset = vuforiaCoordsToInches(vuforiaDistanceToStoneOffset);
 
 
                     // Calculated angle to stone
                     double approachModuleAngle = vuforia.getAngleOffset(this.leftArmOffset, zOffset);
 
 
-                    //swerve.autoControlModules(approachModuleAngle, );
+                    reachedStone = swerve.autoControlModules(approachModuleAngle, inchesToStoneOffset, 0.1);
                 }
 
                 swerve.stopModules();
-                return true;
+                break;
 
             default:
-            case CENTER:
             case RIGHT:
-                // FIXME: Consider refactoring to separate function
-                // FIXME: This while loop also has 4 conditions, so those could probably be split into different functions like isInRangeX/Z or a single function below
-                while(!isInRange(20, 100)) {
-                    /* PID doesn't work reliably
+                while(!reachedStone) {
                     // Update x-distance and regular distance to stone for while loop purposes
                     xStoneDistance = vuforia.getX();
                     zStoneDistance = vuforia.getZ();
-                    distanceToStoneOffset = Math.hypot(xStoneDistance - this.rightArmOffset, zStoneDistance - zOffset);
-                     */
-
+                    double vuforiaDistanceToStoneOffset = Math.hypot(xStoneDistance - this.rightArmOffset, zStoneDistance - zOffset);
+                    double inchesToStoneOffset = vuforiaCoordsToInches(vuforiaDistanceToStoneOffset);
 
 
                     // Calculated angle to stone
-                    double approachModuleAngle = vuforia.getAngleOffset(this.rightArmOffset, zOffset);
+                    double approachModuleAngle = vuforia.getAngleOffset(this.leftArmOffset, zOffset);
 
-                    // PID-calculkted speed to get to stone
-                    // double calculatedSpeed = drivePid.calcOutput(distanceToStoneOffset);
 
-                    // Run motors at correct angle and speed
-                    swerve.activeControl(approachModuleAngle, 0.2);
+                    reachedStone = swerve.autoControlModules(approachModuleAngle, inchesToStoneOffset, 0.1);
                 }
 
                 swerve.stopModules();
-
-                return true;
+                break;
 
             // FIXME: Add NONE case so this doesn't do weird things when no Skystone is detected
         }
@@ -145,6 +137,11 @@ public class StoneApproach {
 
     }
 
+    /**
+     * A convenience method for converting Vuforia coordinate units to inches.
+     * @param vuforiaCoords The number of coordinate units.
+     * @return The distance in inches corresponding to the vuforiaCoords parameter.
+     */
     private double vuforiaCoordsToInches(double vuforiaCoords) {
         return vuforiaCoords / VUFORIA_UNITS_PER_INCH;
     }
