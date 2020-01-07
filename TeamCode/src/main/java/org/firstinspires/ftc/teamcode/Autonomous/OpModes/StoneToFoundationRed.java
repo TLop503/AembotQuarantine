@@ -65,7 +65,7 @@ public class StoneToFoundationRed extends OpMode {
 
         // Approach the stone using Vuforia via the StoneApproach class
         else if(!actionsComplete[1]) {
-            actionsComplete[1] = approach.approachStone(10, 10);
+            //actionsComplete[1] = approach.approachStone(10, 10);
         }
 
         // Pick up the Skystone after approaching it
