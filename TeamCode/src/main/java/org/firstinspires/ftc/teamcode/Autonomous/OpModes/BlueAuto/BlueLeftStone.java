@@ -1,11 +1,10 @@
-package org.firstinspires.ftc.teamcode.Autonomous.OpModes;
+package org.firstinspires.ftc.teamcode.Autonomous.OpModes.BlueAuto;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.teamcode.Subsystems.StoneGripController;
-import org.firstinspires.ftc.teamcode.Subsystems.Utilities.GripArmPosition;
 import org.firstinspires.ftc.teamcode.Swerve.SwerveController;
 import org.firstinspires.ftc.teamcode.Utilities.Hardware.Enums.IMUOrientation;
 
@@ -37,6 +36,7 @@ public class BlueLeftStone extends OpMode {
         // Pick up the stone
         else if (!actionCompletions[1]) {
             // TODO: Implement autonomous control method for moving arms up and down.
+
             actionCompletions[1] = true;
         }
 
@@ -70,4 +70,5 @@ public class BlueLeftStone extends OpMode {
             requestOpModeStop();
         }
     }
+
 }
