@@ -79,7 +79,7 @@ public class ElevatorSystemController {
 
         //Closes the stacker
         else if(gamepad.dpad_right) {
-            svBottom.setPower(0.25);
+            svBottom.setPower(0.30);
         }
 
         /*
