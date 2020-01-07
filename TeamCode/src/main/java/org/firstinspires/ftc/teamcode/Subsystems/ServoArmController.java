@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.teamcode.Subsystems.Utilities.ArmDirection;
+import org.firstinspires.ftc.teamcode.Subsystems.Utilities.MoveArmDirection;
 
 
 /**
@@ -101,11 +101,11 @@ public class ServoArmController {
     }
 
     /**
-     * A method to control the stone servo arms during the autonomous period using the enum ArmDirection.
-     * FIXME: Rename ArmDirection enum, as gripping and ungripping aren't really directions
+     * A method to control the stone servo arms during the autonomous period using the enum MoveArmDirection.
+     * FIXME: Rename MoveArmDirection enum, as gripping and ungripping aren't really directions
      * @param direction The action you want to do with the servo arms.
      */
-    public void controlArmsAutonomous(ArmDirection direction) {
+    public void controlArmsAutonomous(MoveArmDirection direction) {
         switch(direction) {
             case DOWN:
                 moveDown();
@@ -115,6 +115,7 @@ public class ServoArmController {
                 moveUp();
                 break;
 
+            /*
             case GRIP:
                 grip();
                 break;
@@ -122,6 +123,7 @@ public class ServoArmController {
             case UNGRIP:
                 unGrip();
                 break;
+             */
         }
     }
 

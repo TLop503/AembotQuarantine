@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.teamcode.Autonomous.Utilites.StoneApproach;
 import org.firstinspires.ftc.teamcode.Subsystems.ServoArmController;
-import org.firstinspires.ftc.teamcode.Subsystems.Utilities.ArmDirection;
+import org.firstinspires.ftc.teamcode.Subsystems.Utilities.MoveArmDirection;
 import org.firstinspires.ftc.teamcode.Swerve.SwerveController;
 import org.firstinspires.ftc.teamcode.Utilities.Vuforia.SkystonePostion;
 import org.firstinspires.ftc.teamcode.Utilities.Vuforia.VuforiaWrapper;
@@ -71,13 +71,13 @@ public class StoneToFoundationRed extends OpMode {
         // Pick up the Skystone after approaching it
         else if(!actionsComplete[2]) {
             // Lower arm
-            servos.controlArmsAutonomous(ArmDirection.DOWN);
+            servos.controlArmsAutonomous(MoveArmDirection.DOWN);
 
             // Grab the stone
-            servos.controlArmsAutonomous(ArmDirection.GRIP);
+            //servos.controlArmsAutonomous(MoveArmDirection.GRIP);
 
             // Raise the arm
-            servos.controlArmsAutonomous(ArmDirection.UP);
+            servos.controlArmsAutonomous(MoveArmDirection.UP);
 
             // Mark this as done
             actionsComplete[2] = true;

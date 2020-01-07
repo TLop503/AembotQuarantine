@@ -1,12 +1,10 @@
 package org.firstinspires.ftc.teamcode.Autonomous.OpModes;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.teamcode.Autonomous.Utilites.StoneApproach;
 import org.firstinspires.ftc.teamcode.Subsystems.ServoArmController;
-import org.firstinspires.ftc.teamcode.Subsystems.Utilities.ArmDirection;
 import org.firstinspires.ftc.teamcode.Swerve.SwerveController;
 import org.firstinspires.ftc.teamcode.Utilities.Vuforia.SkystonePostion;
 import org.firstinspires.ftc.teamcode.Utilities.Vuforia.VuforiaWrapper;
@@ -91,13 +89,13 @@ public class StoneToFoundationBlue extends OpMode {
         // Pick up stone using right servo arm
         else if(!actionsComplete[2]) {
             // Lower arm
-            servos.controlArmsAutonomous(ArmDirection.DOWN);
+            servos.controlArmsAutonomous(MoveArmDirection.DOWN);
 
             // Grab stone
-            servos.controlArmsAutonomous(ArmDirection.GRIP);
+            servos.controlArmsAutonomous(MoveArmDirection.GRIP);
 
             // Raise arm
-            servos.controlArmsAutonomous(ArmDirection.UP);
+            servos.controlArmsAutonomous(MoveArmDirection.UP);
 
             // Get initial stone position for next action
             stonePosition = approach.getInitPosition();

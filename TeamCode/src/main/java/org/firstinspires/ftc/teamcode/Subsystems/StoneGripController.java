@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.CRServo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Subsystems.Utilities.GripArmPosition;
+import org.firstinspires.ftc.teamcode.Subsystems.Utilities.MoveArmDirection;
 
 /**
  * Code written for controlling the elevator arm
@@ -58,24 +59,44 @@ public class StoneGripController {
     /**
      * A way to pivot the grip arms on the robot autonomously.
      * @param arm The side on which the arm is on, given by the enum GripArmPosition.
+     * @param direction The direction that you want to move the arm.
      */
-    public void autoPivot(GripArmPosition arm) {
+    public void autoPivot(GripArmPosition arm, MoveArmDirection direction) {
         // TODO: Verify power signs
+        // Check which arm to move
         if (arm == GripArmPosition.LEFT) {
-            svLeftPivot.setPower(0.5);
+            // Check which direction to move the left arm
+            if (direction == MoveArmDirection.UP) {
+                svLeftPivot.setPower(0.5);
+            } else if (direction == MoveArmDirection.DOWN) {
+                svRightPivot.setPower(-0.5);
+            }
+
+            // Wait for 1 second
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
+
+            // Stop the servo
             svLeftPivot.setPower(0);
         } else if (arm == GripArmPosition.RIGHT) {
-            svRightPivot.setPower(0.5);
+            // Check which direction to move the left arm
+            if (direction == MoveArmDirection.UP) {
+                svRightPivot.setPower(0.5);
+            } else if (direction == MoveArmDirection.DOWN) {
+                svRightPivot.setPower(-0.5);
+            }
+
+            // Wait for 1 second
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
+
+            // Stop the servo
             svRightPivot.setPower(0);
         }
     }
