@@ -32,7 +32,6 @@ public class MainTeleOp extends OpMode {
 
     @Override
     public void init() {
-
         //Initialize the swerve controller
         swerveController = new SwerveController(gamepad1, hardwareMap, telemetry, IMUOrientation.VERTICAL, false);
 
@@ -54,50 +53,7 @@ public class MainTeleOp extends OpMode {
         //Controls the elevator
         elevatorSystem.controlElevator();
 
-        //stoneGripController.svElevator();
-
-        //stoneGripController.svPivot();
-
-        // Control the two different stone-gripping arms
-        // TODO: Program all the servos so the positions/modes are correct.
+        // Control the two different stone-gripping arms with switching between them supported
         stoneGripController.controlArms();
-
-
-        // FIXME: Wasn't the entire point of having subsystems to eliminate these if/else if/else chains?
-        /*if (gamepad1.a) {
-            svBottom.setPosition(0.857);
-
-            //TODO: lift
-            svBottom.setPosition(0.286);
-
-
-            //swerveController.autoControlModules(270, 12, .5);
-
-            // TODO: lower
-
-        }*/
-
-
-        /*
-        if (gamepad2.right_bumper) {
-            armToggle = !armToggle;
-        }
-        // FIXME: Change this to not !
-        if (!armToggle){
-            stoneGripController.controlArms();
-        }
-        else {
-            stoneGripController.svPivot();
-            // stoneGripController.svElevator();
-
-            if(gamepad2.x){
-                stoneGripController.closeGrip();
-            }
-            if (gamepad2.y){
-                stoneGripController.openGrip();
-            }
-        }
-    */
-
     }
 }

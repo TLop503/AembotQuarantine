@@ -20,7 +20,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.Utilities.MoveArmDirection;
 public class StoneGripController {
     // TODO: Update configuration with more descriptive names
     // Right (elevator) arm servos
-    //private CRServo svElevator; // There isn't enough space for this on the expansion hub, as we are already using all 6 ports
+    private CRServo svElevator;
     private CRServo svRightPivot;
     private Servo svRightGrip;
 
@@ -47,7 +47,7 @@ public class StoneGripController {
         this.gamepad = gamepad;
         this.telemetry = telemetry;
 
-        //svElevator = hardwareMap.get(CRServo.class, "svElevator");
+        svElevator = hardwareMap.get(CRServo.class, "svElevator");
         svRightPivot = hardwareMap.get(CRServo.class, "svPivot");
         svRightGrip = hardwareMap.get(Servo.class, "svGrip");
 
@@ -97,8 +97,7 @@ public class StoneGripController {
             }
 
             // Stop the servo
-            svRightPivot.setPower(0);
-        }
+       }
     }
     // endregion
 
@@ -111,15 +110,16 @@ public class StoneGripController {
             case LEFT:
                 pivotArm(svLeftPivot);
 
-                if (gamepad.x) {
+                if (gamepad.a) {
                     gripArm(svLeftGrip);
-                } else if (gamepad.b) {
+                } else if (gamepad.y) {
                     ungripArm(svLeftGrip);
                 }
 
                 if (gamepad.start) {
                     armPos = GripArmPosition.RIGHT;
                 }
+
 
                 telemetry.addData("Current Arm: ", "Left");
 
@@ -129,15 +129,17 @@ public class StoneGripController {
             case RIGHT:
                 pivotArm(svRightPivot);
 
-                if (gamepad.x) {
+                if (gamepad.a) {
                     gripArm(svRightGrip);
-                } else if (gamepad.b) {
+                } else if (gamepad.y) {
                     ungripArm(svRightGrip);
                 }
 
                 if (gamepad.back) {
                     armPos = GripArmPosition.LEFT;
                 }
+
+                rightElevatorControl(gamepad.left_stick_y);
 
                 telemetry.addData("Current Arm: ", "Right");
 
@@ -168,9 +170,13 @@ public class StoneGripController {
 
     // region Arm Movement Helpers
 
-    //public void svElevator(){
-    //    svElevator.setPower(-gamepad.left_stick_y);
-    //}
+    /**
+     * A more descriptive convenience method to control the servo that controls the height of the right arm.
+     * @param power The power that you would like to set for the elevator CR servo.
+     */
+    private void rightElevatorControl(double power) {
+        svElevator.setPower(power);
+    }
 
     /**
      * A method used for pivoting the elevator grip arm.

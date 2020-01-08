@@ -19,7 +19,7 @@ import org.firstinspires.ftc.teamcode.Utilities.Hardware.Enums.IMUOrientation;
  */
 
 @TeleOp(name = "SwerveTeleop", group = "Teleop")
-
+@Disabled
 public class SwerveTeleop extends OpMode {
 
     //Creates a new swerve controller
