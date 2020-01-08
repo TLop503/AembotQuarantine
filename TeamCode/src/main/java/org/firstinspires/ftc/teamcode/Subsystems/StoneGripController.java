@@ -110,9 +110,9 @@ public class StoneGripController {
             case LEFT:
                 pivotArm(svLeftPivot);
 
-                if (gamepad.x) {
+                if (gamepad.a) {
                     gripArm(svLeftGrip);
-                } else if (gamepad.b) {
+                } else if (gamepad.y) {
                     ungripArm(svLeftGrip);
                 }
 
@@ -129,9 +129,9 @@ public class StoneGripController {
             case RIGHT:
                 pivotArm(svRightPivot);
 
-                if (gamepad.x) {
+                if (gamepad.a) {
                     gripArm(svRightGrip);
-                } else if (gamepad.b) {
+                } else if (gamepad.y) {
                     ungripArm(svRightGrip);
                 }
 
