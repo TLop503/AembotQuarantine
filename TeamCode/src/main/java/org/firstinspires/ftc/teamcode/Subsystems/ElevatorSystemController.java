@@ -53,13 +53,13 @@ public class ElevatorSystemController {
         //telemetry.addData("Arm Pos: ", svBottom.getPosition());
 
         //Moves the elevator down
-        if(gamepad.dpad_down){
+        if(gamepad.dpad_up){
             elevatorMotor.setPower(-1);
         }
 
         //Moves the elevator up
-        else if(gamepad.dpad_up){
-            elevatorMotor.setPower(0.7);
+        else if(gamepad.dpad_down){
+            elevatorMotor.setPower(1);
         }
 
         //If neither are pressed stop the elevator
