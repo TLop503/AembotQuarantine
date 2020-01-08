@@ -17,19 +17,26 @@ public class StoneApproach {
     private SwerveController swerve;
     private PID drivePid;
 
-    // FIXME: These values aren't accurate, so they need to be tested later
-    private final double leftArmOffset = -50;
-    private final double rightArmOffset = -50;
-    private SkystonePostion position = SkystonePostion.NONE;
-
     // Number of Vuforia coordinate units in an inch
     // FIXME: This is a rough estimate taken from VuforiaStoneOrientation
-    private final double VUFORIA_UNITS_PER_INCH = 140;
+    // measured from a distance of ~6 inches.
+    private final double VUFORIA_UNITS_PER_INCH = 140 / 6;
+
+    // The camera is ~1 inch to the right of the center of the robot.
+    // FIXME: I assume this is a positive offset, but I need to test this.
+
+    // FIXME: These values aren't accurate, so they need to be tested later
+    // Estimated to be 7 inches left and 6 inches right, respectively.
+    private final double leftArmOffset = -7 * VUFORIA_UNITS_PER_INCH;
+    private final double rightArmOffset = 6 * VUFORIA_UNITS_PER_INCH;
+
+    // Variable to hold the current Skystone position according to Vuforia.
+    private SkystonePostion position = SkystonePostion.NONE;
 
     /**
-     * A method to construct a StoneApproach instance
-     * @param vuforia A reference to a VuforiaWrapper
-     * @param swerve The SwerveController used in an OpMode
+     * A method to construct a StoneApproach instance.
+     * @param vuforia A reference to a VuforiaWrapper.
+     * @param swerve The SwerveController used in an OpMode.
      */
     public StoneApproach(VuforiaWrapper vuforia, SwerveController swerve) {
         this.vuforia = vuforia;
@@ -68,21 +75,6 @@ public class StoneApproach {
             position = SkystonePostion.NONE;
         }
 
-        /*
-        // Drive the modules using PID until you reach the SkyStone
-        // TODO: This range is related to acceptable range in constructor; update accordingly
-        while(!drivePid.isInRange()) {
-            double distanceToStone = vuforia.getDistanceZOffset(zOffset);
-            double speedCalculated = drivePid.calcOutput(distanceToStone);
-            moduleAngle = vuforia.getAngleZOffset(zOffset);
-
-            swerve.activeControl(moduleAngle, speedCalculated);
-
-            xStoneDistance = vuforia.getX();
-        }
-        */
-
-
         // TODO: Find x-offsets required to end up with left or right arm in front of the stone
         // FIXME: Try implementing this with `autoControlModules`
 
@@ -90,6 +82,9 @@ public class StoneApproach {
         boolean reachedStone = false;
 
         switch(position) {
+            case NONE:
+                return;
+
             case LEFT:
             case CENTER:
                 while(!reachedStone) {
@@ -139,11 +134,11 @@ public class StoneApproach {
 
     /**
      * A convenience method for converting Vuforia coordinate units to inches.
-     * @param vuforiaCoords The number of coordinate units.
+     * @param units The number of coordinate units.
      * @return The distance in inches corresponding to the vuforiaCoords parameter.
      */
-    private double vuforiaCoordsToInches(double vuforiaCoords) {
-        return vuforiaCoords / VUFORIA_UNITS_PER_INCH;
+    private double vuforiaCoordsToInches(double units) {
+        return units / VUFORIA_UNITS_PER_INCH;
     }
 
     /**
