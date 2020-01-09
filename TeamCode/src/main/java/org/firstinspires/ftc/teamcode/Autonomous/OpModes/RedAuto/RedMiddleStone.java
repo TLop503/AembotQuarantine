@@ -27,7 +27,7 @@ public class RedMiddleStone extends OpMode {
         // Initialize the swerve module controller
         swerve = new SwerveController(null, hardwareMap, telemetry, IMUOrientation.VERTICAL, false);
 
-        RightBlockGrip = hardwareMap.get(Servo.class, "RightBlockGrip");
+        RightBlockGrip = hardwareMap.get(Servo.class, "svGrip");
         LeftBlockGrip = hardwareMap.get(Servo.class, "LeftBlockGrip");
 
         // Initialize the controller for the stone-grabbing arms
@@ -76,9 +76,9 @@ public class RedMiddleStone extends OpMode {
         }
 
         // Drive under the bridge
-        else if (!actionCompletions[6]) {
+        //else if (!actionCompletions[6]) {
 
-        }
+        //}
 
         // Stop the op mode
         else {

@@ -49,8 +49,8 @@ public class StoneGripController {
 
         svElevator = hardwareMap.get(CRServo.class, "svElevator");
         svRightPivot = hardwareMap.get(CRServo.class, "svPivot");
-        svRightGrip = hardwareMap.get(Servo.class, "svRightGrip");
-        svLeftGrip = hardwareMap.get(Servo.class, "svLeftGrip");
+        svRightGrip = hardwareMap.get(Servo.class, "svGrip");
+        //svLeftGrip = hardwareMap.get(Servo.class, "svLeftGrip");
 
         svLeftPivot = hardwareMap.get(CRServo.class,"LeftBlockArm");
         svLeftGrip = hardwareMap.get(Servo.class, "LeftBlockGrip");

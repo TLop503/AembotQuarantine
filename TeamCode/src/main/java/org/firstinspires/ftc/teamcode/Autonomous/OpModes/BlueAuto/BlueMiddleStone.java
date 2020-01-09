@@ -29,7 +29,7 @@ public class BlueMiddleStone extends OpMode {
         // Initialize the swerve module controller
         swerve = new SwerveController(null, hardwareMap, telemetry, IMUOrientation.VERTICAL, false);
 
-        RightBlockGrip = hardwareMap.get(Servo.class, "svRightGrip");
+        RightBlockGrip = hardwareMap.get(Servo.class, "svGrip");
         LeftBlockGrip = hardwareMap.get(Servo.class, "svLeftGrip");
 
         // Initialize the controller for the stone-grabbing arms
