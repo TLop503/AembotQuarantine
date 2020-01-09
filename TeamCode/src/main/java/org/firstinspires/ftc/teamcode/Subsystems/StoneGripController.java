@@ -13,10 +13,6 @@ import org.firstinspires.ftc.teamcode.Subsystems.Utilities.MoveArmDirection;
  * Code written for controlling the elevator arm
  * @author Troy Lopez, Zane Othman-Gomez
  */
-
-/**
- * A class to control both arms used to grip stones for transport.
- */
 public class StoneGripController {
     // TODO: Update configuration with more descriptive names
     // Right (elevator) arm servos

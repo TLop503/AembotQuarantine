@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Autonomous.OpModes.OldAuto;
+package org.firstinspires.ftc.teamcode.Autonomous.OpModes.Archive;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.Utilities.MoveArmDirection;
 import org.firstinspires.ftc.teamcode.Swerve.SwerveController;
 import org.firstinspires.ftc.teamcode.Utilities.Vuforia.SkystonePostion;
 import org.firstinspires.ftc.teamcode.Utilities.Vuforia.VuforiaWrapper;
-/*
+
 @Disabled
 @Autonomous(name = "Skystone to Foundation RED", group = "Week 2")
 public class StoneToFoundationRed extends OpMode {
@@ -29,8 +29,6 @@ public class StoneToFoundationRed extends OpMode {
     /**
      * Initialization method for this OpMode.
      */
-
-/*
     @Override
     public void init() {
         // Initialize Vuforia
@@ -49,8 +47,6 @@ public class StoneToFoundationRed extends OpMode {
     /**
      * Run continuously when init button is pressed to initialize Vuforia.
      */
-
-/*
     @Override
     public void init_loop() {
         vuforia.initVuforia();
@@ -60,7 +56,6 @@ public class StoneToFoundationRed extends OpMode {
      * Normally, this method is run continuously (as it is a loop), but because of the variable
      * hasRun, the code within the if statement only runs once.
      */
-/*
     @Override
     public void loop() {
         // Drive forward ~2 feet to be able to detect the Skystones
@@ -107,4 +102,3 @@ public class StoneToFoundationRed extends OpMode {
         }
     }
 }
-*/

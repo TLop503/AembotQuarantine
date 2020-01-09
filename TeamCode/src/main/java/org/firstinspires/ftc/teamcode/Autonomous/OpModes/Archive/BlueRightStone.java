@@ -1,4 +1,5 @@
-package org.firstinspires.ftc.teamcode.Autonomous.OpModes.OldAuto;
+package org.firstinspires.ftc.teamcode.Autonomous.OpModes.Archive;
+
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
@@ -10,7 +11,7 @@ import org.firstinspires.ftc.teamcode.Utilities.Hardware.Enums.IMUOrientation;
 
 @Autonomous
 @Disabled
-public class BlueLeftStone extends OpMode {
+public class BlueRightStone extends OpMode {
     private SwerveController swerve;
     private StoneGripController stoneArms;
 
@@ -42,7 +43,7 @@ public class BlueLeftStone extends OpMode {
 
         // Drive sideways to the foundation
         else if (!actionCompletions[2]) {
-            actionCompletions[2] = swerve.autoControlModules(90, 77, 0.5);
+            actionCompletions[2] = swerve.autoControlModules(90, 69, 0.5);
         }
 
         // Lower arms, release stone and grab foundation
@@ -70,5 +71,4 @@ public class BlueLeftStone extends OpMode {
             requestOpModeStop();
         }
     }
-
 }
