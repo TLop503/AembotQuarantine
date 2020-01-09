@@ -49,10 +49,12 @@ public class StoneGripController {
 
         svElevator = hardwareMap.get(CRServo.class, "svElevator");
         svRightPivot = hardwareMap.get(CRServo.class, "svPivot");
-        svRightGrip = hardwareMap.get(Servo.class, "svGrip");
+        svRightGrip = hardwareMap.get(Servo.class, "svRightGrip");
+        svLeftGrip = hardwareMap.get(Servo.class, "svLeftGrip");
 
         svLeftPivot = hardwareMap.get(CRServo.class,"LeftBlockArm");
         svLeftGrip = hardwareMap.get(Servo.class, "LeftBlockGrip");
+
     }
 
     // region Autonomous Control Methods
@@ -69,7 +71,7 @@ public class StoneGripController {
             if (direction == MoveArmDirection.UP) {
                 svLeftPivot.setPower(0.5);
             } else if (direction == MoveArmDirection.DOWN) {
-                svRightPivot.setPower(-0.5);
+                svLeftPivot.setPower(-0.5);
             }
 
             // Wait for 1 second
@@ -101,6 +103,7 @@ public class StoneGripController {
     }
     // endregion
 
+
     /**
      * Used for control in TeleOp via a single method.
      */
@@ -108,7 +111,7 @@ public class StoneGripController {
         // Depending on which arm is currently being controlled, use its corresponding servos.
         switch(armPos) {
             case LEFT:
-                pivotArm(svLeftPivot);
+                pivotLeftArm(svLeftPivot);
 
                 if (gamepad.a) {
                     gripArm(svLeftGrip);
@@ -127,7 +130,7 @@ public class StoneGripController {
 
             default:
             case RIGHT:
-                pivotArm(svRightPivot);
+                pivotRightArm(svRightPivot);
 
                 if (gamepad.a) {
                     gripArm(svRightGrip);
@@ -181,8 +184,12 @@ public class StoneGripController {
     /**
      * A method used for pivoting the elevator grip arm.
      */
-    public void pivotArm(CRServo pivotServo) {
-        pivotServo.setPower(gamepad.right_stick_y);
+    public void pivotLeftArm(CRServo svLeftPivot) {
+        svLeftPivot.setPower(-1 * gamepad.right_stick_y);
+    }
+
+    public void pivotRightArm(CRServo svRightPivot) {
+        svRightPivot.setPower(gamepad.right_stick_y);
     }
 
     /**
@@ -193,7 +200,7 @@ public class StoneGripController {
         double currentPos = gripServo.getPosition();
 
         if (currentPos < 0.5){
-            gripServo.setPosition(currentPos + 0.5);
+            gripServo.setPosition(currentPos + 0.38);
         } else {
             gripServo.setPosition(1);
         }
@@ -207,7 +214,7 @@ public class StoneGripController {
         double currentPos = gripServo.getPosition();
 
         if (currentPos > 0.5) {
-            gripServo.setPosition(currentPos - 0.5);
+            gripServo.setPosition(currentPos - 0.38);
         } else {
             gripServo.setPosition(0);
         }

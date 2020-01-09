@@ -4,17 +4,22 @@ package org.firstinspires.ftc.teamcode.Autonomous.OpModes.BlueAuto;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.Subsystems.StoneGripController;
+import org.firstinspires.ftc.teamcode.Subsystems.Utilities.GripArmPosition;
+import org.firstinspires.ftc.teamcode.Subsystems.Utilities.MoveArmDirection;
 import org.firstinspires.ftc.teamcode.Swerve.SwerveController;
 import org.firstinspires.ftc.teamcode.Utilities.Hardware.Enums.IMUOrientation;
 
 
 @Autonomous
-@Disabled
+
 public class BlueMiddleStone extends OpMode {
     private SwerveController swerve;
     private StoneGripController stoneArms;
+    private Servo LeftBlockGrip;
+    private Servo RightBlockGrip;
 
     // This list is used for progression in actions executed.
     private boolean[] actionCompletions = {false, false, false, false, false, false, false};
@@ -24,6 +29,9 @@ public class BlueMiddleStone extends OpMode {
         // Initialize the swerve module controller
         swerve = new SwerveController(null, hardwareMap, telemetry, IMUOrientation.VERTICAL, false);
 
+        RightBlockGrip = hardwareMap.get(Servo.class, "svRightGrip");
+        LeftBlockGrip = hardwareMap.get(Servo.class, "svLeftGrip");
+
         // Initialize the controller for the stone-grabbing arms
         stoneArms = new StoneGripController(hardwareMap, null, telemetry);
     }
@@ -32,13 +40,14 @@ public class BlueMiddleStone extends OpMode {
     public void loop() {
         // Drive up to the stone.
         if (!actionCompletions[0]) {
-            actionCompletions[0] = swerve.autoControlModules(0, 32, 0.5);
+            actionCompletions[0] = swerve.autoControlModules(0, 29, 0.5);
         }
 
         // Pick up the stone
         else if (!actionCompletions[1]) {
-            // TODO: Implement autonomous control method for moving arms up and down.
-
+            stoneArms.autoPivot(GripArmPosition.LEFT, MoveArmDirection.DOWN);
+            LeftBlockGrip.setPosition((LeftBlockGrip.getPosition() + .38));
+            stoneArms.autoPivot(GripArmPosition.LEFT, MoveArmDirection.DOWN);
             actionCompletions[1] = true;
         }
 
@@ -49,7 +58,10 @@ public class BlueMiddleStone extends OpMode {
 
         // Lower arms, release stone and grab foundation
         else if (!actionCompletions[3]) {
-            // TODO: Same as above: autonomous control for the grip arms.
+            stoneArms.autoPivot(GripArmPosition.LEFT, MoveArmDirection.DOWN);
+            stoneArms.autoPivot(GripArmPosition.RIGHT, MoveArmDirection.DOWN);
+            actionCompletions[3] = true;
+
         }
 
         // Back up and put foundation in building site
@@ -59,7 +71,10 @@ public class BlueMiddleStone extends OpMode {
 
         // Raise arms so we don't take the foundation with us
         else if (!actionCompletions[5]) {
-            // TODO: Same as 2 above todos
+            stoneArms.autoPivot(GripArmPosition.RIGHT, MoveArmDirection.UP);
+            LeftBlockGrip.setPosition((LeftBlockGrip.getPosition() - .38));
+            stoneArms.autoPivot(GripArmPosition.LEFT, MoveArmDirection.UP);
+            actionCompletions[5] = true;
         }
 
         // Drive under the bridge
@@ -73,3 +88,4 @@ public class BlueMiddleStone extends OpMode {
         }
     }
 }
+

@@ -1,17 +1,16 @@
-package org.firstinspires.ftc.teamcode.Autonomous.OpModes.RedAuto;
+package org.firstinspires.ftc.teamcode.Autonomous.OpModes.OldAuto;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.teamcode.Subsystems.StoneGripController;
-import org.firstinspires.ftc.teamcode.Subsystems.Utilities.GripArmPosition;
 import org.firstinspires.ftc.teamcode.Swerve.SwerveController;
 import org.firstinspires.ftc.teamcode.Utilities.Hardware.Enums.IMUOrientation;
 
 @Autonomous
 @Disabled
-public class RedLeftStone extends OpMode {
+public class BlueLeftStone extends OpMode {
     private SwerveController swerve;
     private StoneGripController stoneArms;
 
@@ -37,12 +36,13 @@ public class RedLeftStone extends OpMode {
         // Pick up the stone
         else if (!actionCompletions[1]) {
             // TODO: Implement autonomous control method for moving arms up and down.
+
             actionCompletions[1] = true;
         }
 
         // Drive sideways to the foundation
         else if (!actionCompletions[2]) {
-            actionCompletions[2] = swerve.autoControlModules(270, 77, 0.5);
+            actionCompletions[2] = swerve.autoControlModules(90, 77, 0.5);
         }
 
         // Lower arms, release stone and grab foundation
@@ -70,4 +70,5 @@ public class RedLeftStone extends OpMode {
             requestOpModeStop();
         }
     }
+
 }
