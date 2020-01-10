@@ -58,8 +58,9 @@ public class StoneGripController {
      * A way to pivot the grip arms on the robot autonomously.
      * @param arm The side on which the arm is on, given by the enum GripArmPosition.
      * @param direction The direction that you want to move the arm.
+     * @param duration How long to wait. A good starting value is 1 second (1000ms).
      */
-    public void autoPivot(GripArmPosition arm, MoveArmDirection direction) {
+    public void autoPivot(GripArmPosition arm, MoveArmDirection direction, long duration) {
         // TODO: Verify power signs
         // Check which arm to move
         if (arm == GripArmPosition.LEFT) {
@@ -70,12 +71,7 @@ public class StoneGripController {
                 svLeftPivot.setPower(-0.5);
             }
 
-            // Wait for 1 second
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
+            sleep(duration);
 
             // Stop the servo
             svLeftPivot.setPower(0);
@@ -88,11 +84,7 @@ public class StoneGripController {
             }
 
             // Wait for 1 second
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
+            sleep(duration);
 
             // Stop the servo
        }
@@ -107,7 +99,7 @@ public class StoneGripController {
         // Depending on which arm is currently being controlled, use its corresponding servos.
         switch(armPos) {
             case LEFT:
-                pivotLeftArm(svLeftPivot);
+                pivotArm(svLeftPivot, 1);
 
                 if (gamepad.a) {
                     gripArm(svLeftGrip);
@@ -126,7 +118,7 @@ public class StoneGripController {
 
             default:
             case RIGHT:
-                pivotRightArm(svRightPivot);
+                pivotArm(svRightPivot, 1);
 
                 if (gamepad.a) {
                     gripArm(svRightGrip);
@@ -142,29 +134,8 @@ public class StoneGripController {
 
                 telemetry.addData("Current Arm: ", "Right");
 
-                // TODO: Add logic for moving the elevator arm up and down.
-
                 break;
         }
-
-        // region Old Logic
-
-        /*
-        if (gamepad.a){
-            moveDown();
-        }
-        if (gamepad.y){
-            moveUp();
-        }
-        if (gamepad.x){
-            grip();
-        }
-        if (gamepad.b){
-            unGrip();
-        }
-         */
-
-        // endregion
     }
 
     // region Arm Movement Helpers
@@ -179,13 +150,24 @@ public class StoneGripController {
 
     /**
      * A method used for pivoting the elevator grip arm.
+     * @param pivotServo The servo to manipulate.
+     * @param powerMultiplier What to multiply the power by in order to set a speed limit
+     *                        or reverse the power, if necessary.
      */
-    public void pivotLeftArm(CRServo svLeftPivot) {
-        svLeftPivot.setPower(-1 * gamepad.right_stick_y);
+    public void pivotArm(CRServo pivotServo, double powerMultiplier) {
+        pivotServo.setPower(gamepad.right_stick_y * powerMultiplier);
     }
 
-    public void pivotRightArm(CRServo svRightPivot) {
-        svRightPivot.setPower(gamepad.right_stick_y);
+    /**
+     * A convenience method for waiting for a certain amount of time.
+     * @param duration How long to sleep for.
+     */
+    public void sleep(long duration) {
+        try {
+            Thread.sleep(duration);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
     }
 
     /**
@@ -193,12 +175,21 @@ public class StoneGripController {
      * @param gripServo The servo on the arm that needs to be gripped.
      */
     public void gripArm(Servo gripServo) {
-        double currentPos = gripServo.getPosition();
+        gripServo.setPosition(1);
+    }
 
-        if (currentPos < 0.5){
-            gripServo.setPosition(currentPos + 0.38);
-        } else {
-            gripServo.setPosition(1);
+    /**
+     * An overload of gripArm for autonomous use.
+     * @param arm The arm to grip.
+     */
+    public void gripArm(GripArmPosition arm) {
+        switch (arm) {
+            case LEFT:
+                svLeftGrip.setPosition(1);
+                break;
+            case RIGHT:
+                svRightGrip.setPosition(1);
+                break;
         }
     }
 
@@ -207,24 +198,23 @@ public class StoneGripController {
      * @param gripServo The servo on the arm that needs to be ungripped.
      */
     public void ungripArm(Servo gripServo) {
-        double currentPos = gripServo.getPosition();
-
-        if (currentPos > 0.5) {
-            gripServo.setPosition(currentPos - 0.38);
-        } else {
-            gripServo.setPosition(0);
-        }
+        gripServo.setPosition(0);
     }
 
     /**
-     * Moves the elevator arm up and down via the left stick.
-     * Since this only moves the right arm, it doesn't need a servo parameter
+     * An overload of ungripArm for autonomous use.
+     * @param arm The arm to ungrip.
      */
-    /*
-    private void elevateRightArm() {
-        svElevator.setPower(gamepad.left_stick_y);
+    public void ungripArm(GripArmPosition arm) {
+        switch (arm) {
+            case LEFT:
+                svLeftGrip.setPosition(0);
+                break;
+            case RIGHT:
+                svRightGrip.setPosition(0);
+                break;
+        }
     }
-     */
 
     // endregion
 
