@@ -43,9 +43,13 @@ public class RedMiddleStone extends OpMode {
 
         // Pick up the stone
         else if (!actionCompletions[1]) {
-            stoneArms.autoPivot(GripArmPosition.LEFT, MoveArmDirection.DOWN);
-            LeftBlockGrip.setPosition((LeftBlockGrip.getPosition() + .38));
-            stoneArms.autoPivot(GripArmPosition.LEFT, MoveArmDirection.DOWN);
+            // Drop arm and grip stone
+            stoneArms.autoPivot(GripArmPosition.LEFT, MoveArmDirection.DOWN, 1000);
+            stoneArms.gripArm(GripArmPosition.LEFT);
+
+            // Lift arm
+            stoneArms.autoPivot(GripArmPosition.LEFT, MoveArmDirection.UP, 1000);
+
             actionCompletions[1] = true;
         }
 
@@ -56,8 +60,12 @@ public class RedMiddleStone extends OpMode {
 
         // Lower arms, release stone and grab foundation
         else if (!actionCompletions[3]) {
-            stoneArms.autoPivot(GripArmPosition.LEFT, MoveArmDirection.DOWN);
-            stoneArms.autoPivot(GripArmPosition.RIGHT, MoveArmDirection.DOWN);
+            // Lower left arm and release stone
+            stoneArms.autoPivot(GripArmPosition.LEFT, MoveArmDirection.DOWN, 1000);
+            stoneArms.ungripArm(GripArmPosition.LEFT);
+
+            // Lower right arm
+            stoneArms.autoPivot(GripArmPosition.RIGHT, MoveArmDirection.DOWN, 1000);
             actionCompletions[3] = true;
 
         }
@@ -69,9 +77,8 @@ public class RedMiddleStone extends OpMode {
 
         // Raise arms so we don't take the foundation with us
         else if (!actionCompletions[5]) {
-            stoneArms.autoPivot(GripArmPosition.RIGHT, MoveArmDirection.UP);
-            LeftBlockGrip.setPosition((LeftBlockGrip.getPosition() - .38));
-            stoneArms.autoPivot(GripArmPosition.LEFT, MoveArmDirection.UP);
+            stoneArms.autoPivot(GripArmPosition.RIGHT, MoveArmDirection.UP, 1000);
+            stoneArms.autoPivot(GripArmPosition.LEFT, MoveArmDirection.UP, 1000);
             actionCompletions[5] = true;
         }
 

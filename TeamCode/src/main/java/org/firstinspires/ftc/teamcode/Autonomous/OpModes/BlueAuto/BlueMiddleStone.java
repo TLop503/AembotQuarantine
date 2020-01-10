@@ -43,11 +43,13 @@ public class BlueMiddleStone extends OpMode {
             actionCompletions[0] = swerve.autoControlModules(0, 29, 0.5);
         }
 
-        // Pick up the stone
+        // Pick up the middle stone using the left arm
         else if (!actionCompletions[1]) {
-            stoneArms.autoPivot(GripArmPosition.LEFT, MoveArmDirection.DOWN);
-            LeftBlockGrip.setPosition((LeftBlockGrip.getPosition() + .38));
-            stoneArms.autoPivot(GripArmPosition.LEFT, MoveArmDirection.DOWN);
+            stoneArms.ungripArm(GripArmPosition.LEFT);
+            stoneArms.autoPivot(GripArmPosition.LEFT, MoveArmDirection.DOWN, 1000);
+            stoneArms.gripArm(GripArmPosition.LEFT);
+            stoneArms.autoPivot(GripArmPosition.LEFT, MoveArmDirection.UP, 1000);
+
             actionCompletions[1] = true;
         }
 
@@ -58,10 +60,14 @@ public class BlueMiddleStone extends OpMode {
 
         // Lower arms, release stone and grab foundation
         else if (!actionCompletions[3]) {
-            stoneArms.autoPivot(GripArmPosition.LEFT, MoveArmDirection.DOWN);
-            stoneArms.autoPivot(GripArmPosition.RIGHT, MoveArmDirection.DOWN);
-            actionCompletions[3] = true;
+            // Drop stone and left arm
+            stoneArms.autoPivot(GripArmPosition.LEFT, MoveArmDirection.DOWN, 1000);
+            stoneArms.ungripArm(GripArmPosition.LEFT);
 
+            // Drop right arm
+            stoneArms.autoPivot(GripArmPosition.RIGHT, MoveArmDirection.DOWN, 1000);
+
+            actionCompletions[3] = true;
         }
 
         // Back up and put foundation in building site
@@ -71,9 +77,8 @@ public class BlueMiddleStone extends OpMode {
 
         // Raise arms so we don't take the foundation with us
         else if (!actionCompletions[5]) {
-            stoneArms.autoPivot(GripArmPosition.RIGHT, MoveArmDirection.UP);
-            LeftBlockGrip.setPosition((LeftBlockGrip.getPosition() - .38));
-            stoneArms.autoPivot(GripArmPosition.LEFT, MoveArmDirection.UP);
+            stoneArms.autoPivot(GripArmPosition.RIGHT, MoveArmDirection.UP, 1000);
+            stoneArms.autoPivot(GripArmPosition.LEFT, MoveArmDirection.UP, 1000);
             actionCompletions[5] = true;
         }
 
