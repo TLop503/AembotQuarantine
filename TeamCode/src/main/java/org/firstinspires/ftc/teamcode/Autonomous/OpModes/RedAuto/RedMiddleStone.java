@@ -47,60 +47,43 @@ public class RedMiddleStone extends OpMode {
     @Override
     public void loop() {
         // Drive up to the stone.
-        while (ran1 != true) {
-            swerve.autoControlModules(0, 24, 0.25);
-            ran1 = true;
+        while (ran1 == false) {
+            stoneArms.autoPivot(GripArmPosition.RIGHT, MoveArmDirection.DOWN, 1000);
+            ran1 = swerve.autoControlModules(0, 26, 0.25);
+
+        }
+        while (ran2 == false) {
+            stoneArms.ungripArm(GripArmPosition.RIGHT);
+            stoneArms.autoPivot(GripArmPosition.RIGHT, MoveArmDirection.DOWN, 1000);
+            stoneArms.gripArm(GripArmPosition.RIGHT);
+            stoneArms.autoPivot(GripArmPosition.RIGHT, MoveArmDirection.UP, 1000);
+            // toFoundation
+            ran2 = swerve.autoControlModules(270, 56, 0.5);
         }
 
-        // Pick up the middle stone using the right arm
-        while (ran2 != true) {
-            stoneArms.ungripArm(GripArmPosition.LEFT);
-            stoneArms.autoPivot(GripArmPosition.LEFT, MoveArmDirection.DOWN, 1000);
-            stoneArms.gripArm(GripArmPosition.LEFT);
-            stoneArms.autoPivot(GripArmPosition.LEFT, MoveArmDirection.UP, 1000);
-
-            ran2 = true;
-        }
-
-        // Drive sideways to the foundation
-        while (ran3 != true) {
-            swerve.autoControlModules(90, 56, 0.5);
-            ran3 = true;
-        }
 
         // Lower arms, release stone and grab foundation
-        while (ran4 != true) {
+        while (ran3 != true) {
             // Drop stone and left arm
             stoneArms.autoPivot(GripArmPosition.LEFT, MoveArmDirection.DOWN, 1000);
-            stoneArms.ungripArm(GripArmPosition.LEFT);
+            stoneArms.ungripArm(GripArmPosition.RIGHT);
 
             // Drop left arm
             stoneArms.autoPivot(GripArmPosition.RIGHT, MoveArmDirection.DOWN, 1000);
-
-            ran4 = true;
+            ran4 = swerve.autoControlModules(180, 26, .3);
         }
 
-        // Back up and put foundation in building site
-        while (ran5 != true) {
-            ran5 = true;
-        }
 
         // Raise arms so we don't take the foundation with us
-        while (ran6 != true) {
+        while (ran4 != true) {
             stoneArms.autoPivot(GripArmPosition.RIGHT, MoveArmDirection.UP, 1000);
             stoneArms.autoPivot(GripArmPosition.LEFT, MoveArmDirection.UP, 1000);
-            ran6 = true;
+            ran4 =  swerve.autoControlModules(90, 40, 0.5);
         }
-
-        // Drive under the bridge
-        while (ran7 != true) {
-            swerve.autoControlModules(270, 40, 0.5);
-            ran7 = true;
-        }
-
         // Stop the op mode
-
         requestOpModeStop();
+
+
     }
 }
 

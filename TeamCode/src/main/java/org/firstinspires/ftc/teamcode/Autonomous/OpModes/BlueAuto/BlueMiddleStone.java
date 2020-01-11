@@ -28,9 +28,6 @@ public class BlueMiddleStone extends OpMode {
     private boolean ran2 = false;
     private boolean ran3 = false;
     private boolean ran4 = false;
-    private boolean ran5 = false;
-    private boolean ran6 = false;
-    private boolean ran7 = false;
 
     @Override
     public void init() {
@@ -53,61 +50,37 @@ public class BlueMiddleStone extends OpMode {
 
         }
         while (ran2 == false) {
-            stoneArms.gripArm(GripArmPosition.LEFT);
-            ran2 = true;
-        }
-        /*
-        // Pick up the middle stone using the right arm
-        while (ran2 != true) {
             stoneArms.ungripArm(GripArmPosition.LEFT);
             stoneArms.autoPivot(GripArmPosition.LEFT, MoveArmDirection.DOWN, 1000);
             stoneArms.gripArm(GripArmPosition.LEFT);
             stoneArms.autoPivot(GripArmPosition.LEFT, MoveArmDirection.UP, 1000);
-
-            ran2 = true;
+            // toFoundation
+            ran2 = swerve.autoControlModules(270, 56, 0.5);
         }
 
-        // Drive sideways to the foundation
-        while (ran3 != true) {
-           swerve.autoControlModules(270, 56, 0.5);
-            ran3 = true;
-        }
 
         // Lower arms, release stone and grab foundation
-        while (ran4 != true) {
+        while (ran3 != true) {
             // Drop stone and left arm
             stoneArms.autoPivot(GripArmPosition.LEFT, MoveArmDirection.DOWN, 1000);
             stoneArms.ungripArm(GripArmPosition.LEFT);
 
             // Drop left arm
             stoneArms.autoPivot(GripArmPosition.RIGHT, MoveArmDirection.DOWN, 1000);
-
-            ran4 = true;
+            ran4 = swerve.autoControlModules(180, 26, .3);
         }
 
-        // Back up and put foundation in building site
-        while (ran5 != true) {
-            ran5 = true;
-        }
 
         // Raise arms so we don't take the foundation with us
-        while (ran6 != true) {
+        while (ran4 != true) {
             stoneArms.autoPivot(GripArmPosition.RIGHT, MoveArmDirection.UP, 1000);
             stoneArms.autoPivot(GripArmPosition.LEFT, MoveArmDirection.UP, 1000);
-            ran6 = true;
+            ran4 =  swerve.autoControlModules(90, 40, 0.5);
         }
-
-        // Drive under the bridge
-        while (ran7 != true) {
-            swerve.autoControlModules(90, 40, 0.5);
-            ran7 = true;
-        }
-
         // Stop the op mode
-
         requestOpModeStop();
 
-         */
+
     }
 }
 
