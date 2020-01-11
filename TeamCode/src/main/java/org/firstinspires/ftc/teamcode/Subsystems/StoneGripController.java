@@ -188,7 +188,7 @@ public class StoneGripController {
                 svLeftGrip.setPosition(1);
                 break;
             case RIGHT:
-                svRightGrip.setPosition(1);
+                svRightGrip.setPosition(-1);
                 break;
         }
     }

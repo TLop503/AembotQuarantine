@@ -47,11 +47,16 @@ public class BlueMiddleStone extends OpMode {
     @Override
     public void loop() {
         // Drive up to the stone.
-        while (ran1 != true) {
-            swerve.autoControlModules(0, 24, 0.25);
-            ran1 = true;
-        }
+        while (ran1 == false) {
+            stoneArms.autoPivot(GripArmPosition.LEFT, MoveArmDirection.DOWN, 1000);
+            ran1 = swerve.autoControlModules(0, 26, 0.25);
 
+        }
+        while (ran2 == false) {
+            stoneArms.gripArm(GripArmPosition.LEFT);
+            ran2 = true;
+        }
+        /*
         // Pick up the middle stone using the right arm
         while (ran2 != true) {
             stoneArms.ungripArm(GripArmPosition.LEFT);
@@ -101,6 +106,8 @@ public class BlueMiddleStone extends OpMode {
         // Stop the op mode
 
         requestOpModeStop();
+
+         */
     }
 }
 
