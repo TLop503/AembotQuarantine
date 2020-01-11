@@ -203,7 +203,6 @@ public class VuforiaWrapper {
         } else {
             return 0.0;
         }
-
     }
 
     /**
@@ -212,15 +211,16 @@ public class VuforiaWrapper {
      */
     public SkystonePostion getPosition(){
 
-        //Gets the current X offset from the center of the camera
-        double X = getX();
+        //Gets the current x and z offsets from the center of the camera (left to right and front to back respectively)
+        double stoneX = getX();
+        double stoneY = getY();
 
-        //If there was a block detected return the position of it out of the 3, if not return none
-        if(X != 4242){
-            if(-100>X){
+        // Return position of the stone if it has been detected (y will never be 0)
+        if (stoneY != 0.0) {
+            if (stoneX < -100) {
                 return SkystonePostion.LEFT;
             }
-            else if(100<X){
+            else if (stoneX > 100) {
                 return SkystonePostion.RIGHT;
             }
             else {
