@@ -61,7 +61,7 @@ public class VuforiaStoneOrientation extends OpMode {
         // Get the orientation of the SkyStone
         // secondAngle in this case references the angle along the vertical axis
         //stoneOrientation = vuforia.getStoneOrientation();
-        telemetry.addData("Orientation: ", vuforia.getStoneAngle());
+        // telemetry.addData("Orientation: ", vuforia.getStoneAngle());
 
         telemetry.addData("Stone X: ", vuforia.getX());
         telemetry.addData("Stone Z: ", vuforia.getZ());
@@ -69,5 +69,8 @@ public class VuforiaStoneOrientation extends OpMode {
         zAverage = (currentZ + zAverage) / 2;
 
         telemetry.addData("Average Z: ", zAverage);
+
+        telemetry.addData("Stone Position: ", vuforia.getPositionString());
     }
+
 }
