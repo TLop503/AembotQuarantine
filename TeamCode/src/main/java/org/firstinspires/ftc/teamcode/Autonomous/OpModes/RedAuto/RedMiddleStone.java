@@ -38,17 +38,17 @@ public class RedMiddleStone extends OpMode {
     public void loop() {
         // Drive up to the stone.
         if (!actionCompletions[0]) {
-            actionCompletions[0] = swerve.autoControlModules(0, 29, 0.5);
+            actionCompletions[0] = swerve.autoControlModules(0, 25, 0.3);
         }
 
         // Pick up the stone
         else if (!actionCompletions[1]) {
             // Drop arm and grip stone
-            stoneArms.autoPivot(GripArmPosition.LEFT, MoveArmDirection.DOWN, 1000);
-            stoneArms.gripArm(GripArmPosition.LEFT);
+            stoneArms.autoPivot(GripArmPosition.RIGHT, MoveArmDirection.DOWN, 1000);
+            stoneArms.gripArm(GripArmPosition.RIGHT);
 
             // Lift arm
-            stoneArms.autoPivot(GripArmPosition.LEFT, MoveArmDirection.UP, 1000);
+            stoneArms.autoPivot(GripArmPosition.RIGHT, MoveArmDirection.UP, 1000);
 
             actionCompletions[1] = true;
         }
@@ -60,12 +60,12 @@ public class RedMiddleStone extends OpMode {
 
         // Lower arms, release stone and grab foundation
         else if (!actionCompletions[3]) {
-            // Lower left arm and release stone
-            stoneArms.autoPivot(GripArmPosition.LEFT, MoveArmDirection.DOWN, 1000);
-            stoneArms.ungripArm(GripArmPosition.LEFT);
-
-            // Lower right arm
+            // Lower right arm and release stone
             stoneArms.autoPivot(GripArmPosition.RIGHT, MoveArmDirection.DOWN, 1000);
+            stoneArms.ungripArm(GripArmPosition.RIGHT);
+
+            // Lower left arm
+            stoneArms.autoPivot(GripArmPosition.LEFT, MoveArmDirection.DOWN, 1000);
             actionCompletions[3] = true;
 
         }

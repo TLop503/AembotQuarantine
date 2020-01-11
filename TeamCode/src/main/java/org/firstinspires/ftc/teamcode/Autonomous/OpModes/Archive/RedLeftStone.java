@@ -43,6 +43,7 @@ public class RedLeftStone extends OpMode {
             actionCompletions[0] = swerve.autoControlModules(0, 32, 0.5);
         }
 
+        /*
         // Pick up the stone
         else if (!actionCompletions[1]) {
             // TODO: Implement autonomous control method for moving arms up and down.
@@ -74,6 +75,8 @@ public class RedLeftStone extends OpMode {
         else if (!actionCompletions[5]) {
             // TODO: Same as 2 above todos
         }
+
+         */
 
         // Drive under the bridge
         else if (!actionCompletions[6]) {
