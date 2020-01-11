@@ -217,10 +217,10 @@ public class VuforiaWrapper {
 
         // Return position of the stone if it has been detected (y will never be 0)
         if (stoneY != 0.0) {
-            if (stoneX < -100) {
+            if (stoneX < -30) {
                 return SkystonePostion.LEFT;
             }
-            else if (stoneX > 100) {
+            else if (stoneX > 30) {
                 return SkystonePostion.RIGHT;
             }
             else {
