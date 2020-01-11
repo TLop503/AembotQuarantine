@@ -2,16 +2,20 @@ package org.firstinspires.ftc.teamcode.Test.General;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp(name = "svBottom Test", group = "Test")
 public class ServoZeroTest extends OpMode {
     private Servo svBottom;
+    private DcMotorSimple ElevatorMotor;
     private boolean hasRun = false;
 
     @Override
     public void init() {
         svBottom = hardwareMap.servo.get("svBottom");
+        ElevatorMotor = hardwareMap.get(DcMotorSimple.class, "ElevatorMotor");
     }
 
     @Override
@@ -27,6 +31,8 @@ public class ServoZeroTest extends OpMode {
         } else if (gamepad1.left_trigger > 0) {
             svBottom.setPosition(0.47);
         }
+
+        ElevatorMotor.setPower(gamepad1.left_stick_y);
 
         /* Autonomous zeroing code
         if (!hasRun) {
