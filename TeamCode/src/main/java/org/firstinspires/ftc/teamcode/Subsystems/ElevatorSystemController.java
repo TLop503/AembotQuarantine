@@ -21,7 +21,7 @@ public class ElevatorSystemController {
 
     //Servos that control the grippers of the stacker
     //private Servo topArmServo;
-    private Servo svBottom;
+    private CRServo svBottom;
 
     private Gamepad gamepad;
 
@@ -41,7 +41,7 @@ public class ElevatorSystemController {
         elevatorMotor = hardwareMap.get(DcMotorSimple.class, "ElevatorMotor");
 
         //topArmServo = hardwareMap.get(Servo.class, "TopArmServo");
-        svBottom = hardwareMap.get(Servo.class, "svBottom");
+        svBottom = hardwareMap.get(CRServo.class, "svBottom");
 
     }
 
@@ -72,22 +72,23 @@ public class ElevatorSystemController {
         below is unnecessary.
          */
 
-        //Used for opening the stacker
-        if(gamepad.dpad_left) {
-            svBottom.setPosition(1);
+        //Closes
+
+        if (gamepad.dpad_left) {
+
+            svBottom.setPower(-1);
         }
 
-        //Closes the stacker
+        //Opens
         else if(gamepad.dpad_right) {
-            svBottom.setPosition(0.30);
+            svBottom.setPower(1);
         }
 
-        /*
-        else {
-            svBottom.setPower(0.5);
-        }
+        //else{
+        //   svBottom.setPower(0);
+        //}
 
-         */
+
 
     }
 }
