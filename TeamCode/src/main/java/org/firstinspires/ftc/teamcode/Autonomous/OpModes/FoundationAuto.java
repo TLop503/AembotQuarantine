@@ -20,7 +20,7 @@ public class FoundationAuto extends OpMode {
     private Servo RightBlockGrip;
 
     // This list is used for progression in actions executed.
-    private boolean[] actionCompletions = {false, false, false, false, false, false, false};
+    private boolean hasRun = false;
 
     @Override
     public void init() {
@@ -36,13 +36,27 @@ public class FoundationAuto extends OpMode {
 
     @Override
     public void loop() {
+        if (!hasRun) {
+            boolean swerveFinishedMoving1 = false;
 
-        swerve.autoControlModules(0, 48, .8);
-        stoneArms.autoPivot(GripArmPosition.LEFT, MoveArmDirection.DOWN, 1000);
-        stoneArms.autoPivot(GripArmPosition.RIGHT, MoveArmDirection.DOWN, 1000);
-        swerve.autoControlModules(180, 48, .8);
-        requestOpModeStop();
+            while (!swerveFinishedMoving1) {
+                swerveFinishedMoving1 = swerve.autoControlModules(0, 48, .8);
+            }
 
+            stoneArms.autoPivot(GripArmPosition.LEFT, MoveArmDirection.DOWN, 1000);
+            stoneArms.autoPivot(GripArmPosition.RIGHT, MoveArmDirection.DOWN, 1000);
+
+            boolean swerveFinishedMoving2 = false;
+
+            while (!swerveFinishedMoving2) {
+                swerveFinishedMoving2 = swerve.autoControlModules(180, 48, .8);
+            }
+
+            // TODO: This might work, but it hasn't actually been tested yet. Be sure to do that before we compete.
+            hasRun = true;
+        } else {
+            requestOpModeStop();
+        }
     }
 }
 
