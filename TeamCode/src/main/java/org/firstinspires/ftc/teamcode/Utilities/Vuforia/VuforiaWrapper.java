@@ -232,7 +232,7 @@ public class VuforiaWrapper {
         }
     }
 
-    public String getStringPosition() {
+    public String getPositionString() {
         switch (getPosition()) {
             case LEFT:
                 return "Left";
@@ -246,6 +246,8 @@ public class VuforiaWrapper {
             case NONE:
                 return "None";
         }
+
+        return "Error";
     }
 
     /**
