@@ -14,7 +14,6 @@ import org.firstinspires.ftc.teamcode.Utilities.Hardware.Enums.IMUOrientation;
 @Autonomous
 
 
-
 public class RedMiddleStone extends OpMode {
     private SwerveController swerve;
     private StoneGripController stoneArms;
@@ -25,9 +24,6 @@ public class RedMiddleStone extends OpMode {
     private boolean ran2 = false;
     private boolean ran3 = false;
     private boolean ran4 = false;
-    private boolean ran5 = false;
-    private boolean ran6 = false;
-    private boolean ran7 = false;
 
     // This list is used for progression in actions executed.
     private boolean[] actionCompletions = {false, false, false, false, false, false, false};
