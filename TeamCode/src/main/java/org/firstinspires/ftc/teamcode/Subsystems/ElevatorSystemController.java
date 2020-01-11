@@ -82,10 +82,10 @@ public class ElevatorSystemController {
             svBottom.setPower(0.30);
         }
 
-        /*
+
         else {
             svBottom.setPower(0.5);
         }
-         */
+
     }
 }

@@ -22,7 +22,15 @@ public class BlueMiddleStone extends OpMode {
     private Servo RightBlockGrip;
 
     // This list is used for progression in actions executed.
-    private boolean[] actionCompletions = {false, false, false, false, false, false, false};
+    //private boolean[] actionCompletions = {false, false, false, false, false, false, false};
+
+    private boolean ran1 = false;
+    private boolean ran2 = false;
+    private boolean ran3 = false;
+    private boolean ran4 = false;
+    private boolean ran5 = false;
+    private boolean ran6 = false;
+    private boolean ran7 = false;
 
     @Override
     public void init() {
@@ -30,7 +38,7 @@ public class BlueMiddleStone extends OpMode {
         swerve = new SwerveController(null, hardwareMap, telemetry, IMUOrientation.VERTICAL, false);
 
         RightBlockGrip = hardwareMap.get(Servo.class, "svGrip");
-        LeftBlockGrip = hardwareMap.get(Servo.class, "svLeftGrip");
+        LeftBlockGrip = hardwareMap.get(Servo.class, "LeftBlockGrip");
 
         // Initialize the controller for the stone-grabbing arms
         stoneArms = new StoneGripController(hardwareMap, null, telemetry);
@@ -39,58 +47,60 @@ public class BlueMiddleStone extends OpMode {
     @Override
     public void loop() {
         // Drive up to the stone.
-        if (!actionCompletions[0]) {
-            actionCompletions[0] = swerve.autoControlModules(0, 26, 0.5);
+        while (ran1 != true) {
+            swerve.autoControlModules(0, 24, 0.25);
+            ran1 = true;
         }
 
         // Pick up the middle stone using the right arm
-        else if (!actionCompletions[1]) {
-            stoneArms.ungripArm(GripArmPosition.RIGHT);
-            stoneArms.autoPivot(GripArmPosition.RIGHT, MoveArmDirection.DOWN, 1000);
-            stoneArms.gripArm(GripArmPosition.RIGHT);
-            stoneArms.autoPivot(GripArmPosition.RIGHT, MoveArmDirection.UP, 1000);
+        while (ran2 != true) {
+            stoneArms.ungripArm(GripArmPosition.LEFT);
+            stoneArms.autoPivot(GripArmPosition.LEFT, MoveArmDirection.DOWN, 1000);
+            stoneArms.gripArm(GripArmPosition.LEFT);
+            stoneArms.autoPivot(GripArmPosition.LEFT, MoveArmDirection.UP, 1000);
 
-            actionCompletions[1] = true;
+            ran2 = true;
         }
 
         // Drive sideways to the foundation
-        else if (!actionCompletions[2]) {
-            actionCompletions[2] = swerve.autoControlModules(90, 56, 0.5);
+        while (ran3 != true) {
+           swerve.autoControlModules(270, 56, 0.5);
+            ran3 = true;
         }
 
         // Lower arms, release stone and grab foundation
-        else if (!actionCompletions[3]) {
+        while (ran4 != true) {
             // Drop stone and left arm
-            stoneArms.autoPivot(GripArmPosition.RIGHT, MoveArmDirection.DOWN, 1000);
-            stoneArms.ungripArm(GripArmPosition.RIGHT);
+            stoneArms.autoPivot(GripArmPosition.LEFT, MoveArmDirection.DOWN, 1000);
+            stoneArms.ungripArm(GripArmPosition.LEFT);
 
             // Drop left arm
-            stoneArms.autoPivot(GripArmPosition.LEFT, MoveArmDirection.DOWN, 1000);
+            stoneArms.autoPivot(GripArmPosition.RIGHT, MoveArmDirection.DOWN, 1000);
 
-            actionCompletions[3] = true;
+            ran4 = true;
         }
 
         // Back up and put foundation in building site
-        else if (!actionCompletions[4]) {
-            actionCompletions[4] = swerve.autoControlModules(180, 14, 0.5);
+        while (ran5 != true) {
+            ran5 = true;
         }
 
         // Raise arms so we don't take the foundation with us
-        else if (!actionCompletions[5]) {
+        while (ran6 != true) {
             stoneArms.autoPivot(GripArmPosition.RIGHT, MoveArmDirection.UP, 1000);
             stoneArms.autoPivot(GripArmPosition.LEFT, MoveArmDirection.UP, 1000);
-            actionCompletions[5] = true;
+            ran6 = true;
         }
 
         // Drive under the bridge
-        else if (!actionCompletions[6]) {
-
+        while (ran7 != true) {
+            swerve.autoControlModules(90, 40, 0.5);
+            ran7 = true;
         }
 
         // Stop the op mode
-        else {
-            requestOpModeStop();
-        }
+
+        requestOpModeStop();
     }
 }
 
