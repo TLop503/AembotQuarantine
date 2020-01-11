@@ -232,6 +232,22 @@ public class VuforiaWrapper {
         }
     }
 
+    public String getStringPosition() {
+        switch (getPosition()) {
+            case LEFT:
+                return "Left";
+
+            case CENTER:
+                return "Center";
+
+            case RIGHT:
+                return "Right";
+
+            case NONE:
+                return "None";
+        }
+    }
+
     /**
      * This method calculates the angle required to drive to the skystone
      * @return the angle
