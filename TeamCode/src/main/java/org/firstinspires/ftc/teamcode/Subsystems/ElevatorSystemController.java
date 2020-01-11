@@ -56,12 +56,12 @@ public class ElevatorSystemController {
 
 
         if(gamepad.dpad_up){
-            elevatorMotor.setPower(-0.9);
+            elevatorMotor.setPower(-1);
         }
 
         //Moves the elevator up
         else if(gamepad.dpad_down){
-            elevatorMotor.setPower(0.9);
+            elevatorMotor.setPower(1);
         }
 
         //If neither are pressed stop the elevator
