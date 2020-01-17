@@ -37,23 +37,13 @@ public class FoundationAuto extends OpMode {
     @Override
     public void loop() {
         if (!hasRun) {
-            boolean swerveFinishedMoving1 = false;
+            swerve.autoControlModules(270, 6, 0.5);
+            swerve.autoControlModules(0, 20, 0.5);
+            stoneArms.autoPivot(GripArmPosition.LEFT, MoveArmDirection.DOWN, 10000);
+            stoneArms.autoPivot(GripArmPosition.RIGHT, MoveArmDirection.DOWN, 10000);
+            swerve.autoControlModules(180, 24, 0.5);
+            hasRun = swerve.autoControlModules(90, 26, 0.5);
 
-            while (!swerveFinishedMoving1) {
-                swerveFinishedMoving1 = swerve.autoControlModules(0, 48, .8);
-            }
-
-            stoneArms.autoPivot(GripArmPosition.LEFT, MoveArmDirection.DOWN, 1000);
-            stoneArms.autoPivot(GripArmPosition.RIGHT, MoveArmDirection.DOWN, 1000);
-
-            boolean swerveFinishedMoving2 = false;
-
-            while (!swerveFinishedMoving2) {
-                swerveFinishedMoving2 = swerve.autoControlModules(180, 48, .8);
-            }
-
-            // TODO: This might work, but it hasn't actually been tested yet. Be sure to do that before we compete.
-            hasRun = true;
         } else {
             requestOpModeStop();
         }
