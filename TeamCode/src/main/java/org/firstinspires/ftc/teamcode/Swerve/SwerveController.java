@@ -40,7 +40,6 @@ public class SwerveController {
     private List<SwerveModule> moduleList = new ArrayList<>();
 
     boolean[] autoCompleteStatus;
-    int i = 0;
 
     /**
      * Constructs the swerve modules and passes information only accessible in the OpMode to this class to be used
@@ -106,7 +105,7 @@ public class SwerveController {
      * Method that allows for autonomous control of modules
      */
     public boolean autoControlModules(double angle, double distance, double maxPower){
-
+        int i = 0;
         /*
          * Iterates through the list of modules and calls the control method on all of them
          */
@@ -128,8 +127,6 @@ public class SwerveController {
             //If it was return true
             return true;
         }
-
-        i = 0;
 
         //If the task wasn't completed return false
         return false;
