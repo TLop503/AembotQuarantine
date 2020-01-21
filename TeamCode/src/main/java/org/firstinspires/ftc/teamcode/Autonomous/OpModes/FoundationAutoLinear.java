@@ -9,10 +9,12 @@ import org.firstinspires.ftc.teamcode.Subsystems.Utilities.MoveArmDirection;
 import org.firstinspires.ftc.teamcode.Swerve.SwerveController;
 import org.firstinspires.ftc.teamcode.Utilities.Hardware.Enums.IMUOrientation;
 
-@Autonomous(name = "Foundation - Linear", group = "Autonomous")
+@Autonomous(name = "Linear Foundation Auto", group = "Autonomous")
 public class FoundationAutoLinear extends LinearOpMode {
     private SwerveController swerve;
     private StoneGripController stoneArms;
+
+    //Currently ignores side differences & start rules, array errors need to be patched first
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -21,18 +23,47 @@ public class FoundationAutoLinear extends LinearOpMode {
 
         waitForStart();
 
+        //Sliiide to the left
+        boolean strafeToPosition = false;
+        while (!strafeToPosition) {
+            strafeToPosition = swerve.autoControlModules(75, 50, 0.4);
+        }
+
+        sleep(1000);
+        /*
         // Drive to foundation
         boolean drivenToFoundation = false;
         while (!drivenToFoundation) {
-            drivenToFoundation = swerve.autoControlModules(0, 30, 0.5);
+            drivenToFoundation = swerve.autoControlModules(90, 6, 0.4);
         }
+
+
+        sleep(1000);
 
         stoneArms.autoPivot(GripArmPosition.LEFT, MoveArmDirection.DOWN, 1000);
         stoneArms.autoPivot(GripArmPosition.RIGHT, MoveArmDirection.DOWN, 1000);
 
+        sleep(1000);
+
         boolean pulledFoundationBack = false;
         while (!pulledFoundationBack) {
-            pulledFoundationBack = swerve.autoControlModules(180, 48, .8);
+            pulledFoundationBack = swerve.autoControlModules(180, 24, 0.4);
         }
+
+        sleep(1000);
+
+        stoneArms.autoPivot(GripArmPosition.LEFT, MoveArmDirection.UP, 1000);
+        stoneArms.autoPivot(GripArmPosition.RIGHT, MoveArmDirection.UP, 1000);
+
+        sleep(1000);
+
+        //Sliiide to the left pt.2
+        boolean strafeToPark = false;
+        while (!strafeToPark) {
+            strafeToPark = swerve.autoControlModules(270, 60, 0.6);
+        }
+
+         */
+
     }
 }

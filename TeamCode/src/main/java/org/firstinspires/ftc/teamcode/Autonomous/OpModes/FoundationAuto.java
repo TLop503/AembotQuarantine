@@ -36,15 +36,14 @@ public class FoundationAuto extends OpMode {
 
     @Override
     public void loop() {
-        if (!hasRun) {
+
             swerve.autoControlModules(270, 6, 0.5);
             swerve.autoControlModules(0, 20, 0.5);
             stoneArms.autoPivot(GripArmPosition.LEFT, MoveArmDirection.DOWN, 10000);
             stoneArms.autoPivot(GripArmPosition.RIGHT, MoveArmDirection.DOWN, 10000);
             swerve.autoControlModules(180, 24, 0.5);
             hasRun = swerve.autoControlModules(90, 26, 0.5);
-
-        } else {
+        if (hasRun) {
             requestOpModeStop();
         }
     }
