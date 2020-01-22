@@ -35,6 +35,7 @@ public class SwerveController {
     //Create two new swerve module variables
     private SwerveModule leftModule;
     private SwerveModule rightModule;
+    private SwerveModule centerModule;
 
     //Create a list to store the swerve modules this allows for easy control of multiple modules
     private List<SwerveModule> moduleList = new ArrayList<>();
@@ -58,10 +59,12 @@ public class SwerveController {
         //Instantiate 2 swerve modules
         leftModule = new SwerveModule(ModulePosition.LEFT, hardwareMap, gamepad1, telemetry);
         rightModule = new SwerveModule(ModulePosition.RIGHT, hardwareMap, gamepad1, telemetry);
+        centerModule = new SwerveModule(ModulePosition.CENTER, hardwareMap, gamepad1, telemetry);
 
         //Adds the modules to a list for easy iteration
         moduleList.add(leftModule);
         moduleList.add(rightModule);
+        moduleList.add(centerModule);
 
         autoCompleteStatus = new boolean[moduleList.size()];
     }
