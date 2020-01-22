@@ -103,8 +103,14 @@ public class SwerveModule {
                 MagSwitch = hardwareMap.get(DigitalChannel.class, "LeftMagSwitch");
                 break;
             case CENTER:
-                TopSwerveMotor = hardwareMap.get(DcMotor.class, "CenterTopSwerveMotor");
-                BottomSwerveMotor = hardwareMap.get(DcMotor.class, "CenterBottomSwerveMotor");
+                try {
+                    TopSwerveMotor = hardwareMap.get(DcMotor.class, "CenterTopSwerveMotor");
+                    BottomSwerveMotor = hardwareMap.get(DcMotor.class, "CenterBottomSwerveMotor");
+                }
+                catch (Exception e){
+                    throw new RuntimeException("3rd Swerve Module Not Setup Yet");
+                }
+                break;
         }
 
         //Tells the motors to run at a constant velocity, not just based on the motor values
