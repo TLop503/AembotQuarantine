@@ -59,7 +59,7 @@ public class SwerveController {
         //Instantiate 2 swerve modules
         leftModule = new SwerveModule(ModulePosition.LEFT, hardwareMap, gamepad1, telemetry);
         rightModule = new SwerveModule(ModulePosition.RIGHT, hardwareMap, gamepad1, telemetry);
-        centerModule = new SwerveModule(ModulePosition.CENTER, hardwareMap, gamepad1, telemetry);
+        //centerModule = new SwerveModule(ModulePosition.CENTER, hardwareMap, gamepad1, telemetry);
 
         //Adds the modules to a list for easy iteration
         moduleList.add(leftModule);
