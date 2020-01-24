@@ -64,7 +64,7 @@ public class SwerveController {
         //Adds the modules to a list for easy iteration
         moduleList.add(leftModule);
         moduleList.add(rightModule);
-        moduleList.add(centerModule);
+        //moduleList.add(centerModule);
 
         autoCompleteStatus = new boolean[moduleList.size()];
     }
