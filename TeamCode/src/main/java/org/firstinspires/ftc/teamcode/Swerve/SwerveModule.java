@@ -749,7 +749,7 @@ public class SwerveModule {
      * Gets the number of ticks including the zeroed value for the top motor
      * @return the zeroed number of ticks
      */
-    private int getTopMotorTicks(){
+    public int getTopMotorTicks(){
         return TopSwerveMotor.getCurrentPosition()-topMotorTickOffset;
     }
 
@@ -757,7 +757,7 @@ public class SwerveModule {
      * Gets the zeroed number of ticks for the bottom motor
      * @return the zeroed number of ticks
      */
-    private int getBottomMotorTicks(){
+    public int getBottomMotorTicks(){
         return BottomSwerveMotor.getCurrentPosition()-bottomMotorTickOffset;
     }
 

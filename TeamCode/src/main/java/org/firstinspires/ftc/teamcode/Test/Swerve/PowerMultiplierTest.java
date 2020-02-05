@@ -28,15 +28,15 @@ public class PowerMultiplierTest extends OpMode {
     @Override
     public void loop() {
         if (gamepad1.right_bumper) {
-            dcRightTop.setPower(0.5);
+            dcRightTop.setPower(0.3);
         }
 
         if (gamepad1.right_trigger > 0) {
-            dcRightBottom.setPower(-0.5);
+            dcRightBottom.setPower(-0.3);
         }
 
         if (gamepad1.left_bumper) {
-            dcLeftTop.setPower(0.7);
+            dcLeftTop.setPower(0.5 * 1.4);
         }
 
         if (gamepad1.left_trigger > 0) {
