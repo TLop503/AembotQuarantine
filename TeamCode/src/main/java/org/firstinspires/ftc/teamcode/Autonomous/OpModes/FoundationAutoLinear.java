@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.StoneGripController;
 import org.firstinspires.ftc.teamcode.Swerve.SwerveController;
 import org.firstinspires.ftc.teamcode.Utilities.Hardware.Enums.IMUOrientation;
 
-@Autonomous(name = "Linear Foundation Auto V16", group = "Autonomous")
+@Autonomous(name = "Linear Foundation Auto V25 ", group = "Autonomous")
 public class FoundationAutoLinear extends LinearOpMode {
     private SwerveController swerve;
     private StoneGripController stoneArms;
@@ -54,7 +54,7 @@ public class FoundationAutoLinear extends LinearOpMode {
         //Sliiide to the left
         boolean strafeToPark = false;
         while (!strafeToPark) {
-            strafeToPark = swerve.autoControlModules(-270, 40, 0.6);
+            strafeToPark = swerve.autoControlModules(-260, 2.5, 0.2);
         }
 
     }
