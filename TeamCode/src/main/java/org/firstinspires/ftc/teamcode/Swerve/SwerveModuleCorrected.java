@@ -11,9 +11,12 @@ import org.firstinspires.ftc.teamcode.Swerve.Enums.WheelDirection;
 import org.firstinspires.ftc.teamcode.Utilities.Constants;
 import org.firstinspires.ftc.teamcode.Utilities.Control.PID;
 
+/**
+ * A class meant for one of the swerve modules when the motors were driving at different speeds.
+ * Do not use this anymore, as the issue seems to be fixed.
+ */
+@Deprecated
 public class SwerveModuleCorrected extends SwerveModule {
-
-
     //Holds the assigned module position be it left or right
     private ModulePosition modPos;
 

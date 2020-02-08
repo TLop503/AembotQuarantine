@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Test.Swerve;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -10,6 +11,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
  * @author Zane Othman-Gomez
  */
 @TeleOp(name = "Power Multiplier Test", group = "test")
+@Disabled
 public class PowerMultiplierTest extends OpMode {
     private DcMotor dcRightTop;
     private DcMotor dcRightBottom;
@@ -28,15 +30,15 @@ public class PowerMultiplierTest extends OpMode {
     @Override
     public void loop() {
         if (gamepad1.right_bumper) {
-            dcRightTop.setPower(0.3);
+            dcRightTop.setPower(0.5);
         }
 
         if (gamepad1.right_trigger > 0) {
-            dcRightBottom.setPower(-0.3);
+            dcRightBottom.setPower(-0.5);
         }
 
         if (gamepad1.left_bumper) {
-            dcLeftTop.setPower(0.5 * 1.4);
+            dcLeftTop.setPower(0.5 * 1.3);
         }
 
         if (gamepad1.left_trigger > 0) {
