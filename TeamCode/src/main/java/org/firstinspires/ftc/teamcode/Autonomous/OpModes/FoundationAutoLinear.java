@@ -2,10 +2,12 @@ package org.firstinspires.ftc.teamcode.Autonomous.OpModes;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import org.firstinspires.ftc.teamcode.Subsystems.StoneGripController;
-import org.firstinspires.ftc.teamcode.Subsystems.Utilities.GripArmPosition;
-import org.firstinspires.ftc.teamcode.Subsystems.Utilities.MoveArmDirection;
+//import org.firstinspires.ftc.teamcode.Subsystems.Utilities.GripArmPosition;
+//import org.firstinspires.ftc.teamcode.Subsystems.Utilities.MoveArmDirection;
 import org.firstinspires.ftc.teamcode.Swerve.SwerveController;
 import org.firstinspires.ftc.teamcode.Utilities.Hardware.Enums.IMUOrientation;
 
@@ -13,6 +15,7 @@ import org.firstinspires.ftc.teamcode.Utilities.Hardware.Enums.IMUOrientation;
 public class FoundationAutoLinear extends LinearOpMode {
     private SwerveController swerve;
     private StoneGripController stoneArms;
+    private DcMotorSimple elevator;
 
     //Currently ignores side differences & start rules, array errors need to be patched first
 
@@ -20,50 +23,40 @@ public class FoundationAutoLinear extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         swerve = new SwerveController(null, hardwareMap, telemetry, IMUOrientation.VERTICAL, false);
         stoneArms = new StoneGripController(hardwareMap, null, telemetry);
+        elevator = hardwareMap.get(DcMotorSimple.class, "ElevatorMotor");
 
         waitForStart();
 
-        //Sliiide to the left
+        //Works
+        //Drives to foundation
         boolean strafeToPosition = false;
         while (!strafeToPosition) {
-            strafeToPosition = swerve.autoControlModules(75, 50, 0.4);
+            strafeToPosition = swerve.autoControlModules(75, 38, 0.4);
+        }
+        /*
+        elevator.setPower(-0.5);
+        sleep(1000);
+        elevator.setPower(0.5);
+        sleep(9500);
+
+         */
+
+        sleep(1000);
+
+        //Pull foundation back
+        boolean drivenToFoundation = false;
+        while (!drivenToFoundation) {
+            drivenToFoundation = swerve.autoControlModules(0, -10, 0.4);
         }
 
         sleep(1000);
         /*
-        // Drive to foundation
-        boolean drivenToFoundation = false;
-        while (!drivenToFoundation) {
-            drivenToFoundation = swerve.autoControlModules(90, 6, 0.4);
-        }
-
-
-        sleep(1000);
-
-        stoneArms.autoPivot(GripArmPosition.LEFT, MoveArmDirection.DOWN, 1000);
-        stoneArms.autoPivot(GripArmPosition.RIGHT, MoveArmDirection.DOWN, 1000);
-
-        sleep(1000);
-
-        boolean pulledFoundationBack = false;
-        while (!pulledFoundationBack) {
-            pulledFoundationBack = swerve.autoControlModules(180, 24, 0.4);
-        }
-
-        sleep(1000);
-
-        stoneArms.autoPivot(GripArmPosition.LEFT, MoveArmDirection.UP, 1000);
-        stoneArms.autoPivot(GripArmPosition.RIGHT, MoveArmDirection.UP, 1000);
-
-        sleep(1000);
-
-        //Sliiide to the left pt.2
+        //Sliiide to the left
         boolean strafeToPark = false;
         while (!strafeToPark) {
-            strafeToPark = swerve.autoControlModules(270, 60, 0.6);
+            strafeToPark = swerve.autoControlModules(270, 40, 0.6);
         }
 
-         */
-
+        */
     }
 }
