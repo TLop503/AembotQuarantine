@@ -154,9 +154,6 @@ public class SwerveModule {
 
         double motorSpeed = 0.6;
 
-        //Wanted Speed, Rate of change, currentSpeed, TODO: Test this
-        //motorSpeed = rampMotorSpeed(0.7, 0.1, motorSpeed);
-
         /*
          * Collect information to be used in module control / PID
          * currentRotation - The number of rotations he module has currently completed
@@ -168,27 +165,6 @@ public class SwerveModule {
 
 
         wheelDirection = SwerveMath.getWheelDirection(gamepad1);
-
-        /*
-         * TODO: Test first if broken remove
-         * Created to angle the modules slightly in or out to make it drive straighter
-         */
-//        if(wantedRotation == 0 && wheelDirection == WheelDirection.FORWARD){
-//            if(modPos == ModulePosition.RIGHT){
-//                wantedRotation+=0.02;
-//            }
-//            else {
-//                wantedRotation-=0.02;
-//            }
-//        }
-//        else if(wantedRotation == 0 && wheelDirection == WheelDirection.BACKWARD){
-//            if(modPos == ModulePosition.RIGHT){
-//                wantedRotation-=0.02;
-//            }
-//            else {
-//                wantedRotation+=0.02;
-//            }
-//        }
 
         telemetry.addData(modPos + " Current Rotation: ", currentRotation);
 
