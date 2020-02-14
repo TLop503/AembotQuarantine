@@ -99,23 +99,11 @@ public class SwerveMath {
     }
 
     /**
-     * Static method used to normalize a given angle
+     * Static method used to change an angle to wheel rotations
      * @return the angle in terms of module rotations
      */
     public static double normalizeAngle(double angle){
-
-        double alteredAngle = 0;
-        // FIXME: Isn't this trueAngle variable redundant? We could just rename the parameter to achieve the same effect
-        double trueAngle = angle;
-        if(angle==0)
-            alteredAngle = 0;
-        else if(trueAngle>=0 && trueAngle<=180)
-            alteredAngle = 90-trueAngle;
-        else {
-            alteredAngle = trueAngle;
-        }
-
-        return alteredAngle/360;
+        return angle/360;
     }
 
 
@@ -148,7 +136,18 @@ public class SwerveMath {
             return WheelDirection.FORWARD;
         }
     }
-
+    /**
+     * Returns the direction the wheel should be running based on the current angle
+     * @return the direction the wheel should run
+     */
+    public static WheelDirection getAutoWheelDirection(double angle){
+        if ((angle > 90 && angle <= 180) || (angle < -90 && angle >= -180)){
+            return WheelDirection.BACKWARD;
+        }
+        else{
+            return WheelDirection.FORWARD;
+        }
+        }
     /**
      * Calculates the current module rotation from the current tick count
      * @param topMotorTicks number of total ticks on top

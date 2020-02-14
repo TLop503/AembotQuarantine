@@ -431,7 +431,7 @@ public class SwerveModule {
          */
         currentRotation = SwerveMath.getModulePosition(getTopMotorTicks(), getBottomMotorTicks());
         wantedRotation = SwerveMath.normalizeAngle(angle);
-        wheelDirection = SwerveMath.getWheelDirection(angle);
+        wheelDirection = SwerveMath.getAutoWheelDirection(angle);
 
         /*
          * Calculate the distances needed to rotate offset from the current
