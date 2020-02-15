@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.Subsystems;
 
-import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Gamepad;
@@ -8,6 +7,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.Subsystems.Utilities.ElevatorPosition;
 
 /**
  * Class created to control the elevator and its parts
@@ -33,6 +33,7 @@ public class ElevatorSystemController {
      * @param gamepad The gamepad to use for controlling the elevator.
      * @param telemetry The telemetry that prints out to the phone for debugging purposes.
      */
+
     public ElevatorSystemController(HardwareMap hardwareMap, Gamepad gamepad, Telemetry telemetry){
 
         this.gamepad = gamepad;
@@ -98,6 +99,17 @@ public class ElevatorSystemController {
         //}
 
 
+
+    }
+
+    public void autoControlElevator(ElevatorPosition position){
+
+        switch (position){
+            case UP:
+
+            case DOWN:
+
+        }
 
     }
 }
