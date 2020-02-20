@@ -5,8 +5,10 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
+import org.firstinspires.ftc.teamcode.Autonomous.Utilites.AutoDistances;
 import org.firstinspires.ftc.teamcode.Swerve.SwerveController;
 import org.firstinspires.ftc.teamcode.Utilities.Hardware.Enums.IMUOrientation;
+import org.firstinspires.ftc.teamcode.Autonomous.Utilites.AutoDistances;
 
 @Autonomous(name = "Linear Foundation Auto V32 - Blue ", group = "Autonomous")
 public class FoundationAutoLinearBlu extends LinearOpMode {
@@ -27,7 +29,7 @@ public class FoundationAutoLinearBlu extends LinearOpMode {
         //Drives to foundation
         boolean strafeToPosition = false;
         while (!strafeToPosition) {
-            strafeToPosition = swerve.autoControlModules(20, 39, 0.4);
+            strafeToPosition = swerve.autoControlModules(-20, AutoDistances.getFoundation, 0.4);
         }
 
         sleep(1000);
@@ -38,7 +40,7 @@ public class FoundationAutoLinearBlu extends LinearOpMode {
         //Pull foundation back
         boolean drivenToFoundation = false;
         while (!drivenToFoundation) {
-            drivenToFoundation = swerve.autoControlModules(0, 48, -0.2);
+            drivenToFoundation = swerve.autoControlModules(0, AutoDistances.dragFoundation, -0.2);
         }
 
         elevator.setPower(-0.5);
@@ -49,7 +51,7 @@ public class FoundationAutoLinearBlu extends LinearOpMode {
         //Sliiide to the left
         boolean strafeToPark = false;
         while (!strafeToPark) {
-            strafeToPark = swerve.autoControlModules(-30, 60, 0.2);
+            strafeToPark = swerve.autoControlModules(-30, AutoDistances.parkOnLine, 0.2);
         }
 
     }
