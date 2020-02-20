@@ -9,6 +9,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Subsystems.Utilities.ElevatorPosition;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * Class created to control the elevator and its parts
  * @author Will Richards
@@ -102,14 +104,4 @@ public class ElevatorSystemController {
 
     }
 
-    public void autoControlElevator(ElevatorPosition position){
-
-        switch (position){
-            case UP:
-
-            case DOWN:
-
-        }
-
-    }
 }

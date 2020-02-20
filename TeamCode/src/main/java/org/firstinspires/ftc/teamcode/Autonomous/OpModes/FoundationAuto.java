@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.Swerve.SwerveController;
 import org.firstinspires.ftc.teamcode.Utilities.Hardware.Enums.IMUOrientation;
 
 @Autonomous
-
+@Disabled
 public class FoundationAuto extends OpMode {
     private SwerveController swerve;
     private StoneGripController stoneArms;
