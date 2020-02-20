@@ -14,6 +14,7 @@ import org.firstinspires.ftc.teamcode.Utilities.Hardware.Enums.IMUOrientation;
 
 
 @Autonomous
+@Disabled
 
 public class BlueMiddleStone extends OpMode {
     private SwerveController swerve;

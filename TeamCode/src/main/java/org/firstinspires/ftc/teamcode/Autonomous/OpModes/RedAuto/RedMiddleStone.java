@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.Utilities.Hardware.Enums.IMUOrientation;
 
 @Autonomous
 
-
+@Disabled
 public class RedMiddleStone extends OpMode {
     private SwerveController swerve;
     private StoneGripController stoneArms;

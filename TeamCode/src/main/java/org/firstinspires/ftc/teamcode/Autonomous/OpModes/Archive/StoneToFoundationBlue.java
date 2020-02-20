@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.Autonomous.OpModes.Archive;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.teamcode.Autonomous.Utilites.StoneApproach;
@@ -10,6 +11,7 @@ import org.firstinspires.ftc.teamcode.Utilities.Vuforia.SkystonePostion;
 import org.firstinspires.ftc.teamcode.Utilities.Vuforia.VuforiaWrapper;
 
 @Autonomous(name = "Skystone to Foundation BLUE", group = "Week 2")
+@Disabled
 public class StoneToFoundationBlue extends OpMode {
     //private boolean[] actionsComplete = {false, false, false, false};
 
