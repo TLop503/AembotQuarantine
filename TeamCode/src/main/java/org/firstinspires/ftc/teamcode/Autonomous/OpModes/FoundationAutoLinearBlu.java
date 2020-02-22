@@ -8,9 +8,8 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import org.firstinspires.ftc.teamcode.Autonomous.Utilites.AutoDistances;
 import org.firstinspires.ftc.teamcode.Swerve.SwerveController;
 import org.firstinspires.ftc.teamcode.Utilities.Hardware.Enums.IMUOrientation;
-import org.firstinspires.ftc.teamcode.Autonomous.Utilites.AutoDistances;
 
-@Autonomous(name = "Linear Foundation Auto V32 - Blue ", group = "Autonomous")
+@Autonomous(name = "Linear Foundation Auto V32 - Blu ", group = "Autonomous")
 public class FoundationAutoLinearBlu extends LinearOpMode {
     private SwerveController swerve;
     private DcMotorSimple elevator;
@@ -48,18 +47,15 @@ public class FoundationAutoLinearBlu extends LinearOpMode {
         elevator.setPower(0.0);
         sleep(1000);
 
-        //Sliiide to the left
         boolean strafeToClear = false;
         while (!strafeToClear) {
-            strafeToClear = swerve.autoControlModules(-90, AutoDistances.strafeOut, 0.2);
+            strafeToClear = swerve.autoControlModules(90, AutoDistances.strafeOut, 0.2);
         }
 
         boolean strafeToPark = false;
         while (!strafeToPark) {
-            strafeToPark = swerve.autoControlModules(-30,  AutoDistances.parkOnLine, 0.2);
+            strafeToPark = swerve.autoControlModules(30, AutoDistances.parkOnLine, 0.2);
         }
-
-
 
     }
 }

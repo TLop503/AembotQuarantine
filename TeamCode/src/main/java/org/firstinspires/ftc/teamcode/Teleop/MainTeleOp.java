@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.Teleop;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.Subsystems.ElevatorSystemController;
 import org.firstinspires.ftc.teamcode.Subsystems.StoneGripController;
@@ -18,14 +19,12 @@ public class MainTeleOp extends OpMode {
     //Creates a new swerve controller
     private SwerveController swerveController;
 
-    //Used to control the elevator for stacking stones
-    private ElevatorSystemController elevatorSystem;
+    private DcMotor gripMotor;
+    private DcMotor vertMotor;
+
 
     // This is for the stone grabbing arm with an elevator
     private StoneGripController stoneGripController;
-
-    // FIXME: This isn't used - should we remove it in favor of the IndependentArmController or ServoArmController classes?
-    // private Servo svBottom;
 
     private Boolean armToggle = false;
 
@@ -34,8 +33,9 @@ public class MainTeleOp extends OpMode {
         //Initialize the swerve controller
         swerveController = new SwerveController(gamepad1, hardwareMap, telemetry, IMUOrientation.VERTICAL, false);
 
-        //Creates a new elevator controller
-        elevatorSystem = new ElevatorSystemController(hardwareMap, gamepad2, telemetry);
+        vertMotor = hardwareMap.get(DcMotor.class, "VerticalMotor");
+        gripMotor = hardwareMap.get(DcMotor.class, "GripMotor");
+
 
         // Instantiate a controller for the stone-grabbing arms
         stoneGripController = new StoneGripController(hardwareMap, gamepad2, telemetry);
@@ -49,10 +49,28 @@ public class MainTeleOp extends OpMode {
         //Control the swerve modules
         swerveController.controlModules();
 
-        //Controls the elevator
-        elevatorSystem.controlElevator();
-
         // Control the two different stone-gripping arms with switching between them supported
         stoneGripController.controlArms();
+
+        if (gamepad2.dpad_up){
+            vertMotor.setPower(0.7);
+        }
+        else if (gamepad2.dpad_down){
+            vertMotor.setPower(-0.7);
+        }
+        else{
+            vertMotor.setPower(0);
+        }
+
+        if (gamepad2.dpad_left){
+            gripMotor.setPower(0.6);
+        }
+        else if (gamepad2.dpad_right) {
+            gripMotor.setPower(-0.6);
+        }
+        else{
+            gripMotor.setPower(0);
+        }
+
     }
 }
