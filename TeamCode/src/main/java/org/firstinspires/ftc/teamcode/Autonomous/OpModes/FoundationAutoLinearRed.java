@@ -47,7 +47,11 @@ public class FoundationAutoLinearRed extends LinearOpMode {
         elevator.setPower(0.0);
         sleep(1000);
 
-        //Sliiide to the left
+        boolean strafeToClear = false;
+        while (!strafeToClear) {
+            strafeToClear = swerve.autoControlModules(90, AutoDistances.strafeOut, 0.2);
+        }
+
         boolean strafeToPark = false;
         while (!strafeToPark) {
             strafeToPark = swerve.autoControlModules(30, AutoDistances.parkOnLine, 0.2);
