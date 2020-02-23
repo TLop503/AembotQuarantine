@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.Swerve.SwerveController;
 import org.firstinspires.ftc.teamcode.Utilities.Hardware.Enums.IMUOrientation;
 /**
  * Main TeleOp Mode to be used during comp
- * @author Will Richards, Troy Lopez, Zane Othman-Gomez
+ * @author Will Richards, Troy Lopez, Zane Othman-Gomez, Avi Lance
  */
 
 @TeleOp(name = "Main TeleOp", group = "Competition")
@@ -19,9 +19,8 @@ public class MainTeleOp extends OpMode {
     //Creates a new swerve controller
     private SwerveController swerveController;
 
-    private DcMotor gripMotor;
-    private DcMotor vertMotor;
-
+    //Creats elevator controller
+    private ElevatorSystemController elevatorSystem;
 
     // This is for the stone grabbing arm with an elevator
     private StoneGripController stoneGripController;
@@ -33,9 +32,8 @@ public class MainTeleOp extends OpMode {
         //Initialize the swerve controller
         swerveController = new SwerveController(gamepad1, hardwareMap, telemetry, IMUOrientation.VERTICAL, false);
 
-        vertMotor = hardwareMap.get(DcMotor.class, "VerticalMotor");
-        gripMotor = hardwareMap.get(DcMotor.class, "GripMotor");
-
+        //Initialize  the elevator controller
+        elevatorSystem = new ElevatorSystemController(hardwareMap, gamepad2, telemetry);
 
         // Instantiate a controller for the stone-grabbing arms
         stoneGripController = new StoneGripController(hardwareMap, gamepad2, telemetry);
@@ -52,25 +50,8 @@ public class MainTeleOp extends OpMode {
         // Control the two different stone-gripping arms with switching between them supported
         stoneGripController.controlArms();
 
-        if (gamepad2.dpad_up){
-            vertMotor.setPower(0.7);
-        }
-        else if (gamepad2.dpad_down){
-            vertMotor.setPower(-0.7);
-        }
-        else{
-            vertMotor.setPower(0);
-        }
-
-        if (gamepad2.dpad_left){
-            gripMotor.setPower(0.6);
-        }
-        else if (gamepad2.dpad_right) {
-            gripMotor.setPower(-0.6);
-        }
-        else{
-            gripMotor.setPower(0);
-        }
+        //Controls the large elevator
+        elevatorSystem.controlElevator();
 
     }
 }
