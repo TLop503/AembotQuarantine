@@ -13,17 +13,14 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * Class created to control the elevator and its parts
- * @author Will Richards
+ * @author Will Richards, Avi Lance
  */
 
 public class ElevatorSystemController {
 
-    //Creates a motor that will control the elevator, it is a "simple" DcMotor because it is running a SparkMINI
-    private DcMotorSimple elevatorMotor;
-
-    //Servos that control the grippers of the stacker
-    //private Servo topArmServo;
-    private Servo svBottom;
+    //Creates vertical elevator motor and the rack and pinion gripping elevator motor
+    private DcMotor gripMotor;
+    private DcMotor vertMotor;
 
     private Gamepad gamepad;
 
@@ -41,10 +38,8 @@ public class ElevatorSystemController {
         this.gamepad = gamepad;
         this.telemetry = telemetry;
 
-        elevatorMotor = hardwareMap.get(DcMotorSimple.class, "ElevatorMotor");
-
-        //topArmServo = hardwareMap.get(Servo.class, "TopArmServo");
-        svBottom = hardwareMap.get(Servo.class, "svBottom");
+        gripMotor = hardwareMap.get(DcMotor.class, "GripMotor");
+        vertMotor = hardwareMap.get(DcMotor.class, "VerticalMotor");
 
     }
 
@@ -55,52 +50,30 @@ public class ElevatorSystemController {
 
         //telemetry.addData("Arm Pos: ", svBottom.getPosition());
 
-        //Moves the elevator down
-
-
-        if(gamepad.dpad_up){
-            elevatorMotor.setPower(-1);
-        }
-
         //Moves the elevator up
-        else if(gamepad.dpad_down){
-            elevatorMotor.setPower(1);
+        if (gamepad2.dpad_up){
+            vertMotor.setPower(0.7);
+        }
+        //Moves the elevator down
+        else if (gamepad2.dpad_down){
+            vertMotor.setPower(-0.7);
+        }
+        else{
+            vertMotor.setPower(0);
         }
 
-        //If neither are pressed stop the elevator
-        else {
-            elevatorMotor.setPower(0);
+        //Check this to verify that these in fact are the motor powers to open and close it
+        //Opens rack and pinion
+        if (gamepad2.dpad_left){
+            gripMotor.setPower(0.6);
         }
-
-        /*
-        For some reason, power values act like positions to this servo, so the else statement
-        below is unnecessary.
-         */
-
-        //Closes
-
-        if (gamepad.dpad_left) {
-            svBottom.setPosition(0.64);
+        //Closes rack and pinion
+        else if (gamepad2.dpad_right) {
+            gripMotor.setPower(-0.6);
         }
-
-        //Opens
-        else if(gamepad.dpad_right) {
-            svBottom.setPosition(0.3);
+        else{
+            gripMotor.setPower(0);
         }
-
-        else if (gamepad.left_bumper) {
-            svBottom.setPosition(0.47);
-        }
-
-        else if (gamepad.right_bumper) {
-            svBottom.setPosition(0.5);
-        }
-
-        //else{
-        //   svBottom.setPower(0);
-        //}
-
-
 
     }
 
