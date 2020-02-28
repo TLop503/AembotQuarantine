@@ -6,13 +6,16 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import org.firstinspires.ftc.teamcode.Autonomous.Utilites.AutoDistances;
+import org.firstinspires.ftc.teamcode.Subsystems.Utilities.ElevatorPosition;
 import org.firstinspires.ftc.teamcode.Swerve.SwerveController;
 import org.firstinspires.ftc.teamcode.Utilities.Hardware.Enums.IMUOrientation;
+import  org.firstinspires.ftc.teamcode.Subsystems.ElevatorSystemController;
+
 
 @Autonomous(name = "Linear Foundation Auto V32 - Blu ", group = "Autonomous")
 public class FoundationAutoLinearBlu extends LinearOpMode {
     private SwerveController swerve;
-    private DcMotorSimple elevator;
+    private ElevatorSystemController elevator;
 
     //Currently ignores side differences & start rules, array errors need to be patched first
     //TODO: Test code since it was written for old swerve
@@ -20,7 +23,6 @@ public class FoundationAutoLinearBlu extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         swerve = new SwerveController(null, hardwareMap, telemetry, IMUOrientation.VERTICAL, false);
-        elevator = hardwareMap.get(DcMotorSimple.class, "ElevatorMotor");
 
         waitForStart();
 
@@ -31,10 +33,9 @@ public class FoundationAutoLinearBlu extends LinearOpMode {
             strafeToPosition = swerve.autoControlModules(-20, AutoDistances.getFoundation, 0.4);
         }
 
-        sleep(1000);
-        elevator.setPower(-0.5);
-        sleep(1000);
-        elevator.setPower(0);
+        elevator.autoControlElevator(ElevatorPosition.UP);
+        elevator.autoControlElevator(ElevatorPosition.DOWN);
+
 
         //Pull foundation back
         boolean drivenToFoundation = false;
@@ -42,10 +43,7 @@ public class FoundationAutoLinearBlu extends LinearOpMode {
             drivenToFoundation = swerve.autoControlModules(0, AutoDistances.dragFoundation, -0.2);
         }
 
-        elevator.setPower(-0.5);
-        sleep(1000);
-        elevator.setPower(0.0);
-        sleep(1000);
+        elevator.autoControlElevator(ElevatorPosition.UP);
 
         boolean strafeToClear = false;
         while (!strafeToClear) {

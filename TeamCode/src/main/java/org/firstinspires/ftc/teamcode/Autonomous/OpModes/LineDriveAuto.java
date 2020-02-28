@@ -28,7 +28,7 @@ public class LineDriveAuto extends OpMode {
     public void loop() {
         if(!hasRun){
             //Parks On Line
-            hasRun = swerveController.autoControlModules(0, 25, 0.4);
+            hasRun = swerveController.autoControlModules(0, 32, 0.4);
         }
     }
 }

@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.Autonomous.OpModes;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -10,7 +11,7 @@ import org.firstinspires.ftc.teamcode.Autonomous.Utilites.AutoDistances;
 import org.firstinspires.ftc.teamcode.Swerve.SwerveController;
 import org.firstinspires.ftc.teamcode.Utilities.Hardware.Enums.IMUOrientation;
 import org.firstinspires.ftc.teamcode.Autonomous.Utilites.AutoDistances;
-
+@Disabled
 @Autonomous(name = "Linear Foundation Auto V32 - Red ", group = "Autonomous")
 public class lastDitchEffortBlu extends LinearOpMode {
     private SwerveController swerve;

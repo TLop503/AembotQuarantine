@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.Subsystems;
 
+import android.widget.Switch;
+
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Gamepad;
@@ -10,6 +12,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Subsystems.Utilities.ElevatorPosition;
 
 import java.util.concurrent.TimeUnit;
+import org.firstinspires.ftc.teamcode.Subsystems.Utilities.ElevatorPosition;
 
 /**
  * Class created to control the elevator and its parts
@@ -51,11 +54,11 @@ public class ElevatorSystemController {
         //telemetry.addData("Arm Pos: ", svBottom.getPosition());
 
         //Moves the elevator up
-        if (gamepad2.dpad_up){
+        if (gamepad.dpad_up){
             vertMotor.setPower(0.7);
         }
         //Moves the elevator down
-        else if (gamepad2.dpad_down){
+        else if (gamepad.dpad_down){
             vertMotor.setPower(-0.7);
         }
         else{
@@ -64,17 +67,46 @@ public class ElevatorSystemController {
 
         //Check this to verify that these in fact are the motor powers to open and close it
         //Opens rack and pinion
-        if (gamepad2.dpad_left){
+        if (gamepad.dpad_left){
             gripMotor.setPower(0.6);
         }
         //Closes rack and pinion
-        else if (gamepad2.dpad_right) {
+        else if (gamepad.dpad_right) {
             gripMotor.setPower(-0.6);
         }
         else{
             gripMotor.setPower(0);
         }
 
+    }
+
+    public void autoControlElevator(ElevatorPosition elevatorPosition){
+        //560 ticks to a rotation, 60:1 gearing
+        if (elevatorPosition == ElevatorPosition.UP){
+            vertMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            vertMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            vertMotor.setTargetPosition(3360);  //This value should trigger 1 rotation, could need to be changed
+            vertMotor.setPower(0.5);
+            if (vertMotor.isBusy()){
+                //I think I can leave this blank?
+            }
+            else{
+                vertMotor.setPower(0);
+            }
+        }
+        //560 ticks to a rotation, 60:1 gearing
+        if (elevatorPosition == ElevatorPosition.DOWN){
+            vertMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            vertMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            vertMotor.setTargetPosition(3360);  //This value should trigger 1 rotation, could need to be changed
+            vertMotor.setPower(-0.5);
+            if (vertMotor.isBusy()){
+                //I think I can leave this blank?
+            }
+            else{
+                vertMotor.setPower(0);
+            }
+        }
     }
 
 }

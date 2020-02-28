@@ -6,14 +6,16 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import org.firstinspires.ftc.teamcode.Autonomous.Utilites.AutoDistances;
+import org.firstinspires.ftc.teamcode.Subsystems.Utilities.ElevatorPosition;
 import org.firstinspires.ftc.teamcode.Swerve.SwerveController;
 import org.firstinspires.ftc.teamcode.Utilities.Hardware.Enums.IMUOrientation;
 import org.firstinspires.ftc.teamcode.Autonomous.Utilites.AutoDistances;
+import  org.firstinspires.ftc.teamcode.Subsystems.ElevatorSystemController;
 
 @Autonomous(name = "Linear Foundation Auto V32 - Red ", group = "Autonomous")
 public class FoundationAutoLinearRed extends LinearOpMode {
     private SwerveController swerve;
-    //private DcMotorSimple elevator;
+    private ElevatorSystemController elevator;
 
     //Currently ignores side differences & start rules, array errors need to be patched first
     //TODO: Test code since it was written for old swerve
@@ -32,24 +34,20 @@ public class FoundationAutoLinearRed extends LinearOpMode {
             strafeToPosition = swerve.autoControlModules(-20, AutoDistances.getFoundation, 0.4);
         }
         sleep(1000);
-/**
-        sleep(1000);
-        elevator.setPower(-0.5);
-        sleep(1000);
-        elevator.setPower(0);
-**/
+
+        elevator.autoControlElevator(ElevatorPosition.UP);
+        elevator.autoControlElevator(ElevatorPosition.DOWN);
+
+
         //Pull foundation back
         boolean drivenToFoundation = false;
         while (!drivenToFoundation) {
             drivenToFoundation = swerve.autoControlModules(0, AutoDistances.dragFoundation, -0.5);
         }
         sleep(1000);
-/**
-        elevator.setPower(-0.5);
-        sleep(1000);
-        elevator.setPower(0.0);
-        sleep(1000);
-**/
+
+        elevator.autoControlElevator(ElevatorPosition.UP);
+
         //Sliiide to the left
         boolean strafeToClear = false;
         while (!strafeToClear) {

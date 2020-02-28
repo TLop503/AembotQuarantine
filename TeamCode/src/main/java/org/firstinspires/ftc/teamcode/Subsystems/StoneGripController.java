@@ -98,23 +98,24 @@ public class StoneGripController {
     public void controlArms() {
         // Depending on which arm is currently being controlled, use its corresponding servos.
         switch(armPos) {
+            /*
             case LEFT:
                 pivotArm(svLeftPivot, 1);
-
+                svLeftPivot.setPower(0.5);
                 if (gamepad.a) {
                     gripArm(svLeftGrip);
                 } else if (gamepad.y) {
                     ungripArm(svLeftGrip);
                 }
-
                 if (gamepad.start) {
                     armPos = GripArmPosition.RIGHT;
                 }
 
+               */
 
-                telemetry.addData("Current Arm: ", "Left");
+                //telemetry.addData("Current Arm: ", "Left");
 
-                break;
+                //break;
 
             default:
             case RIGHT:
@@ -125,16 +126,17 @@ public class StoneGripController {
                 } else if (gamepad.y) {
                     ungripArm(svRightGrip);
                 }
-
+                /*
                 if (gamepad.back) {
                     armPos = GripArmPosition.LEFT;
                 }
-
+                */
                 rightElevatorControl(gamepad.left_stick_y);
 
                 telemetry.addData("Current Arm: ", "Right");
 
                 break;
+
         }
     }
 
