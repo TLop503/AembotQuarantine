@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Swerve;
 
+
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Gamepad;
@@ -16,7 +17,7 @@ import org.firstinspires.ftc.teamcode.Utilities.Hardware.IMU;
  * Class used to control an individual swerve module
  * @author Will Richards, Zane Othman-Gomez
  */
-public class SwerveModule {
+public class SwerveModule{
 
     //Holds the assigned module position be it left or right
     private ModulePosition modPos;
@@ -152,7 +153,8 @@ public class SwerveModule {
      */
     public void PIDControl() {
 
-        double motorSpeed = 0.6;
+        double motorSpeed = 0.5;
+        double joystickScale = gamepad1.right_trigger;
 
         /*
          * Collect information to be used in module control / PID
@@ -218,26 +220,26 @@ public class SwerveModule {
                 if(gamepad1.right_trigger > 0.1){
                     if(modPos == ModulePosition.RIGHT) {
                         if (wheelDirection == WheelDirection.FORWARD) {
-                            TopSwerveMotor.setPower(motorSpeed);
-                            BottomSwerveMotor.setPower(-motorSpeed);
+                            TopSwerveMotor.setPower(motorSpeed*joystickScale);
+                            BottomSwerveMotor.setPower(-motorSpeed*joystickScale);
                         } else if (wheelDirection == WheelDirection.BACKWARD) {
-                            TopSwerveMotor.setPower(-motorSpeed);
-                            BottomSwerveMotor.setPower(motorSpeed);
+                            TopSwerveMotor.setPower(-motorSpeed*joystickScale);
+                            BottomSwerveMotor.setPower(motorSpeed*joystickScale);
                         } else {
-                            TopSwerveMotor.setPower(motorSpeed);
-                            BottomSwerveMotor.setPower(-motorSpeed);
+                            TopSwerveMotor.setPower(motorSpeed*joystickScale);
+                            BottomSwerveMotor.setPower(-motorSpeed*joystickScale);
                         }
                     }
                     else {
                         if (wheelDirection == WheelDirection.FORWARD) {
-                            TopSwerveMotor.setPower(-motorSpeed);
-                            BottomSwerveMotor.setPower(motorSpeed);
+                            TopSwerveMotor.setPower(-motorSpeed*joystickScale);
+                            BottomSwerveMotor.setPower(motorSpeed*joystickScale);
                         } else if (wheelDirection == WheelDirection.BACKWARD) {
-                            TopSwerveMotor.setPower(motorSpeed);
-                            BottomSwerveMotor.setPower(-motorSpeed);
+                            TopSwerveMotor.setPower(motorSpeed*joystickScale);
+                            BottomSwerveMotor.setPower(-motorSpeed*joystickScale);
                         } else {
-                            TopSwerveMotor.setPower(-motorSpeed);
-                            BottomSwerveMotor.setPower(motorSpeed);
+                            TopSwerveMotor.setPower(-motorSpeed*joystickScale);
+                            BottomSwerveMotor.setPower(motorSpeed*joystickScale);
                         }
                     }
 
