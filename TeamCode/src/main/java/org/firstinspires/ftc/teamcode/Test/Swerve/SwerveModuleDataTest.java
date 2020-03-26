@@ -30,11 +30,13 @@ public class SwerveModuleDataTest extends OpMode {
     public void loop() {
 
         //rightModule.autoPIDControl(0, 20, 1);
+        accelerometer.startListening();
         telemetry.addData("Distance unit : ", accelerometer.getDistanceUnit());
         telemetry.addData("X: ", accelerometer.getX());
         telemetry.addData("Y: ", accelerometer.getY());
         telemetry.addData("Z: ", accelerometer.getZ());
         telemetry.addData("Acceleration: ", accelerometer.getAcceleration());
         telemetry.update();
+        accelerometer.stopListening();
     }
 }
