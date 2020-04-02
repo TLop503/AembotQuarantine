@@ -33,7 +33,7 @@ public class SwerveModule{
     private DcMotor BottomSwerveMotor;
 
     //Magnetic limit switch that is used to zero modules
-    private DigitalChannel MagSwitch;
+    //private DigitalChannel MagSwitch;
 
     private double motorSpeedOffset = 0.1;
 
@@ -96,12 +96,12 @@ public class SwerveModule{
             case RIGHT:
                 TopSwerveMotor = hardwareMap.get(DcMotor.class, "RightTopSwerveMotor");
                 BottomSwerveMotor = hardwareMap.get(DcMotor.class, "RightBottomSwerveMotor");
-                MagSwitch = hardwareMap.get(DigitalChannel.class, "RightMagSwitch");
+                //MagSwitch = hardwareMap.get(DigitalChannel.class, "RightMagSwitch");
                 break;
             case LEFT:
                 TopSwerveMotor = hardwareMap.get(DcMotor.class, "LeftTopSwerveMotor");
                 BottomSwerveMotor = hardwareMap.get(DcMotor.class, "LeftBottomSwerveMotor");
-                MagSwitch = hardwareMap.get(DigitalChannel.class, "LeftMagSwitch");
+                //MagSwitch = hardwareMap.get(DigitalChannel.class, "LeftMagSwitch");
                 break;
             case CENTER:
                 try {
