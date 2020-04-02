@@ -15,6 +15,7 @@ import org.firstinspires.ftc.teamcode.Utilities.Vuforia.VuforiaWrapper;
  */
 
 @Autonomous(name = "Vuforia Stone Orientation", group = "test")
+@Disabled
 public class VuforiaStoneOrientation extends OpMode {
     // Variables to store the position and orientation of the SkyStone
     private SkystonePostion position = SkystonePostion.NONE;

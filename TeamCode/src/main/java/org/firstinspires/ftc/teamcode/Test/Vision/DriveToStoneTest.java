@@ -9,6 +9,7 @@ import org.firstinspires.ftc.teamcode.Utilities.Vuforia.VuforiaWrapper;
 import org.firstinspires.ftc.teamcode.Swerve.SwerveController;
 
 @Autonomous(name = "Drive to Skystone Test", group = "Test")
+@Disabled
 public class DriveToStoneTest extends OpMode {
     private VuforiaWrapper vuforia;
     private SwerveController swerveController;

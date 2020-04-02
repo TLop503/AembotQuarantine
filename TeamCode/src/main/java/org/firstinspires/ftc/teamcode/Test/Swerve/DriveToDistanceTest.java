@@ -1,12 +1,14 @@
 package org.firstinspires.ftc.teamcode.Test.Swerve;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.teamcode.Swerve.SwerveController;
 import org.firstinspires.ftc.teamcode.Utilities.Hardware.Enums.IMUOrientation;
 
 @Autonomous(name="Distance Drive Test", group="Test")
+@Disabled
 public class DriveToDistanceTest extends OpMode {
     private SwerveController swerve;
     private boolean hasRun = false;

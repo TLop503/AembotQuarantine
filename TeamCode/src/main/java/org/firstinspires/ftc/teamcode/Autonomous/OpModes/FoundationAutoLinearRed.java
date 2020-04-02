@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.Autonomous.OpModes;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -13,6 +14,7 @@ import org.firstinspires.ftc.teamcode.Autonomous.Utilites.AutoDistances;
 import  org.firstinspires.ftc.teamcode.Subsystems.ElevatorSystemController;
 
 @Autonomous(name = "Linear Foundation Auto V32 - Red ", group = "Autonomous")
+@Disabled
 public class FoundationAutoLinearRed extends LinearOpMode {
     private SwerveController swerve;
     private ElevatorSystemController elevator;
