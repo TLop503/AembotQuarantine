@@ -3,21 +3,24 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 
 @Autonomous(name = "Swerve Data Test", group = "test")
 public class SwerveDataTest extends LinearOpMode {
 
-    DcMotor mainMotor;
+    private DcMotor mainMotor;
+    private Servo mainServo;
 
     public void runOpMode(){
         mainMotor = hardwareMap.get(DcMotor.class, "mainMotor");
-
+        mainServo = hardwareMap.get(Servo.class, "mainServo");
         double motorSpeed = 0.5;
 
         waitForStart();
 
-
+        mainServo.setPosition(.625);
         driveInches(24, motorSpeed);
+        mainServo.setPosition(.5);
 
     }
     public void driveInches(double distance, double motorSpeed){
