@@ -48,7 +48,7 @@ import java.util.Locale;
 
 @TeleOp(name = "Sensor: BNO055 IMU", group = "Sensor")
 @Disabled
-public class SensorIMU extends LinearOpMode
+public class SensorIMU extends LinearOpMode{
 
     //----------------------------------------------------------------------------------------------
     // State
