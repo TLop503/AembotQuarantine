@@ -188,9 +188,11 @@ public class SwerveModule{
          * It then turns the modules at a very slow speed to realign with the magnetic limit switches
          * At which point it resets the encoders on the motors
          */
+
+        //Mag Switch disabled because it is not in use
         if(gamepad1.start){
-            if(MagSwitch.getState()){
-                telemetry.addData("Mag Switch: ", MagSwitch.getState());
+            if(1 == 1/**MagSwitch.getState()**/){
+                //telemetry.addData("Mag Switch: ", MagSwitch.getState());
                 if(modPos == ModulePosition.RIGHT) {
                     TopSwerveMotor.setPower(0.3);
                     BottomSwerveMotor.setPower(0.3);
@@ -318,7 +320,7 @@ public class SwerveModule{
          * At which point it resets the encoders on the motors
          */
         if(gamepad1.start){
-            if(MagSwitch.getState()){
+            if(1==1/**MagSwitch.getState()**/){
                 if(modPos == ModulePosition.RIGHT) {
                     TopSwerveMotor.setPower(0.15);
                     BottomSwerveMotor.setPower(0.15);
