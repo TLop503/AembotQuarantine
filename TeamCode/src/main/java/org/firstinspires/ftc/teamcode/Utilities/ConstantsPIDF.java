@@ -9,8 +9,7 @@ public class ConstantsPIDF {
         public static final double TURN_F = 32767/MAX_VELOCITY;
 
         // Driving PID constants
-        public static final double DRIVE_P = 0.4;
+        public static final double DRIVE_P = 0.75;
         public static final double DRIVE_I = 0;
-        public static final double DRIVE_D = 0.01;
-
+        public static final double DRIVE_D = 0.8;
     }
