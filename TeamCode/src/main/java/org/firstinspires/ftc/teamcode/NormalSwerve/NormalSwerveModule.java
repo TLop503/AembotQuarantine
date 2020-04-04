@@ -39,7 +39,6 @@ public class NormalSwerveModule{
 
 
     private DcMotor mainMotor;
-    private Servo mainServo;
     public NormalSwerveModule( HardwareMap hardwareMap, Gamepad gamepad1, Telemetry telemetry){
 
         this.telemetry = telemetry;
